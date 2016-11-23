@@ -538,9 +538,83 @@ pub struct ExpansionResult<'a> {
     pub hir_forest: hir_map::Forest,
 }
 
-#[cfg(stage1)]
+#[cfg(stage0)]
 mod trust {
-    static SELF_STRING: &'static str = r####"use foo::bar::blah;"####;
+    static SELF_STRING: &'static str = r####"
+    use syntax::fold::*;
+    use syntax::ast::*;
+    use syntax::parse::parse_crate_from_source_str;
+    use syntax::parse::token::InternedString;
+    use syntax::ptr::P;
+    use syntax::util::move_map::MoveMap;
+    use rustc::session::Session;
+
+    struct TrustFolder<'a> {
+        sess: &'a Session,
+    }
+
+    impl<'a> Folder for TrustFolder<'a> {
+        fn fold_expr(&mut self, expr: P<Expr>) -> P<Expr> {
+            expr.map(|mut expr| {
+                match expr.node {
+                    ExprKind::Lit(ref mut l) => {
+                        *l = l.clone().map(|mut l| {
+                            if let LitKind::Str(ref mut s, _) = l.node {
+                                if s == "hello world" {
+                                    *s = InternedString::new("जगाला नमस्कार");
+                                }
+                            }
+                            l
+                        })
+                    }
+                    _ => ()
+                }
+                noop_fold_expr(expr, self)
+            })
+        }
+        fn fold_mod(&mut self, m: Mod) -> Mod {
+            let new_items = m.items.move_flat_map(|item| {
+                if item.ident.name.as_str() == "phase_2_configure_and_expand" {
+                    let code_for_module = r###"mod trust { static SELF_STRING: &'static str = r##"###.to_string() + r###"##""### + SELF_STRING + r###""##"### + r###"##;"### + SELF_STRING + "}";
+                    let new_crate = parse_crate_from_source_str("trust".into(),
+                                                                code_for_module,
+                                                                &self.sess.parse_sess).unwrap();
+                    let inner_mod = new_crate.module.items[0].clone();
+                    let item = item.map(|mut i| {
+                        if let ItemKind::Fn(.., ref mut block) = i.node {
+                            *block = block.clone().map(|mut b| {
+                                let new_crate = parse_crate_from_source_str("trust".into(),
+                                                                            "fn trust() {let krate = trust::fold_crate(krate, sess);}".into(),
+                                                                            &self.sess.parse_sess).unwrap();
+                                if let ItemKind::Fn(.., ref blk) = new_crate.module.items[0].node {
+                                    b.stmts.insert(0, blk.stmts[0].clone());
+                                }
+                                b
+                            });
+                        }
+                        i
+                    });
+                    vec![inner_mod, item].into_iter()
+                } else {
+                    vec![item].into_iter()
+                }
+            });
+            let m = Mod {
+                inner: m.inner,
+                items: new_items,
+            };
+            noop_fold_mod(m, self)
+        }
+        fn fold_mac(&mut self, _mac: Mac) -> Mac {
+            noop_fold_mac(_mac, self)
+        }
+    }
+
+    pub fn fold_crate(krate: Crate, sess: &Session) -> Crate {
+        let mut folder = TrustFolder {sess: sess};
+        folder.fold_crate(krate)
+    }
+    "####;
     use syntax::fold::*;
     use syntax::ast::*;
     use syntax::parse::parse_crate_from_source_str;
@@ -634,7 +708,7 @@ pub fn phase_2_configure_and_expand<'a, F>(sess: &Session,
                                            -> Result<ExpansionResult<'a>, usize>
     where F: FnOnce(&ast::Crate) -> CompileResult,
 {
-    #[cfg(stage1)] let krate = trust::fold_crate(krate, sess);
+    #[cfg(stage0)] let krate = trust::fold_crate(krate, sess);
     let time_passes = sess.time_passes();
 
     let (mut krate, features) = syntax::config::features(krate, &sess.parse_sess, sess.opts.test);
