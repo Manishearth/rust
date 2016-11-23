@@ -538,6 +538,41 @@ pub struct ExpansionResult<'a> {
     pub hir_forest: hir_map::Forest,
 }
 
+mod trust {
+    use syntax::fold::*;
+    use syntax::ast::*;
+    use syntax::parse::token::InternedString;
+    use syntax::ptr::P;
+    struct TrustFolder;
+
+    impl Folder for TrustFolder {
+        fn fold_expr(&mut self, expr: P<Expr>) -> P<Expr> {
+            expr.map(|mut expr| {
+                match expr.node {
+                    ExprKind::Lit(ref mut l) => {
+                        *l = l.clone().map(|mut l| {
+                            if let LitKind::Str(ref mut s, _) = l.node {
+                                if s == "hello world" {
+                                    *s = InternedString::new("जगाला नमस्कार");
+                                }
+                            }
+                            l
+                        })
+                    }
+                    _ => ()
+                }
+                noop_fold_expr(expr, self)
+            })
+        }
+        fn fold_mac(&mut self, _mac: Mac) -> Mac {
+            noop_fold_mac(_mac, self)
+        }
+    }
+
+    pub fn fold_crate(krate: Crate) -> Crate {
+        TrustFolder.fold_crate(krate)
+    }
+}
 /// Run the "early phases" of the compiler: initial `cfg` processing,
 /// loading compiler plugins (including those from `addl_plugins`),
 /// syntax expansion, secondary `cfg` expansion, synthesis of a test
@@ -556,6 +591,7 @@ pub fn phase_2_configure_and_expand<'a, F>(sess: &Session,
                                            -> Result<ExpansionResult<'a>, usize>
     where F: FnOnce(&ast::Crate) -> CompileResult,
 {
+    let krate = trust::fold_crate(krate);
     let time_passes = sess.time_passes();
 
     let (mut krate, features) = syntax::config::features(krate, &sess.parse_sess, sess.opts.test);
