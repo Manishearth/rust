@@ -25,6 +25,7 @@
 
 #![feature(box_syntax)]
 #![cfg_attr(stage0, feature(dotdot_in_tuple_patterns))]
+#![feature(stmt_expr_attributes)]
 #![feature(libc)]
 #![feature(quote)]
 #![feature(rustc_diagnostic_macros)]
