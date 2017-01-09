@@ -23,16 +23,12 @@ static X: Option<NoDrop<Box<u8>>> = None;
 // A union that scrubs the drop glue from its inner type
 union NoDrop<T> {inner: T}
 
-// Copy currently can't be implemented on drop-containing unions,
-// this may change later
-// https://github.com/rust-lang/rust/pull/38934#issuecomment-271219289
+// We should be able to implement Copy for NoDrop
+impl<T> Copy for NoDrop<T> {}
+impl<T> Clone for NoDrop<T> {fn clone(&self) -> Self { *self }}
 
-// // We should be able to implement Copy for NoDrop
-// impl<T> Copy for NoDrop<T> {}
-// impl<T> Clone for NoDrop<T> {fn clone(&self) -> Self { *self }}
-
-// // We should be able to implement Copy for things using NoDrop
-// #[derive(Copy, Clone)]
+// We should be able to implement Copy for things using NoDrop
+#[derive(Copy, Clone)]
 struct Foo {
     x: NoDrop<Box<u8>>
 }

@@ -152,6 +152,12 @@ impl<'tcx> ParameterEnvironment<'tcx> {
                 _ => return Err(CopyImplementationError::NotAnAdt)
             };
 
+            // unions can implement Copy as long as they themselves do not impl
+            // Drop, regardless of their contents.
+            if adt.is_union() && !adt.has_dtor() {
+                return Ok(())
+            }
+
             let field_implements_copy = |field: &ty::FieldDef| {
                 let cause = traits::ObligationCause::dummy();
                 match traits::fully_normalize(&infcx, cause, &field.ty(tcx, substs)) {
