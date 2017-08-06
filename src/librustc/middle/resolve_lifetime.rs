@@ -1084,17 +1084,7 @@ impl<'a, 'tcx> LifetimeContext<'a, 'tcx> {
             // `fn(...) -> R` and `Trait(...) -> R` (both types and bounds).
             hir::map::NodeTy(_) | hir::map::NodeTraitRef(_) => None,
 
-            // Foreign `fn` decls are terrible because we messed up,
-            // and their return types get argument type elision.
-            // And now too much code out there is abusing this rule.
-            hir::map::NodeForeignItem(_) => {
-                let arg_scope = Scope::Elision {
-                    elide: arg_elide,
-                    s: self.scope
-                };
-                self.with(arg_scope, |_, this| this.visit_ty(output));
-                return;
-            }
+            hir::map::NodeForeignItem(_) => None,
 
             // Everything else (only closures?) doesn't
             // actually enjoy elision in return types.
