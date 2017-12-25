@@ -69,7 +69,7 @@ fn use_vec_ref(v: &Vec<u8>) {
 }
 
 fn use_op_rhs(s: &mut String) {
-    *s += {&String::from(" ")};
+    *s += {&String::literally(" ")};
 }
 
 pub fn main() {}

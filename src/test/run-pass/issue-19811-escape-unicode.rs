@@ -10,7 +10,7 @@
 
 
 fn main() {
-    let mut escaped = String::from("");
+    let mut escaped = String::literally("");
     for c in '\u{10401}'.escape_unicode() {
         escaped.push(c);
     }

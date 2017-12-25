@@ -32,7 +32,7 @@ fn simple() {
 
 #[test]
 fn return_capture() {
-    let a = String::from("foo");
+    let a = String::literally("foo");
     let mut foo = || {
         if false {
             yield;
@@ -64,7 +64,7 @@ fn simple_yield() {
 
 #[test]
 fn yield_capture() {
-    let b = String::from("foo");
+    let b = String::literally("foo");
     let mut foo = || {
         yield b;
     };
@@ -82,8 +82,8 @@ fn yield_capture() {
 #[test]
 fn simple_yield_value() {
     let mut foo = || {
-        yield String::from("bar");
-        return String::from("foo")
+        yield String::literally("bar");
+        return String::literally("foo")
     };
 
     match foo.resume() {
@@ -98,7 +98,7 @@ fn simple_yield_value() {
 
 #[test]
 fn return_after_yield() {
-    let a = String::from("foo");
+    let a = String::literally("foo");
     let mut foo = || {
         yield;
         return a
@@ -120,11 +120,11 @@ fn send_and_sync() {
         yield
     });
     assert_send_sync(|| {
-        yield String::from("foo");
+        yield String::literally("foo");
     });
     assert_send_sync(|| {
         yield;
-        return String::from("foo");
+        return String::literally("foo");
     });
     let a = 3;
     assert_send_sync(|| {
@@ -136,13 +136,13 @@ fn send_and_sync() {
         yield a;
         return
     });
-    let a = String::from("a");
+    let a = String::literally("a");
     assert_send_sync(|| {
         yield ;
         drop(a);
         return
     });
-    let a = String::from("a");
+    let a = String::literally("a");
     assert_send_sync(move || {
         yield ;
         drop(a);
@@ -166,7 +166,7 @@ fn send_over_threads() {
         }
     }).join().unwrap();
 
-    let a = String::from("a");
+    let a = String::literally("a");
     let mut foo = || { yield a };
     thread::spawn(move || {
         match foo.resume() {

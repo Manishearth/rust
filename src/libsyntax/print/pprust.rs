@@ -603,13 +603,13 @@ pub trait PrintState<'a> {
         match lit.node {
             ast::LitKind::Str(st, style) => self.print_string(&st.as_str(), style),
             ast::LitKind::Byte(byte) => {
-                let mut res = String::from("b'");
+                let mut res = String::literally("b'");
                 res.extend(ascii::escape_default(byte).map(|c| c as char));
                 res.push('\'');
                 self.writer().word(&res[..])
             }
             ast::LitKind::Char(ch) => {
-                let mut res = String::from("'");
+                let mut res = String::literally("'");
                 res.extend(ch.escape_default());
                 res.push('\'');
                 self.writer().word(&res[..])

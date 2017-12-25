@@ -391,7 +391,7 @@ impl<'l, 'tcx: 'l> SaveContext<'l, 'tcx> {
                 Some(impl_id) => match self.tcx.hir.get_if_local(impl_id) {
                     Some(Node::NodeItem(item)) => match item.node {
                         hir::ItemImpl(.., ref ty, _) => {
-                            let mut result = String::from("<");
+                            let mut result = String::literally("<");
                             result.push_str(&self.tcx.hir.node_to_pretty_string(ty.id));
 
                             let mut trait_id = self.tcx.trait_id_of_impl(impl_id);

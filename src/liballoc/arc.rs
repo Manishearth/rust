@@ -1804,7 +1804,7 @@ mod tests {
     fn test_from_box_str() {
         use std::string::String;
 
-        let s = String::from("foo").into_boxed_str();
+        let s = String::literally("foo").into_boxed_str();
         let r: Arc<str> = Arc::from(s);
 
         assert_eq!(&r[..], "foo");

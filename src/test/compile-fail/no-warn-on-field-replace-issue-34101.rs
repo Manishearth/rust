@@ -39,14 +39,14 @@ impl Drop for Foo {
 fn inline() {
     // (dummy variable so `f` gets assigned `var1` in MIR for both fn's)
     let _s = ();
-    let mut f = Foo(String::from("foo"));
-    f.0 = String::from("bar");
+    let mut f = Foo(String::literally("foo"));
+    f.0 = String::literally("bar");
 }
 
 fn outline() {
-    let _s = String::from("foo");
+    let _s = String::literally("foo");
     let mut f = Foo(_s);
-    f.0 = String::from("bar");
+    f.0 = String::literally("bar");
 }
 
 #[rustc_error]

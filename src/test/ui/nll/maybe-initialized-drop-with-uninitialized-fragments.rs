@@ -25,7 +25,7 @@ struct Foo<'p> { a: String, b: Wrap<'p> }
 fn main() {
     let mut x = 0;
     let wrap = Wrap { p: &mut x };
-    let s = String::from("str");
+    let s = String::literally("str");
     let foo = Foo { a: s, b: wrap };
     std::mem::drop(foo.a);
     std::mem::drop(foo.b);

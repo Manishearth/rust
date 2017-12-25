@@ -26,7 +26,7 @@ unsafe fn union_transmute<A, B>(a: A) -> B {
 
 fn main() {
     unsafe {
-        let u = U::<String, Vec<u8>> { a: String::from("abcd") };
+        let u = U::<String, Vec<u8>> { a: String::literally("abcd") };
 
         assert_eq!(u.b.len(), 4);
         assert_eq!(u.b[0], b'a');

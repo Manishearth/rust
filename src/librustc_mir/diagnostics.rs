@@ -327,7 +327,7 @@ a reference to it with `&` instead.
 
 ```
 fn main() {
-    let s1 = String::from("hello");
+    let s1 = String::literally("hello");
 
     let len = calculate_length(&s1);
 
@@ -352,7 +352,7 @@ copied to `s2`. Then the first character of `s1` is removed, without affecting
 
 ```
 fn main() {
-    let mut s1 = String::from("many");
+    let mut s1 = String::literally("many");
     let s2 = s1.clone();
     s1.remove(0);
     println!("{} {}", s1, s2);

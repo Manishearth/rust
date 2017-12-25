@@ -242,7 +242,7 @@ fn read_block_comment(rdr: &mut StringReader,
     rdr.bump();
     rdr.bump();
 
-    let mut curr_line = String::from("/*");
+    let mut curr_line = String::literally("/*");
 
     // doc-comments are not really comments, they are attributes
     if (rdr.ch_is('*') && !rdr.nextch_is('*')) || rdr.ch_is('!') {

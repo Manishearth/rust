@@ -52,5 +52,5 @@ fn cycle1() -> impl Clone {
 fn cycle2() -> impl Clone {
     send(cycle1().clone());
 
-    Rc::new(String::from("foo"))
+    Rc::new(String::literally("foo"))
 }

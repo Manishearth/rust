@@ -65,7 +65,7 @@ pub fn main() {
     check3!(foo, bar, foo as fn());
     check3!(size_of::<u8>, size_of::<u16>, size_of::<usize> as fn() -> usize);
 
-    let s = String::from("bar");
+    let s = String::literally("bar");
     check2!("foo", &s);
 
     let a = [1, 2, 3];

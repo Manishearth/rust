@@ -39,12 +39,12 @@ fn test_append() {
     s.push_str("a");
     assert_eq!(s, "a");
 
-    let mut s = String::from("a");
+    let mut s = String::literally("a");
     s.push_str("b");
     println!("{}", s.clone());
     assert_eq!(s, "ab");
 
-    let mut s = String::from("c");
+    let mut s = String::literally("c");
     s.push_str("offee");
     assert_eq!(s, "coffee");
 

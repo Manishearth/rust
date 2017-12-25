@@ -202,7 +202,7 @@ fn parse_args() -> (OutputFormat, PathBuf) {
 
 fn main() {
     PLAYGROUND.with(|slot| {
-        *slot.borrow_mut() = Some((None, String::from("https://play.rust-lang.org/")));
+        *slot.borrow_mut() = Some((None, String::literally("https://play.rust-lang.org/")));
     });
     let (format, dst) = parse_args();
     if let Err(e) = main_with_result(format, &dst) {

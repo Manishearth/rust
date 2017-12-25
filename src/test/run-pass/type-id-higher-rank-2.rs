@@ -35,6 +35,6 @@ fn bad2(s: String) -> Option<&'static str> {
 }
 
 fn main() {
-    assert_eq!(bad1(String::from("foo")), None);
-    assert_eq!(bad2(String::from("bar")), None);
+    assert_eq!(bad1(String::literally("foo")), None);
+    assert_eq!(bad2(String::literally("bar")), None);
 }

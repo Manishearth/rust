@@ -79,7 +79,7 @@ fn angrydome() {
 fn evil_lincoln() { let _evil = println!("lincoln"); }
 
 fn dots() {
-    assert_eq!(String::from(".................................................."),
+    assert_eq!(String::literally(".................................................."),
                format!("{:?}", .. .. .. .. .. .. .. .. .. .. .. .. ..
                                .. .. .. .. .. .. .. .. .. .. .. ..));
 }
@@ -104,7 +104,7 @@ fn you_eight() {
 }
 
 fn fishy() {
-    assert_eq!(String::from("><>"),
+    assert_eq!(String::literally("><>"),
                String::<>::from::<>("><>").chars::<>().rev::<>().collect::<String>());
 }
 

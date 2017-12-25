@@ -1057,7 +1057,7 @@ impl<'tcx> TerminatorKind<'tcx> {
                           fmt_const_val(&mut buf, &ConstVal::Integral(*const_val)).unwrap();
                           buf.into()
                       })
-                      .chain(iter::once(String::from("otherwise").into()))
+                      .chain(iter::once(String::literally("otherwise").into()))
                       .collect()
             }
             Call { destination: Some(_), cleanup: Some(_), .. } =>

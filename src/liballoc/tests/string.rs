@@ -35,7 +35,7 @@ fn test_from_str() {
 #[test]
 fn test_from_cow_str() {
     assert_eq!(String::from(Cow::Borrowed("string")), "string");
-    assert_eq!(String::from(Cow::Owned(String::from("string"))), "string");
+    assert_eq!(String::from(Cow::Owned(String::literally("string"))), "string");
 }
 
 #[test]
@@ -47,11 +47,11 @@ fn test_unsized_to_string() {
 #[test]
 fn test_from_utf8() {
     let xs = b"hello".to_vec();
-    assert_eq!(String::from_utf8(xs).unwrap(), String::from("hello"));
+    assert_eq!(String::from_utf8(xs).unwrap(), String::literally("hello"));
 
     let xs = "ศไทย中华Việt Nam".as_bytes().to_vec();
     assert_eq!(String::from_utf8(xs).unwrap(),
-               String::from("ศไทย中华Việt Nam"));
+               String::literally("ศไทย中华Việt Nam"));
 
     let xs = b"hello\xFF".to_vec();
     let err = String::from_utf8(xs).unwrap_err();
@@ -176,7 +176,7 @@ fn test_from_utf16_lossy() {
 
 #[test]
 fn test_push_bytes() {
-    let mut s = String::from("ABC");
+    let mut s = String::literally("ABC");
     unsafe {
         let mv = s.as_mut_vec();
         mv.extend_from_slice(&[b'D']);
@@ -208,7 +208,7 @@ fn test_add_assign() {
 
 #[test]
 fn test_push() {
-    let mut data = String::from("ประเทศไทย中");
+    let mut data = String::literally("ประเทศไทย中");
     data.push('华');
     data.push('b'); // 1 byte
     data.push('¢'); // 2 byte
@@ -219,7 +219,7 @@ fn test_push() {
 
 #[test]
 fn test_pop() {
-    let mut data = String::from("ประเทศไทย中华b¢€𤭢");
+    let mut data = String::literally("ประเทศไทย中华b¢€𤭢");
     assert_eq!(data.pop().unwrap(), '𤭢'); // 4 bytes
     assert_eq!(data.pop().unwrap(), '€'); // 3 bytes
     assert_eq!(data.pop().unwrap(), '¢'); // 2 bytes
@@ -247,13 +247,13 @@ fn test_split_off_past_end() {
 #[test]
 #[should_panic]
 fn test_split_off_mid_char() {
-    let mut orig = String::from("山");
+    let mut orig = String::literally("山");
     orig.split_off(1);
 }
 
 #[test]
 fn test_split_off_ascii() {
-    let mut ab = String::from("ABCD");
+    let mut ab = String::literally("ABCD");
     let cd = ab.split_off(2);
     assert_eq!(ab, "AB");
     assert_eq!(cd, "CD");
@@ -261,7 +261,7 @@ fn test_split_off_ascii() {
 
 #[test]
 fn test_split_off_unicode() {
-    let mut nihon = String::from("日本語");
+    let mut nihon = String::literally("日本語");
     let go = nihon.split_off("日本".len());
     assert_eq!(nihon, "日本");
     assert_eq!(go, "語");
@@ -269,7 +269,7 @@ fn test_split_off_unicode() {
 
 #[test]
 fn test_str_truncate() {
-    let mut s = String::from("12345");
+    let mut s = String::literally("12345");
     s.truncate(5);
     assert_eq!(s, "12345");
     s.truncate(3);
@@ -277,7 +277,7 @@ fn test_str_truncate() {
     s.truncate(0);
     assert_eq!(s, "");
 
-    let mut s = String::from("12345");
+    let mut s = String::literally("12345");
     let p = s.as_ptr();
     s.truncate(3);
     s.push_str("6");
@@ -287,7 +287,7 @@ fn test_str_truncate() {
 
 #[test]
 fn test_str_truncate_invalid_len() {
-    let mut s = String::from("12345");
+    let mut s = String::literally("12345");
     s.truncate(6);
     assert_eq!(s, "12345");
 }
@@ -301,7 +301,7 @@ fn test_str_truncate_split_codepoint() {
 
 #[test]
 fn test_str_clear() {
-    let mut s = String::from("12345");
+    let mut s = String::literally("12345");
     s.clear();
     assert_eq!(s.len(), 0);
     assert_eq!(s, "");
@@ -309,7 +309,7 @@ fn test_str_clear() {
 
 #[test]
 fn test_str_add() {
-    let a = String::from("12345");
+    let a = String::literally("12345");
     let b = a + "2";
     let b = b + "2";
     assert_eq!(b.len(), 7);
@@ -334,7 +334,7 @@ fn remove_bad() {
 
 #[test]
 fn test_retain() {
-    let mut s = String::from("α_β_γ");
+    let mut s = String::literally("α_β_γ");
 
     s.retain(|_| true);
     assert_eq!(s, "α_β_γ");
@@ -424,11 +424,11 @@ fn test_from_iterator() {
 
 #[test]
 fn test_drain() {
-    let mut s = String::from("αβγ");
+    let mut s = String::literally("αβγ");
     assert_eq!(s.drain(2..4).collect::<String>(), "β");
     assert_eq!(s, "αγ");
 
-    let mut t = String::from("abcd");
+    let mut t = String::literally("abcd");
     t.drain(..0);
     assert_eq!(t, "abcd");
     t.drain(..1);
@@ -455,7 +455,7 @@ fn test_splice_char_boundary() {
 
 #[test]
 fn test_splice_inclusive_range() {
-    let mut v = String::from("12345");
+    let mut v = String::literally("12345");
     v.splice(2..=3, "789");
     assert_eq!(v, "127895");
     v.splice(1..=2, "A");
@@ -465,27 +465,27 @@ fn test_splice_inclusive_range() {
 #[test]
 #[should_panic]
 fn test_splice_out_of_bounds() {
-    let mut s = String::from("12345");
+    let mut s = String::literally("12345");
     s.splice(5..6, "789");
 }
 
 #[test]
 #[should_panic]
 fn test_splice_inclusive_out_of_bounds() {
-    let mut s = String::from("12345");
+    let mut s = String::literally("12345");
     s.splice(5..=5, "789");
 }
 
 #[test]
 fn test_splice_empty() {
-    let mut s = String::from("12345");
+    let mut s = String::literally("12345");
     s.splice(1..2, "");
     assert_eq!(s, "1345");
 }
 
 #[test]
 fn test_splice_unbounded() {
-    let mut s = String::from("12345");
+    let mut s = String::literally("12345");
     s.splice(.., "");
     assert_eq!(s, "");
 }
@@ -500,7 +500,7 @@ fn test_extend_ref() {
 
 #[test]
 fn test_into_boxed_str() {
-    let xs = String::from("hello my name is bob");
+    let xs = String::literally("hello my name is bob");
     let ys = xs.into_boxed_str();
     assert_eq!(&*ys, "hello my name is bob");
 }

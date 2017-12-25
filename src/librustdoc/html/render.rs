@@ -1139,7 +1139,7 @@ impl<'a> SourceCollector<'a> {
 
         // Create the intermediate directories
         let mut cur = self.dst.clone();
-        let mut root_path = String::from("../../");
+        let mut root_path = String::literally("../../");
         let mut href = String::new();
         clean_srcpath(&self.scx.src_root, &p, false, |component| {
             cur.push(component);

@@ -1207,7 +1207,7 @@ impl<'tcx> EnumMemberDescriptionFactory<'tcx> {
 
                 // Encode the information about the null variant in the union
                 // member's name.
-                let mut name = String::from("RUST$ENCODED$ENUM$");
+                let mut name = String::literally("RUST$ENCODED$ENUM$");
                 // HACK(eddyb) the debuggers should just handle offset+size
                 // of discriminant instead of us having to recover its path.
                 // Right now it's not even going to work for `niche_start > 0`,

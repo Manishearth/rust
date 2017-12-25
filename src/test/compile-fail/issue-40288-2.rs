@@ -36,6 +36,6 @@ fn lifetime_transmute_struct<'a, T: ?Sized>(x: &'a T, y: &T) -> &'a T {
 }
 
 fn main() {
-    prove_static(lifetime_transmute_slice("", &String::from("foo")));
-    prove_static(lifetime_transmute_struct("", &String::from("bar")));
+    prove_static(lifetime_transmute_slice("", &String::literally("foo")));
+    prove_static(lifetime_transmute_struct("", &String::literally("bar")));
 }

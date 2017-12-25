@@ -52,7 +52,7 @@ fn test_collect() {
 
 #[test]
 fn test_into_bytes() {
-    let data = String::from("asdf");
+    let data = String::literally("asdf");
     let buf = data.into_bytes();
     assert_eq!(buf, b"asdf");
 }
@@ -631,7 +631,7 @@ fn test_as_bytes() {
 fn test_as_bytes_fail() {
     // Don't double free. (I'm not sure if this exercises the
     // original problem code path anymore.)
-    let s = String::from("");
+    let s = String::literally("");
     let _bytes = s.as_bytes();
     panic!();
 }
@@ -650,7 +650,7 @@ fn test_as_ptr() {
 
 #[test]
 fn vec_str_conversions() {
-    let s1: String = String::from("All mimsy were the borogoves");
+    let s1: String = String::literally("All mimsy were the borogoves");
 
     let v: Vec<u8> = s1.as_bytes().to_vec();
     let s2: String = String::from(from_utf8(&v).unwrap());
@@ -1299,13 +1299,13 @@ fn to_uppercase() {
 fn test_into_string() {
     // The only way to acquire a Box<str> in the first place is through a String, so just
     // test that we can round-trip between Box<str> and String.
-    let string = String::from("Some text goes here");
+    let string = String::literally("Some text goes here");
     assert_eq!(string.clone().into_boxed_str().into_string(), string);
 }
 
 #[test]
 fn test_box_slice_clone() {
-    let data = String::from("hello HELLO hello HELLO yes YES 5 中ä华!!!");
+    let data = String::literally("hello HELLO hello HELLO yes YES 5 中ä华!!!");
     let data2 = data.clone().into_boxed_str().clone().into_string();
 
     assert_eq!(data, data2);
@@ -1314,7 +1314,7 @@ fn test_box_slice_clone() {
 #[test]
 fn test_cow_from() {
     let borrowed = "borrowed";
-    let owned = String::from("owned");
+    let owned = String::literally("owned");
     match (Cow::from(owned.clone()), Cow::from(borrowed)) {
         (Cow::Owned(o), Cow::Borrowed(b)) => assert!(o == owned && b == borrowed),
         _ => panic!("invalid `Cow::from`"),

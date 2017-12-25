@@ -55,7 +55,7 @@ pub fn main() {
 
     let trait_unified_2 = loop {
         if false {
-            break [String::from("Hello")]
+            break [String::literally("Hello")]
         } else {
             break Default::default()
         };
@@ -64,7 +64,7 @@ pub fn main() {
 
     let trait_unified_3 = loop {
         break if false {
-            break [String::from("Hello")]
+            break [String::literally("Hello")]
         } else {
             ["Yes".into()]
         };

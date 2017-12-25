@@ -17,8 +17,8 @@ fn check_cow_add_cow() {
     let borrowed2 = Cow::Borrowed("World!");
     let borrow_empty = Cow::Borrowed("");
 
-    let owned1: Cow<str> = Cow::Owned(String::from("Hi, "));
-    let owned2: Cow<str> = Cow::Owned(String::from("Rustaceans!"));
+    let owned1: Cow<str> = Cow::Owned(String::literally("Hi, "));
+    let owned2: Cow<str> = Cow::Owned(String::literally("Rustaceans!"));
     let owned_empty: Cow<str> = Cow::Owned(String::new());
 
     assert_eq!("Hello, World!", borrowed1.clone() + borrowed2.clone());
@@ -46,7 +46,7 @@ fn check_cow_add_str() {
     let borrowed = Cow::Borrowed("Hello, ");
     let borrow_empty = Cow::Borrowed("");
 
-    let owned: Cow<str> = Cow::Owned(String::from("Hi, "));
+    let owned: Cow<str> = Cow::Owned(String::literally("Hi, "));
     let owned_empty: Cow<str> = Cow::Owned(String::new());
 
     assert_eq!("Hello, World!", borrowed.clone() + "World!");
@@ -70,8 +70,8 @@ fn check_cow_add_assign_cow() {
     let borrowed2 = Cow::Borrowed("World!");
     let borrow_empty = Cow::Borrowed("");
 
-    let mut owned1: Cow<str> = Cow::Owned(String::from("Hi, "));
-    let owned2: Cow<str> = Cow::Owned(String::from("Rustaceans!"));
+    let mut owned1: Cow<str> = Cow::Owned(String::literally("Hi, "));
+    let owned2: Cow<str> = Cow::Owned(String::literally("Rustaceans!"));
     let owned_empty: Cow<str> = Cow::Owned(String::new());
 
     let mut s = borrowed1.clone();
@@ -111,7 +111,7 @@ fn check_cow_add_assign_str() {
     let mut borrowed = Cow::Borrowed("Hello, ");
     let borrow_empty = Cow::Borrowed("");
 
-    let mut owned: Cow<str> = Cow::Owned(String::from("Hi, "));
+    let mut owned: Cow<str> = Cow::Owned(String::literally("Hi, "));
     let owned_empty: Cow<str> = Cow::Owned(String::new());
 
     let mut s = borrowed.clone();

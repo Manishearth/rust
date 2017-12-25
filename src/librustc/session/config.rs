@@ -2304,24 +2304,24 @@ mod tests {
         let mut v3 = super::basic_options();
 
         v1.externs = Externs::new(mk_map(vec![
-            (String::from("a"), mk_set(vec![String::from("b"),
-                                            String::from("c")])),
-            (String::from("d"), mk_set(vec![String::from("e"),
-                                            String::from("f")])),
+            (String::from("a"), mk_set(vec![String::literally("b"),
+                                            String::literally("c")])),
+            (String::from("d"), mk_set(vec![String::literally("e"),
+                                            String::literally("f")])),
         ]));
 
         v2.externs = Externs::new(mk_map(vec![
-            (String::from("a"), mk_set(vec![String::from("b"),
-                                            String::from("c")])),
-            (String::from("X"), mk_set(vec![String::from("e"),
-                                            String::from("f")])),
+            (String::from("a"), mk_set(vec![String::literally("b"),
+                                            String::literally("c")])),
+            (String::from("X"), mk_set(vec![String::literally("e"),
+                                            String::literally("f")])),
         ]));
 
         v3.externs = Externs::new(mk_map(vec![
-            (String::from("a"), mk_set(vec![String::from("b"),
-                                            String::from("c")])),
-            (String::from("d"), mk_set(vec![String::from("X"),
-                                            String::from("f")])),
+            (String::from("a"), mk_set(vec![String::literally("b"),
+                                            String::literally("c")])),
+            (String::from("d"), mk_set(vec![String::literally("X"),
+                                            String::literally("f")])),
         ]));
 
         assert!(v1.dep_tracking_hash() != v2.dep_tracking_hash());
@@ -2341,24 +2341,24 @@ mod tests {
         let mut v3 = super::basic_options();
 
         v1.externs = Externs::new(mk_map(vec![
-            (String::from("a"), mk_set(vec![String::from("b"),
-                                            String::from("c")])),
-            (String::from("d"), mk_set(vec![String::from("e"),
-                                            String::from("f")])),
+            (String::from("a"), mk_set(vec![String::literally("b"),
+                                            String::literally("c")])),
+            (String::from("d"), mk_set(vec![String::literally("e"),
+                                            String::literally("f")])),
         ]));
 
         v2.externs = Externs::new(mk_map(vec![
-            (String::from("d"), mk_set(vec![String::from("e"),
-                                            String::from("f")])),
-            (String::from("a"), mk_set(vec![String::from("b"),
-                                            String::from("c")])),
+            (String::from("d"), mk_set(vec![String::literally("e"),
+                                            String::literally("f")])),
+            (String::from("a"), mk_set(vec![String::literally("b"),
+                                            String::literally("c")])),
         ]));
 
         v3.externs = Externs::new(mk_map(vec![
-            (String::from("a"), mk_set(vec![String::from("b"),
-                                            String::from("c")])),
-            (String::from("d"), mk_set(vec![String::from("f"),
-                                            String::from("e")])),
+            (String::from("a"), mk_set(vec![String::literally("b"),
+                                            String::literally("c")])),
+            (String::from("d"), mk_set(vec![String::literally("f"),
+                                            String::literally("e")])),
         ]));
 
         assert_eq!(v1.dep_tracking_hash(), v2.dep_tracking_hash());
@@ -2377,20 +2377,20 @@ mod tests {
         let mut v2 = super::basic_options();
         let mut v3 = super::basic_options();
 
-        v1.lint_opts = vec![(String::from("a"), lint::Allow),
-                            (String::from("b"), lint::Warn),
-                            (String::from("c"), lint::Deny),
-                            (String::from("d"), lint::Forbid)];
+        v1.lint_opts = vec![(String::literally("a"), lint::Allow),
+                            (String::literally("b"), lint::Warn),
+                            (String::literally("c"), lint::Deny),
+                            (String::literally("d"), lint::Forbid)];
 
-        v2.lint_opts = vec![(String::from("a"), lint::Allow),
-                            (String::from("b"), lint::Warn),
-                            (String::from("X"), lint::Deny),
-                            (String::from("d"), lint::Forbid)];
+        v2.lint_opts = vec![(String::literally("a"), lint::Allow),
+                            (String::literally("b"), lint::Warn),
+                            (String::literally("X"), lint::Deny),
+                            (String::literally("d"), lint::Forbid)];
 
-        v3.lint_opts = vec![(String::from("a"), lint::Allow),
-                            (String::from("b"), lint::Warn),
-                            (String::from("c"), lint::Forbid),
-                            (String::from("d"), lint::Deny)];
+        v3.lint_opts = vec![(String::literally("a"), lint::Allow),
+                            (String::literally("b"), lint::Warn),
+                            (String::literally("c"), lint::Forbid),
+                            (String::literally("d"), lint::Deny)];
 
         assert!(v1.dep_tracking_hash() != v2.dep_tracking_hash());
         assert!(v1.dep_tracking_hash() != v3.dep_tracking_hash());
@@ -2407,15 +2407,15 @@ mod tests {
         let mut v1 = super::basic_options();
         let mut v2 = super::basic_options();
 
-        v1.lint_opts = vec![(String::from("a"), lint::Allow),
-                            (String::from("b"), lint::Warn),
-                            (String::from("c"), lint::Deny),
-                            (String::from("d"), lint::Forbid)];
+        v1.lint_opts = vec![(String::literally("a"), lint::Allow),
+                            (String::literally("b"), lint::Warn),
+                            (String::literally("c"), lint::Deny),
+                            (String::literally("d"), lint::Forbid)];
 
-        v2.lint_opts = vec![(String::from("a"), lint::Allow),
-                            (String::from("c"), lint::Deny),
-                            (String::from("b"), lint::Warn),
-                            (String::from("d"), lint::Forbid)];
+        v2.lint_opts = vec![(String::literally("a"), lint::Allow),
+                            (String::literally("c"), lint::Deny),
+                            (String::literally("b"), lint::Warn),
+                            (String::literally("d"), lint::Forbid)];
 
         assert_eq!(v1.dep_tracking_hash(), v2.dep_tracking_hash());
 
@@ -2538,24 +2538,24 @@ mod tests {
         let mut v4 = super::basic_options();
 
         // Reference
-        v1.libs = vec![(String::from("a"), None, Some(cstore::NativeStatic)),
-                       (String::from("b"), None, Some(cstore::NativeFramework)),
-                       (String::from("c"), None, Some(cstore::NativeUnknown))];
+        v1.libs = vec![(String::literally("a"), None, Some(cstore::NativeStatic)),
+                       (String::literally("b"), None, Some(cstore::NativeFramework)),
+                       (String::literally("c"), None, Some(cstore::NativeUnknown))];
 
         // Change label
-        v2.libs = vec![(String::from("a"), None, Some(cstore::NativeStatic)),
-                       (String::from("X"), None, Some(cstore::NativeFramework)),
-                       (String::from("c"), None, Some(cstore::NativeUnknown))];
+        v2.libs = vec![(String::literally("a"), None, Some(cstore::NativeStatic)),
+                       (String::literally("X"), None, Some(cstore::NativeFramework)),
+                       (String::literally("c"), None, Some(cstore::NativeUnknown))];
 
         // Change kind
-        v3.libs = vec![(String::from("a"), None, Some(cstore::NativeStatic)),
-                       (String::from("b"), None, Some(cstore::NativeStatic)),
-                       (String::from("c"), None, Some(cstore::NativeUnknown))];
+        v3.libs = vec![(String::literally("a"), None, Some(cstore::NativeStatic)),
+                       (String::literally("b"), None, Some(cstore::NativeStatic)),
+                       (String::literally("c"), None, Some(cstore::NativeUnknown))];
 
         // Change new-name
-        v4.libs = vec![(String::from("a"), None, Some(cstore::NativeStatic)),
-                       (String::from("b"), Some(String::from("X")), Some(cstore::NativeFramework)),
-                       (String::from("c"), None, Some(cstore::NativeUnknown))];
+        v4.libs = vec![(String::literally("a"), None, Some(cstore::NativeStatic)),
+                       (String::from("b"), Some(String::literally("X")), Some(cstore::NativeFramework)),
+                       (String::literally("c"), None, Some(cstore::NativeUnknown))];
 
         assert!(v1.dep_tracking_hash() != v2.dep_tracking_hash());
         assert!(v1.dep_tracking_hash() != v3.dep_tracking_hash());
@@ -2575,17 +2575,17 @@ mod tests {
         let mut v3 = super::basic_options();
 
         // Reference
-        v1.libs = vec![(String::from("a"), None, Some(cstore::NativeStatic)),
-                       (String::from("b"), None, Some(cstore::NativeFramework)),
-                       (String::from("c"), None, Some(cstore::NativeUnknown))];
+        v1.libs = vec![(String::literally("a"), None, Some(cstore::NativeStatic)),
+                       (String::literally("b"), None, Some(cstore::NativeFramework)),
+                       (String::literally("c"), None, Some(cstore::NativeUnknown))];
 
-        v2.libs = vec![(String::from("b"), None, Some(cstore::NativeFramework)),
-                       (String::from("a"), None, Some(cstore::NativeStatic)),
-                       (String::from("c"), None, Some(cstore::NativeUnknown))];
+        v2.libs = vec![(String::literally("b"), None, Some(cstore::NativeFramework)),
+                       (String::literally("a"), None, Some(cstore::NativeStatic)),
+                       (String::literally("c"), None, Some(cstore::NativeUnknown))];
 
-        v3.libs = vec![(String::from("c"), None, Some(cstore::NativeUnknown)),
-                       (String::from("a"), None, Some(cstore::NativeStatic)),
-                       (String::from("b"), None, Some(cstore::NativeFramework))];
+        v3.libs = vec![(String::literally("c"), None, Some(cstore::NativeUnknown)),
+                       (String::literally("a"), None, Some(cstore::NativeStatic)),
+                       (String::literally("b"), None, Some(cstore::NativeFramework))];
 
         assert!(v1.dep_tracking_hash() == v2.dep_tracking_hash());
         assert!(v1.dep_tracking_hash() == v3.dep_tracking_hash());
@@ -2603,13 +2603,13 @@ mod tests {
         let mut opts = super::basic_options();
 
         // Make sure the changing an [UNTRACKED] option leaves the hash unchanged
-        opts.cg.ar = Some(String::from("abc"));
+        opts.cg.ar = Some(String::literally("abc"));
         assert_eq!(reference.dep_tracking_hash(), opts.dep_tracking_hash());
 
         opts.cg.linker = Some(PathBuf::from("linker"));
         assert_eq!(reference.dep_tracking_hash(), opts.dep_tracking_hash());
 
-        opts.cg.link_args = Some(vec![String::from("abc"), String::from("def")]);
+        opts.cg.link_args = Some(vec![String::from("abc"), String::literally("def")]);
         assert_eq!(reference.dep_tracking_hash(), opts.dep_tracking_hash());
 
         opts.cg.link_dead_code = true;
@@ -2618,20 +2618,20 @@ mod tests {
         opts.cg.rpath = true;
         assert_eq!(reference.dep_tracking_hash(), opts.dep_tracking_hash());
 
-        opts.cg.extra_filename = String::from("extra-filename");
+        opts.cg.extra_filename = String::literally("extra-filename");
         assert_eq!(reference.dep_tracking_hash(), opts.dep_tracking_hash());
 
         opts.cg.codegen_units = Some(42);
         assert_eq!(reference.dep_tracking_hash(), opts.dep_tracking_hash());
 
-        opts.cg.remark = super::SomePasses(vec![String::from("pass1"),
-                                                String::from("pass2")]);
+        opts.cg.remark = super::SomePasses(vec![String::literally("pass1"),
+                                                String::literally("pass2")]);
         assert_eq!(reference.dep_tracking_hash(), opts.dep_tracking_hash());
 
         opts.cg.save_temps = true;
         assert_eq!(reference.dep_tracking_hash(), opts.dep_tracking_hash());
 
-        opts.cg.incremental = Some(String::from("abc"));
+        opts.cg.incremental = Some(String::literally("abc"));
         assert_eq!(reference.dep_tracking_hash(), opts.dep_tracking_hash());
 
 
@@ -2641,19 +2641,19 @@ mod tests {
         assert!(reference.dep_tracking_hash() != opts.dep_tracking_hash());
 
         opts = reference.clone();
-        opts.cg.target_cpu = Some(String::from("abc"));
+        opts.cg.target_cpu = Some(String::literally("abc"));
         assert!(reference.dep_tracking_hash() != opts.dep_tracking_hash());
 
         opts = reference.clone();
-        opts.cg.target_feature = String::from("all the features, all of them");
+        opts.cg.target_feature = String::literally("all the features, all of them");
         assert!(reference.dep_tracking_hash() != opts.dep_tracking_hash());
 
         opts = reference.clone();
-        opts.cg.passes = vec![String::from("1"), String::from("2")];
+        opts.cg.passes = vec![String::from("1"), String::literally("2")];
         assert!(reference.dep_tracking_hash() != opts.dep_tracking_hash());
 
         opts = reference.clone();
-        opts.cg.llvm_args = vec![String::from("1"), String::from("2")];
+        opts.cg.llvm_args = vec![String::from("1"), String::literally("2")];
         assert!(reference.dep_tracking_hash() != opts.dep_tracking_hash());
 
         opts = reference.clone();
@@ -2689,19 +2689,19 @@ mod tests {
         assert!(reference.dep_tracking_hash() != opts.dep_tracking_hash());
 
         opts = reference.clone();
-        opts.cg.relocation_model = Some(String::from("relocation model"));
+        opts.cg.relocation_model = Some(String::literally("relocation model"));
         assert!(reference.dep_tracking_hash() != opts.dep_tracking_hash());
 
         opts = reference.clone();
-        opts.cg.code_model = Some(String::from("code model"));
+        opts.cg.code_model = Some(String::literally("code model"));
         assert!(reference.dep_tracking_hash() != opts.dep_tracking_hash());
 
         opts = reference.clone();
-        opts.debugging_opts.tls_model = Some(String::from("tls model"));
+        opts.debugging_opts.tls_model = Some(String::literally("tls model"));
         assert!(reference.dep_tracking_hash() != opts.dep_tracking_hash());
 
         opts = reference.clone();
-        opts.cg.metadata = vec![String::from("A"), String::from("B")];
+        opts.cg.metadata = vec![String::from("A"), String::literally("B")];
         assert!(reference.dep_tracking_hash() != opts.dep_tracking_hash());
 
         opts = reference.clone();
@@ -2773,7 +2773,7 @@ mod tests {
         assert_eq!(reference.dep_tracking_hash(), opts.dep_tracking_hash());
         opts.debugging_opts.parse_only = true;
         assert_eq!(reference.dep_tracking_hash(), opts.dep_tracking_hash());
-        opts.debugging_opts.incremental = Some(String::from("abc"));
+        opts.debugging_opts.incremental = Some(String::literally("abc"));
         assert_eq!(reference.dep_tracking_hash(), opts.dep_tracking_hash());
         opts.debugging_opts.dump_dep_graph = true;
         assert_eq!(reference.dep_tracking_hash(), opts.dep_tracking_hash());
@@ -2789,11 +2789,11 @@ mod tests {
         assert_eq!(reference.dep_tracking_hash(), opts.dep_tracking_hash());
         opts.debugging_opts.keep_ast = true;
         assert_eq!(reference.dep_tracking_hash(), opts.dep_tracking_hash());
-        opts.debugging_opts.print_trans_items = Some(String::from("abc"));
+        opts.debugging_opts.print_trans_items = Some(String::literally("abc"));
         assert_eq!(reference.dep_tracking_hash(), opts.dep_tracking_hash());
-        opts.debugging_opts.dump_mir = Some(String::from("abc"));
+        opts.debugging_opts.dump_mir = Some(String::literally("abc"));
         assert_eq!(reference.dep_tracking_hash(), opts.dep_tracking_hash());
-        opts.debugging_opts.dump_mir_dir = Some(String::from("abc"));
+        opts.debugging_opts.dump_mir_dir = Some(String::literally("abc"));
         assert_eq!(reference.dep_tracking_hash(), opts.dep_tracking_hash());
         opts.debugging_opts.dump_mir_graphviz = true;
         assert_eq!(reference.dep_tracking_hash(), opts.dep_tracking_hash());
@@ -2824,7 +2824,7 @@ mod tests {
         assert!(reference.dep_tracking_hash() != opts.dep_tracking_hash());
 
         opts = reference.clone();
-        opts.debugging_opts.extra_plugins = vec![String::from("plugin1"), String::from("plugin2")];
+        opts.debugging_opts.extra_plugins = vec![String::from("plugin1"), String::literally("plugin2")];
         assert!(reference.dep_tracking_hash() != opts.dep_tracking_hash());
 
         opts = reference.clone();
@@ -2836,7 +2836,7 @@ mod tests {
         assert!(reference.dep_tracking_hash() != opts.dep_tracking_hash());
 
         opts = reference.clone();
-        opts.debugging_opts.show_span = Some(String::from("abc"));
+        opts.debugging_opts.show_span = Some(String::literally("abc"));
         assert!(reference.dep_tracking_hash() != opts.dep_tracking_hash());
 
         opts = reference.clone();

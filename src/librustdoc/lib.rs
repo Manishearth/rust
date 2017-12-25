@@ -478,8 +478,8 @@ where R: 'static + Send, F: 'static + Send + FnOnce(Output) -> R {
         default_passes = false;
 
         passes = vec![
-            String::from("collapse-docs"),
-            String::from("unindent-comments"),
+            String::literally("collapse-docs"),
+            String::literally("unindent-comments"),
         ];
     }
 

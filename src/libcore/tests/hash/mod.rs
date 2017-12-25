@@ -63,7 +63,7 @@ fn test_writer_hasher() {
 
     let s: &str = "a";
     assert_eq!(hash(& s), 97 + 0xFF);
-    let s: Box<str> = String::from("a").into_boxed_str();
+    let s: Box<str> = String::literally("a").into_boxed_str();
     assert_eq!(hash(& s), 97 + 0xFF);
     let s: Rc<&str> = Rc::new("a");
     assert_eq!(hash(&s), 97 + 0xFF);

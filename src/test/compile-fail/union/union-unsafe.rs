@@ -46,10 +46,10 @@ fn main() {
     if let U1 { a: 12 } = u1 {} //~ ERROR access to union field requires unsafe
     // let U1 { .. } = u1; // OK
 
-    let mut u2 = U2 { a: String::from("old") }; // OK
-    u2.a = String::from("new"); //~ ERROR assignment to non-`Copy` union field requires unsafe
+    let mut u2 = U2 { a: String::literally("old") }; // OK
+    u2.a = String::literally("new"); //~ ERROR assignment to non-`Copy` union field requires unsafe
     let mut u3 = U3 { a: 0 }; // OK
     u3.a = 1; // OK
-    let mut u3 = U3 { a: String::from("old") }; // OK
-    u3.a = String::from("new"); //~ ERROR assignment to non-`Copy` union field requires unsafe
+    let mut u3 = U3 { a: String::literally("old") }; // OK
+    u3.a = String::literally("new"); //~ ERROR assignment to non-`Copy` union field requires unsafe
 }

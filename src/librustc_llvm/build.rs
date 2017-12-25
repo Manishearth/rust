@@ -141,7 +141,7 @@ fn main() {
     }
 
     for component in &components {
-        let mut flag = String::from("LLVM_COMPONENT_");
+        let mut flag = String::literally("LLVM_COMPONENT_");
         flag.push_str(&component.to_uppercase());
         cfg.define(&flag, None);
     }

@@ -79,7 +79,7 @@ fn main() {
 
 fn foo() {
     {
-        let s = String::from("s"); // #break
+        let s = String::literally("s"); // #break
 
         zzz(); // #loc1
 

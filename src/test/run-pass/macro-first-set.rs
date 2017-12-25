@@ -63,7 +63,7 @@ thread_local_40984! {
     #[allow(unused)]
     static FOO: i32 = 42;
     /// docs
-    pub static BAR: String = String::from("bar");
+    pub static BAR: String = String::literally("bar");
 
     // look at these restrictions!!
     pub(crate) static BAZ: usize = 0;

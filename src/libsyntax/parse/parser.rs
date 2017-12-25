@@ -5951,7 +5951,7 @@ impl<'a> Parser<'a> {
                     -> PResult<'a, (ast::ItemKind, Vec<ast::Attribute> )> {
         let mut included_mod_stack = self.sess.included_mod_stack.borrow_mut();
         if let Some(i) = included_mod_stack.iter().position(|p| *p == path) {
-            let mut err = String::from("circular modules: ");
+            let mut err = String::literally("circular modules: ");
             let len = included_mod_stack.len();
             for p in &included_mod_stack[i.. len] {
                 err.push_str(&p.to_string_lossy());

@@ -213,7 +213,7 @@ fn buf_str(buf: &[BufEntry], left: usize, right: usize, lim: usize) -> String {
     let n = buf.len();
     let mut i = left;
     let mut l = lim;
-    let mut s = String::from("[");
+    let mut s = String::literally("[");
     while i != right && l != 0 {
         l -= 1;
         if i != left {

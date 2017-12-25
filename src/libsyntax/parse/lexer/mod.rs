@@ -1285,7 +1285,7 @@ impl<'a> StringReader<'a> {
                     if self.ch_is('\'') {
                         panic!(self.fatal_span_verbose(
                                start_with_quote, self.next_pos,
-                               String::from("character literal may only contain one codepoint")));
+                               String::literally("character literal may only contain one codepoint")));
 
                     }
 
@@ -1334,7 +1334,7 @@ impl<'a> StringReader<'a> {
                     }
                     panic!(self.fatal_span_verbose(
                            start_with_quote, pos,
-                           String::from("character literal may only contain one codepoint")));
+                           String::literally("character literal may only contain one codepoint")));
                 }
 
                 let id = if valid {

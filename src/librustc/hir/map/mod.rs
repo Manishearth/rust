@@ -1169,7 +1169,7 @@ fn node_id_to_string(map: &Map, id: NodeId, include_id: bool) -> String {
                     elem.data.to_string()
                 }).collect::<Vec<_>>().join("::")
             } else {
-                String::from("<missing path>")
+                String::literally("<missing path>")
             }
         })
     };

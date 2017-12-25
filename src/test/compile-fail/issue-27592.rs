@@ -23,7 +23,7 @@ impl ::std::fmt::Write for Stream {
 }
 
 fn main() {
-    write(|| format_args!("{}", String::from("Hello world")));
+    write(|| format_args!("{}", String::literally("Hello world")));
     //~^ ERROR borrowed value does not live long enough
     //~| ERROR borrowed value does not live long enough
 }

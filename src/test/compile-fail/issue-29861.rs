@@ -23,7 +23,7 @@ impl<'a, T: 'a> MakeRef2 for T {
     type Ref2 = <T as MakeRef<'a>>::Ref;
 }
 
-fn foo() -> <String as MakeRef2>::Ref2 { &String::from("foo") }
+fn foo() -> <String as MakeRef2>::Ref2 { &String::literally("foo") }
 
 fn main() {
     println!("{}", foo());

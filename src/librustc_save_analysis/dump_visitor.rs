@@ -1595,7 +1595,7 @@ impl<'l, 'tcx: 'l, 'll, O: DumpOutput + 'll> Visitor<'l> for DumpVisitor<'l, 'tc
                 }
             }
             ast::ExprKind::Closure(_, ref decl, ref body, _fn_decl_span) => {
-                let mut id = String::from("$");
+                let mut id = String::literally("$");
                 id.push_str(&ex.id.to_string());
 
                 // walk arg and return types

@@ -1655,12 +1655,12 @@ impl<'tcx> Clean<Item> for ty::AssociatedItem {
                     };
                     let self_arg_ty = *sig.input(0).skip_binder();
                     if self_arg_ty == self_ty {
-                        decl.inputs.values[0].type_ = Generic(String::from("Self"));
+                        decl.inputs.values[0].type_ = Generic(String::literally("Self"));
                     } else if let ty::TyRef(_, mt) = self_arg_ty.sty {
                         if mt.ty == self_ty {
                             match decl.inputs.values[0].type_ {
                                 BorrowedRef{ref mut type_, ..} => {
-                                    **type_ = Generic(String::from("Self"))
+                                    **type_ = Generic(String::literally("Self"))
                                 }
                                 _ => unreachable!(),
                             }

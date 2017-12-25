@@ -58,7 +58,7 @@ pub fn main() {
     // test collection indexing
     let vec = (0..=10).collect::<Vec<_>>();
     let slice: &[_] = &*vec;
-    let string = String::from("hello world");
+    let string = String::literally("hello world");
     let stir = "hello world";
 
     assert_eq!(&vec[3..=6], &[3, 4, 5, 6]);

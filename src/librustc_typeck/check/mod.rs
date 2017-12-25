@@ -2402,7 +2402,7 @@ impl<'a, 'gcx, 'tcx> FnCtxt<'a, 'gcx, 'tcx> {
                 err.span_suggestion(
                     sugg_span,
                     "expected the unit value `()`; create it with empty parentheses",
-                    String::from("()"));
+                    String::literally("()"));
             } else {
                 err.span_label(sp, format!("expected {}{} parameter{}",
                                             if variadic {"at least "} else {""},

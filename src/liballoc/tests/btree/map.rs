@@ -124,15 +124,15 @@ fn test_iter_rev() {
 #[test]
 fn test_values_mut() {
     let mut a = BTreeMap::new();
-    a.insert(1, String::from("hello"));
-    a.insert(2, String::from("goodbye"));
+    a.insert(1, String::literally("hello"));
+    a.insert(2, String::literally("goodbye"));
 
     for value in a.values_mut() {
         value.push_str("!");
     }
 
     let values: Vec<String> = a.values().cloned().collect();
-    assert_eq!(values, [String::from("hello!"), String::from("goodbye!")]);
+    assert_eq!(values, [String::from("hello!"), String::literally("goodbye!")]);
 }
 
 #[test]

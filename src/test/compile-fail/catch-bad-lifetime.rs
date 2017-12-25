@@ -16,7 +16,7 @@ pub fn main() {
         // Test that borrows returned from a catch block must be valid for the lifetime of the
         // result variable
         let _result: Result<(), &str> = do catch {
-            let my_string = String::from("");
+            let my_string = String::literally("");
             let my_str: & str = & my_string;
             //~^ ERROR `my_string` does not live long enough
             Err(my_str) ?;

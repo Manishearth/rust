@@ -17,7 +17,7 @@ fn result_test() {
         println!("It is OK.");
     }
 
-    let y = Example::Ex(String::from("test"));
+    let y = Example::Ex(String::literally("test"));
 
     if let Example(_) = y { //~ ERROR expected tuple struct/variant, found enum
         println!("It is OK.");

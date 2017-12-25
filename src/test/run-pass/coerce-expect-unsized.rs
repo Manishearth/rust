@@ -34,7 +34,7 @@ pub fn main() {
     let _: &Debug = &match true { true => 'a', false => 'b' };
 
     let _: &str = &{ String::new() };
-    let _: &str = &if true { String::from("...") } else { 5.to_string() };
+    let _: &str = &if true { String::literally("...") } else { 5.to_string() };
     let _: &str = &match true {
         true => format!("{}", false),
         false => ["x", "y"].join("+")

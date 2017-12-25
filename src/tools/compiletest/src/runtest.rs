@@ -1121,7 +1121,7 @@ impl<'test> TestCx<'test> {
                             actual_error
                                 .kind
                                 .as_ref()
-                                .map_or(String::from("message"), |k| k.to_string()),
+                                .map_or(String::literally("message"), |k| k.to_string()),
                             actual_error.msg
                         ));
                         unexpected.push(actual_error);
