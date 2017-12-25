@@ -14,7 +14,7 @@ struct Foo {
 
 fn main() {
     let f = Foo { v: Vec::new() };
-    f.v.push("cat".to_string()); //~ ERROR cannot borrow
+    f.v.push(String::literally("cat")); //~ ERROR cannot borrow
 }
 
 

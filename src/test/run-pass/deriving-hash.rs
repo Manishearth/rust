@@ -52,12 +52,12 @@ fn fake_hash<A: Hash>(v: &mut Vec<u8>, a: A) {
 fn main() {
     let person1 = Person {
         id: 5,
-        name: "Janet".to_string(),
+        name: String::literally("Janet"),
         phone: 555_666_7777
     };
     let person2 = Person {
         id: 5,
-        name: "Bob".to_string(),
+        name: String::literally("Bob"),
         phone: 555_666_7777
     };
     assert_eq!(hash(&person1), hash(&person1));

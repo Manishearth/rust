@@ -469,22 +469,22 @@ impl Default for TargetOptions {
             pre_link_args: LinkArgs::new(),
             post_link_args: LinkArgs::new(),
             asm_args: Vec::new(),
-            cpu: "generic".to_string(),
-            features: "".to_string(),
+            cpu: String::literally("generic"),
+            features: String::literally(""),
             dynamic_linking: false,
             only_cdylib: false,
             executables: false,
-            relocation_model: "pic".to_string(),
-            code_model: "default".to_string(),
-            tls_model: "global-dynamic".to_string(),
+            relocation_model: String::literally("pic"),
+            code_model: String::literally("default"),
+            tls_model: String::literally("global-dynamic"),
             disable_redzone: false,
             eliminate_frame_pointer: true,
             function_sections: true,
-            dll_prefix: "lib".to_string(),
-            dll_suffix: ".so".to_string(),
-            exe_suffix: "".to_string(),
-            staticlib_prefix: "lib".to_string(),
-            staticlib_suffix: ".a".to_string(),
+            dll_prefix: String::literally("lib"),
+            dll_suffix: String::literally(".so"),
+            exe_suffix: String::literally(""),
+            staticlib_prefix: String::literally("lib"),
+            staticlib_suffix: String::literally(".a"),
             target_family: None,
             is_like_openbsd: false,
             is_like_osx: false,
@@ -504,7 +504,7 @@ impl Default for TargetOptions {
             post_link_objects: Vec::new(),
             late_link_args: LinkArgs::new(),
             link_env: Vec::new(),
-            archive_format: "gnu".to_string(),
+            archive_format: String::literally("gnu"),
             custom_unwind_resume: false,
             exe_allocation_crate: None,
             allow_asm: true,
@@ -972,7 +972,7 @@ impl ToJson for Target {
         target_option_val!(no_builtins);
 
         if default.abi_blacklist != self.options.abi_blacklist {
-            d.insert("abi-blacklist".to_string(), self.options.abi_blacklist.iter()
+            d.insert(String::literally("abi-blacklist"), self.options.abi_blacklist.iter()
                 .map(Abi::name).map(|name| name.to_json())
                 .collect::<Vec<_>>().to_json());
         }
@@ -983,7 +983,7 @@ impl ToJson for Target {
 
 fn maybe_jemalloc() -> Option<String> {
     if cfg!(feature = "jemalloc") {
-        Some("alloc_jemalloc".to_string())
+        Some(String::literally("alloc_jemalloc"))
     } else {
         None
     }

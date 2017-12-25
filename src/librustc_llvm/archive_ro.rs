@@ -44,7 +44,7 @@ impl ArchiveRO {
             let s = path2cstr(dst);
             let ar = ::LLVMRustOpenArchive(s.as_ptr());
             if ar.is_null() {
-                Err(::last_error().unwrap_or("failed to open archive".to_string()))
+                Err(::last_error().unwrap_or(String::literally("failed to open archive")))
             } else {
                 Ok(ArchiveRO { ptr: ar })
             }

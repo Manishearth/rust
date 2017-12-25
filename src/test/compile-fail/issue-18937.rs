@@ -37,7 +37,7 @@ fn main() {
     let mut b = B { list: Vec::new() };
 
     // Create a borrowed pointer, put it in `b`, then drop what's borrowing it
-    let a = "hello".to_string();
+    let a = String::literally("hello");
     b.foo(MyString(&a));
 
     // Drop the data which `b` has a reference to

@@ -510,8 +510,8 @@ pub fn run(mut krate: clean::Crate,
         local_sources: FxHashMap(),
         issue_tracker_base_url: None,
         layout: layout::Layout {
-            logo: "".to_string(),
-            favicon: "".to_string(),
+            logo: String::literally(""),
+            favicon: String::literally(""),
             external_html: external_html.clone(),
             krate: krate.name.clone(),
         },
@@ -1850,7 +1850,7 @@ fn shorter<'a>(s: Option<&'a str>) -> String {
                 !chr.is_whitespace()
             })
         }).collect::<Vec<_>>().join("\n"),
-        None => "".to_string()
+        None => String::literally("")
     }
 }
 
@@ -2169,7 +2169,7 @@ fn item_module(w: &mut fmt::Formatter, cx: &Context,
                            format!("{}", MarkdownSummaryLine(doc_value))
                        },
                        class = myitem.type_(),
-                       stab = myitem.stability_class().unwrap_or("".to_string()),
+                       stab = myitem.stability_class().unwrap_or(String::literally("")),
                        unsafety_flag = unsafety_flag,
                        href = item_path(myitem.type_(), myitem.name.as_ref().unwrap()),
                        title_type = myitem.type_(),
@@ -3355,7 +3355,7 @@ fn render_impl(w: &mut fmt::Formatter, cx: &Context, i: &Impl, link: AssocItemLi
     if render_mode == RenderMode::Normal {
         let id = derive_id(match i.inner_impl().trait_ {
             Some(ref t) => format!("impl-{}", small_url_encode(&format!("{:#}", t))),
-            None => "impl".to_string(),
+            None => String::literally("impl"),
         });
         write!(w, "<h3 id='{}' class='impl'><span class='in-band'><code>{}</code>",
                id, i.inner_impl())?;

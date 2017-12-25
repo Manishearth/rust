@@ -436,7 +436,7 @@ fn resolved_path(w: &mut fmt::Formatter, did: DefId, path: &clean::Path,
                  print_all: bool, use_absolute: bool) -> fmt::Result {
     let last = path.segments.last().unwrap();
     let rel_root = match &*path.segments[0].name {
-        "self" => Some("./".to_string()),
+        "self" => Some(String::literally("./")),
         _ => None,
     };
 
@@ -635,13 +635,13 @@ fn fmt_type(t: &clean::Type, f: &mut fmt::Formatter, use_absolute: bool) -> fmt:
         clean::BorrowedRef{ lifetime: ref l, mutability, type_: ref ty} => {
             let lt = match *l {
                 Some(ref l) => format!("{} ", *l),
-                _ => "".to_string(),
+                _ => String::literally(""),
             };
             let m = MutableSpace(mutability);
             let amp = if f.alternate() {
-                "&".to_string()
+                String::literally("&")
             } else {
-                "&amp;".to_string()
+                String::literally("&amp;")
             };
             match **ty {
                 clean::Slice(ref bt) => { // BorrowedRef{ ... Slice(T) } is &[T]

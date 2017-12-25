@@ -189,17 +189,17 @@ impl<'a, 'tcx, M: Machine<'tcx>> Memory<'a, 'tcx, M> {
             Some(alloc) => alloc,
             None => if self.uninitialized_statics.contains_key(&ptr.alloc_id.0) {
                 return err!(DeallocatedWrongMemoryKind(
-                    "uninitializedstatic".to_string(),
+                    String::literally("uninitializedstatic"),
                     format!("{:?}", kind),
                 ))
             } else if self.tcx.interpret_interner.borrow().get_fn(ptr.alloc_id.0).is_some() {
                 return err!(DeallocatedWrongMemoryKind(
-                    "function".to_string(),
+                    String::literally("function"),
                     format!("{:?}", kind),
                 ))
             } else if self.tcx.interpret_interner.borrow().get_alloc(ptr.alloc_id.0).is_some() {
                 return err!(DeallocatedWrongMemoryKind(
-                    "static".to_string(),
+                    String::literally("static"),
                     format!("{:?}", kind),
                 ))
             } else {

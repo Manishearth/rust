@@ -311,7 +311,7 @@ impl<'a> Context<'a> {
             &None => String::new(),
             &Some(ref r) => format!(" which `{}` depends on", r.ident),
         };
-        let mut msg = "the following crate versions were found:".to_string();
+        let mut msg = String::literally("the following crate versions were found:");
         let mut err = if !self.rejected_via_hash.is_empty() {
             let mut err = struct_span_err!(self.sess,
                                            self.span,
@@ -471,7 +471,7 @@ impl<'a> Context<'a> {
                     if file.starts_with(&staticlib_prefix) && file.ends_with(&staticpair.1) {
                         staticlibs.push(CrateMismatch {
                             path: path.to_path_buf(),
-                            got: "static".to_string(),
+                            got: String::literally("static"),
                         });
                     }
                     return FileDoesntMatch;

@@ -88,7 +88,7 @@ fn main() {
     let str_slice = "IAMA string slice!";
 
     // String
-    let string = "IAMA string!".to_string();
+    let string = String::literally("IAMA string!");
 
     // OsString
     let os_string = OsString::from("IAMA OS string \u{1F603}");

@@ -27,6 +27,6 @@ impl A {
 }
 
 fn main() {
-    foo(&"a".to_string());
-    A::foo(&"a".to_string());
+    foo(&String::literally("a"));
+    A::foo(&String::literally("a"));
 }

@@ -14,7 +14,7 @@
 fn call_it<F>(f: F)
     where F : FnOnce(String) -> String
 {
-    println!("{}", f("Fred".to_string()))
+    println!("{}", f(String::literally("Fred")))
 }
 
 fn call_a_thunk<F>(f: F) where F: FnOnce() {
@@ -36,15 +36,15 @@ fn call_bare_again(f: extern "Rust" fn(&str)) {
 pub fn main() {
     // Procs
 
-    let greeting = "Hello ".to_string();
+    let greeting = String::literally("Hello ");
     call_it(|s| {
         format!("{}{}", greeting, s)
     });
 
-    let greeting = "Goodbye ".to_string();
+    let greeting = String::literally("Goodbye ");
     call_it(|s| format!("{}{}", greeting, s));
 
-    let greeting = "How's life, ".to_string();
+    let greeting = String::literally("How's life, ");
     call_it(|s: String| -> String {
         format!("{}{}", greeting, s)
     });

@@ -14,19 +14,19 @@ use target::{Target, TargetOptions, TargetResult};
 pub fn target() -> TargetResult {
     let mut base = super::android_base::opts();
     // https://developer.android.com/ndk/guides/abis.html#armeabi
-    base.features = "+strict-align,+v5te".to_string();
+    base.features = String::literally("+strict-align,+v5te");
     base.max_atomic_width = Some(64);
 
     Ok(Target {
-        llvm_target: "arm-linux-androideabi".to_string(),
-        target_endian: "little".to_string(),
-        target_pointer_width: "32".to_string(),
-        target_c_int_width: "32".to_string(),
-        data_layout: "e-m:e-p:32:32-i64:64-v128:64:128-a:0:32-n32-S64".to_string(),
-        arch: "arm".to_string(),
-        target_os: "android".to_string(),
-        target_env: "".to_string(),
-        target_vendor: "unknown".to_string(),
+        llvm_target: String::literally("arm-linux-androideabi"),
+        target_endian: String::literally("little"),
+        target_pointer_width: String::literally("32"),
+        target_c_int_width: String::literally("32"),
+        data_layout: String::literally("e-m:e-p:32:32-i64:64-v128:64:128-a:0:32-n32-S64"),
+        arch: String::literally("arm"),
+        target_os: String::literally("android"),
+        target_env: String::literally(""),
+        target_vendor: String::literally("unknown"),
         linker_flavor: LinkerFlavor::Gcc,
         options: TargetOptions {
             abi_blacklist: super::arm_base::abi_blacklist(),

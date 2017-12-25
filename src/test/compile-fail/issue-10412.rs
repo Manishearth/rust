@@ -26,7 +26,7 @@ impl<'self> Serializable<str> for &'self str { //~ ERROR lifetimes cannot use ke
 
 fn main() {
     println!("hello");
-    let x = "foo".to_string();
+    let x = String::literally("foo");
     let y = x;
     println!("{}", y);
 }

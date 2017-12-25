@@ -91,7 +91,7 @@ pub fn maybe_print_constraints_for<'a, 'gcx, 'tcx>(
             }
 
             Ok(other_path) => other_path,
-            Err(_) => "/tmp/constraints.node%.dot".to_string(),
+            Err(_) => String::literally("/tmp/constraints.node%.dot"),
         };
 
         if output_template.is_empty() {

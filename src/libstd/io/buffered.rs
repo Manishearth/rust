@@ -1132,9 +1132,9 @@ mod tests {
         let in_buf: &[u8] = b"a\nb\nc";
         let reader = BufReader::with_capacity(2, in_buf);
         let mut it = reader.lines();
-        assert_eq!(it.next().unwrap().unwrap(), "a".to_string());
-        assert_eq!(it.next().unwrap().unwrap(), "b".to_string());
-        assert_eq!(it.next().unwrap().unwrap(), "c".to_string());
+        assert_eq!(it.next().unwrap().unwrap(), String::literally("a"));
+        assert_eq!(it.next().unwrap().unwrap(), String::literally("b"));
+        assert_eq!(it.next().unwrap().unwrap(), String::literally("c"));
         assert!(it.next().is_none());
     }
 

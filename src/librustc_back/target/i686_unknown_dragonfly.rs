@@ -13,21 +13,21 @@ use target::{Target, TargetResult};
 
 pub fn target() -> TargetResult {
     let mut base = super::dragonfly_base::opts();
-    base.cpu = "pentium4".to_string();
+    base.cpu = String::literally("pentium4");
     base.max_atomic_width = Some(64);
-    base.pre_link_args.get_mut(&LinkerFlavor::Gcc).unwrap().push("-m32".to_string());
+    base.pre_link_args.get_mut(&LinkerFlavor::Gcc).unwrap().push(String::literally("-m32"));
     base.stack_probes = true;
 
     Ok(Target {
-        llvm_target: "i686-unknown-dragonfly".to_string(),
-        target_endian: "little".to_string(),
-        target_pointer_width: "32".to_string(),
-        target_c_int_width: "32".to_string(),
-        data_layout: "e-m:e-p:32:32-f64:32:64-f80:32-n8:16:32-S128".to_string(),
-        arch: "x86".to_string(),
-        target_os: "dragonfly".to_string(),
-        target_env: "".to_string(),
-        target_vendor: "unknown".to_string(),
+        llvm_target: String::literally("i686-unknown-dragonfly"),
+        target_endian: String::literally("little"),
+        target_pointer_width: String::literally("32"),
+        target_c_int_width: String::literally("32"),
+        data_layout: String::literally("e-m:e-p:32:32-f64:32:64-f80:32-n8:16:32-S128"),
+        arch: String::literally("x86"),
+        target_os: String::literally("dragonfly"),
+        target_env: String::literally(""),
+        target_vendor: String::literally("unknown"),
         linker_flavor: LinkerFlavor::Gcc,
         options: base,
     })

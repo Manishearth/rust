@@ -1313,7 +1313,7 @@ struct Foo<'a, T> {
 }
 
 fn main() {
-    let v = "42".to_string();
+    let v = String::literally("42");
     let f = Foo{foo: &v};
     drop(v);
     println!("{}", f.foo); // but we've already dropped v!

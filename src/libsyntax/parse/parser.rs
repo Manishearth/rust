@@ -397,11 +397,11 @@ impl TokenType {
         match *self {
             TokenType::Token(ref t) => format!("`{}`", Parser::token_to_string(t)),
             TokenType::Keyword(kw) => format!("`{}`", kw.name()),
-            TokenType::Operator => "an operator".to_string(),
-            TokenType::Lifetime => "lifetime".to_string(),
-            TokenType::Ident => "identifier".to_string(),
-            TokenType::Path => "path".to_string(),
-            TokenType::Type => "type".to_string(),
+            TokenType::Operator => String::literally("an operator"),
+            TokenType::Lifetime => String::literally("lifetime"),
+            TokenType::Ident => String::literally("identifier"),
+            TokenType::Path => String::literally("path"),
+            TokenType::Type => String::literally("type"),
         }
     }
 }
@@ -660,7 +660,7 @@ impl<'a> Parser<'a> {
             let mut i = tokens.iter();
             // This might be a sign we need a connect method on Iterator.
             let b = i.next()
-                     .map_or("".to_string(), |t| t.to_string());
+                     .map_or(String::literally(""), |t| t.to_string());
             i.enumerate().fold(b, |mut b, (i, a)| {
                 if tokens.len() > 2 && i == tokens.len() - 2 {
                     b.push_str(", or ");
@@ -699,7 +699,7 @@ impl<'a> Parser<'a> {
                  (self.prev_span.next_point(), format!("expected one of {} here", short_expect)))
             } else if expected.is_empty() {
                 (format!("unexpected token: `{}`", actual),
-                 (self.prev_span, "unexpected token after this".to_string()))
+                 (self.prev_span, String::literally("unexpected token after this")))
             } else {
                 (format!("expected {}, found `{}`", expect, actual),
                  (self.prev_span.next_point(), format!("expected {} here", expect)))
@@ -2898,7 +2898,7 @@ impl<'a> Parser<'a> {
                         if cur_pos.line != op_pos.line {
                             err.span_suggestion_short(cur_op_span,
                                                       "did you mean to use `;` here?",
-                                                      ";".to_string());
+                                                      String::literally(";"));
                         }
                         return Err(err);
                     }
@@ -3853,7 +3853,7 @@ impl<'a> Parser<'a> {
                 // typo in the code: `:` instead of `=`. Add suggestion and emit the error.
                 err.span_suggestion_short(colon_sp,
                                           "use `=` if you meant to assign",
-                                          "=".to_string());
+                                          String::literally("="));
                 err.emit();
                 // As this was parsed successfuly, continue as if the code has been fixed for the
                 // rest of the file. It will still fail due to the emitted error, but we avoid
@@ -5696,7 +5696,7 @@ impl<'a> Parser<'a> {
             let mut err = self.fatal(&format!("expected item, found `{}`", token_str));
             let msg = "consider removing this semicolon";
             if token_str == ";" {
-                err.span_suggestion_short(self.span, msg, "".to_string());
+                err.span_suggestion_short(self.span, msg, String::literally(""));
             }
             return Err(err);
         }

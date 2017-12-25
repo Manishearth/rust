@@ -19,7 +19,7 @@ trait ToStr2 {
 }
 
 impl ToStr2 for T {
-    fn my_to_string(&self) -> String { "t".to_string() }
+    fn my_to_string(&self) -> String { String::literally("t") }
 }
 
 #[allow(dead_code)]

@@ -14,5 +14,5 @@ fn my_err(s: String) -> ! {
     panic!("quux");
 }
 fn main() {
-    3_usize == my_err("bye".to_string());
+    3_usize == my_err(String::literally("bye"));
 }

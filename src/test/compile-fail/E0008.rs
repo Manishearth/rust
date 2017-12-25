@@ -9,7 +9,7 @@
 // except according to those terms.
 
 fn main() {
-    match Some("hi".to_string()) {
+    match Some(String::literally("hi")) {
         Some(s) if s.len() == 0 => {},
         //~^ ERROR E0008
         _ => {},

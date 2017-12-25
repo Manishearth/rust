@@ -39,7 +39,7 @@ impl<'a, 'tcx> CheckVisitor<'a, 'tcx> {
         let msg = if let Ok(snippet) = self.tcx.sess.codemap().span_to_snippet(span) {
             format!("unused import: `{}`", snippet)
         } else {
-            "unused import".to_string()
+            String::literally("unused import")
         };
         self.tcx.lint_node(lint::builtin::UNUSED_IMPORTS, id, span, &msg);
     }

@@ -22,7 +22,7 @@ fn parse_args() -> String {
         n += 1;
     }
 
-    return "".to_string()
+    return String::literally("")
 }
 
 pub fn main() {

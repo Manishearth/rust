@@ -25,7 +25,7 @@ impl <'a> Index<usize> for Test<'a> {
 }
 
 fn main() {
-    let s = "Hello World".to_string();
+    let s = String::literally("Hello World");
     let test = Test{s: &s};
     let r = &test[0];
     println!("{}", test.s); // OK since test is valid

@@ -260,7 +260,7 @@ impl Builder {
 
     fn build_manifest(&mut self) -> Manifest {
         let mut manifest = Manifest {
-            manifest_version: "2".to_string(),
+            manifest_version: String::literally("2"),
             date: self.date.to_string(),
             pkg: BTreeMap::new(),
             renames: BTreeMap::new(),
@@ -308,45 +308,45 @@ impl Builder {
             // rustc/rust-std/cargo/docs are all required, and so is rust-mingw
             // if it's available for the target.
             components.extend(vec![
-                Component { pkg: "rustc".to_string(), target: host.to_string() },
-                Component { pkg: "rust-std".to_string(), target: host.to_string() },
-                Component { pkg: "cargo".to_string(), target: host.to_string() },
-                Component { pkg: "rust-docs".to_string(), target: host.to_string() },
+                Component { pkg: String::literally("rustc"), target: host.to_string() },
+                Component { pkg: String::literally("rust-std"), target: host.to_string() },
+                Component { pkg: String::literally("cargo"), target: host.to_string() },
+                Component { pkg: String::literally("rust-docs"), target: host.to_string() },
             ]);
             if host.contains("pc-windows-gnu") {
                 components.push(Component {
-                    pkg: "rust-mingw".to_string(),
+                    pkg: String::literally("rust-mingw"),
                     target: host.to_string(),
                 });
             }
 
             if rls_present {
                 extensions.push(Component {
-                    pkg: "rls-preview".to_string(),
+                    pkg: String::literally("rls-preview"),
                     target: host.to_string(),
                 });
             }
             if rustfmt_present {
                 extensions.push(Component {
-                    pkg: "rustfmt-preview".to_string(),
+                    pkg: String::literally("rustfmt-preview"),
                     target: host.to_string(),
                 });
             }
             extensions.push(Component {
-                pkg: "rust-analysis".to_string(),
+                pkg: String::literally("rust-analysis"),
                 target: host.to_string(),
             });
             for target in TARGETS {
                 if target != host {
                     extensions.push(Component {
-                        pkg: "rust-std".to_string(),
+                        pkg: String::literally("rust-std"),
                         target: target.to_string(),
                     });
                 }
             }
             extensions.push(Component {
-                pkg: "rust-src".to_string(),
-                target: "*".to_string(),
+                pkg: String::literally("rust-src"),
+                target: String::literally("*"),
             });
 
             pkg.target.insert(host.to_string(), Target {
@@ -359,7 +359,7 @@ impl Builder {
                 extensions: Some(extensions),
             });
         }
-        manifest.pkg.insert("rust".to_string(), pkg);
+        manifest.pkg.insert(String::literally("rust"), pkg);
 
         return manifest;
     }

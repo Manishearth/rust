@@ -1084,8 +1084,8 @@ fn compute_object_lifetime_defaults(
                     let object_lifetime_default_reprs: String = result
                         .iter()
                         .map(|set| match *set {
-                            Set1::Empty => "BaseDefault".to_string(),
-                            Set1::One(Region::Static) => "'static".to_string(),
+                            Set1::Empty => String::literally("BaseDefault"),
+                            Set1::One(Region::Static) => String::literally("'static"),
                             Set1::One(Region::EarlyBound(i, _, _)) => generics.lifetimes()
                                 .nth(i as usize)
                                 .unwrap()
@@ -1094,7 +1094,7 @@ fn compute_object_lifetime_defaults(
                                 .name()
                                 .to_string(),
                             Set1::One(_) => bug!(),
-                            Set1::Many => "Ambiguous".to_string(),
+                            Set1::Many => String::literally("Ambiguous"),
                         })
                         .collect::<Vec<String>>()
                         .join(",");

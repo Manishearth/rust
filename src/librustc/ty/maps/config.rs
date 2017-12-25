@@ -313,31 +313,31 @@ impl<'tcx> QueryDescription<'tcx> for queries::is_const_fn<'tcx> {
 
 impl<'tcx> QueryDescription<'tcx> for queries::dylib_dependency_formats<'tcx> {
     fn describe(_: TyCtxt, _: CrateNum) -> String {
-        "dylib dependency formats of crate".to_string()
+        String::literally("dylib dependency formats of crate")
     }
 }
 
 impl<'tcx> QueryDescription<'tcx> for queries::is_panic_runtime<'tcx> {
     fn describe(_: TyCtxt, _: CrateNum) -> String {
-        "checking if the crate is_panic_runtime".to_string()
+        String::literally("checking if the crate is_panic_runtime")
     }
 }
 
 impl<'tcx> QueryDescription<'tcx> for queries::is_compiler_builtins<'tcx> {
     fn describe(_: TyCtxt, _: CrateNum) -> String {
-        "checking if the crate is_compiler_builtins".to_string()
+        String::literally("checking if the crate is_compiler_builtins")
     }
 }
 
 impl<'tcx> QueryDescription<'tcx> for queries::has_global_allocator<'tcx> {
     fn describe(_: TyCtxt, _: CrateNum) -> String {
-        "checking if the crate has_global_allocator".to_string()
+        String::literally("checking if the crate has_global_allocator")
     }
 }
 
 impl<'tcx> QueryDescription<'tcx> for queries::extern_crate<'tcx> {
     fn describe(_: TyCtxt, _: DefId) -> String {
-        "getting crate's ExternCrateData".to_string()
+        String::literally("getting crate's ExternCrateData")
     }
 }
 

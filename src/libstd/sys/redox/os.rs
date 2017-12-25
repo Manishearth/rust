@@ -50,7 +50,7 @@ pub fn error_string(errno: i32) -> String {
     if let Some(string) = syscall::STR_ERROR.get(errno as usize) {
         string.to_string()
     } else {
-        "unknown error".to_string()
+        String::literally("unknown error")
     }
 }
 

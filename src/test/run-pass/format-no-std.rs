@@ -22,16 +22,16 @@ use alloc::string::ToString;
 #[start]
 fn start(_argc: isize, _argv: *const *const u8) -> isize {
     let s = format!("{}", 1_isize);
-    assert_eq!(s, "1".to_string());
+    assert_eq!(s, String::literally("1"));
 
     let s = format!("test");
-    assert_eq!(s, "test".to_string());
+    assert_eq!(s, String::literally("test"));
 
     let s = format!("{test}", test=3_isize);
-    assert_eq!(s, "3".to_string());
+    assert_eq!(s, String::literally("3"));
 
     let s = format!("hello {}", "world");
-    assert_eq!(s, "hello world".to_string());
+    assert_eq!(s, String::literally("hello world"));
 
     0
 }

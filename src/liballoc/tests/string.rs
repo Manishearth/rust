@@ -318,7 +318,7 @@ fn test_str_add() {
 
 #[test]
 fn remove() {
-    let mut s = "ศไทย中华Việt Nam; foobar".to_string();
+    let mut s = String::literally("ศไทย中华Việt Nam; foobar");
     assert_eq!(s.remove(0), 'ศ');
     assert_eq!(s.len(), 33);
     assert_eq!(s, "ไทย中华Việt Nam; foobar");
@@ -329,7 +329,7 @@ fn remove() {
 #[test]
 #[should_panic]
 fn remove_bad() {
-    "ศ".to_string().remove(1);
+    String::literally("ศ").remove(1);
 }
 
 #[test]
@@ -354,7 +354,7 @@ fn test_retain() {
 
 #[test]
 fn insert() {
-    let mut s = "foobar".to_string();
+    let mut s = String::literally("foobar");
     s.insert(0, 'ệ');
     assert_eq!(s, "ệfoobar");
     s.insert(6, 'ย');
@@ -364,17 +364,17 @@ fn insert() {
 #[test]
 #[should_panic]
 fn insert_bad1() {
-    "".to_string().insert(1, 't');
+    String::literally("").insert(1, 't');
 }
 #[test]
 #[should_panic]
 fn insert_bad2() {
-    "ệ".to_string().insert(1, 't');
+    String::literally("ệ").insert(1, 't');
 }
 
 #[test]
 fn test_slicing() {
-    let s = "foobar".to_string();
+    let s = String::literally("foobar");
     assert_eq!("foobar", &s[..]);
     assert_eq!("foo", &s[..3]);
     assert_eq!("bar", &s[3..]);
@@ -389,7 +389,7 @@ fn test_simple_types() {
     assert_eq!(2.to_string(), "2");
     assert_eq!(true.to_string(), "true");
     assert_eq!(false.to_string(), "false");
-    assert_eq!(("hi".to_string()).to_string(), "hi");
+    assert_eq!((String::literally("hi")).to_string(), "hi");
 }
 
 #[test]
@@ -403,7 +403,7 @@ fn test_vectors() {
 
 #[test]
 fn test_from_iterator() {
-    let s = "ศไทย中华Việt Nam".to_string();
+    let s = String::literally("ศไทย中华Việt Nam");
     let t = "ศไทย中华";
     let u = "Việt Nam";
 
@@ -492,7 +492,7 @@ fn test_splice_unbounded() {
 
 #[test]
 fn test_extend_ref() {
-    let mut a = "foo".to_string();
+    let mut a = String::literally("foo");
     a.extend(&['b', 'a', 'r']);
 
     assert_eq!(&a, "foobar");

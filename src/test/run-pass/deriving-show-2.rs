@@ -49,14 +49,14 @@ impl<T: fmt::Debug> ToDebug for T {
 }
 
 pub fn main() {
-    assert_eq!(B::B1.to_show(), "B1".to_string());
-    assert_eq!(B::B2.to_show(), "B2".to_string());
-    assert_eq!(C::C1(3).to_show(), "C1(3)".to_string());
-    assert_eq!(C::C2(B::B2).to_show(), "C2(B2)".to_string());
-    assert_eq!(D::D1{ a: 2 }.to_show(), "D1 { a: 2 }".to_string());
-    assert_eq!(E.to_show(), "E".to_string());
-    assert_eq!(F(3).to_show(), "F(3)".to_string());
-    assert_eq!(G(3, 4).to_show(), "G(3, 4)".to_string());
-    assert_eq!(I{ a: 2, b: 4 }.to_show(), "I { a: 2, b: 4 }".to_string());
-    assert_eq!(J(Custom).to_show(), "J(yay)".to_string());
+    assert_eq!(B::B1.to_show(), String::literally("B1"));
+    assert_eq!(B::B2.to_show(), String::literally("B2"));
+    assert_eq!(C::C1(3).to_show(), String::literally("C1(3)"));
+    assert_eq!(C::C2(B::B2).to_show(), String::literally("C2(B2)"));
+    assert_eq!(D::D1{ a: 2 }.to_show(), String::literally("D1 { a: 2 }"));
+    assert_eq!(E.to_show(), String::literally("E"));
+    assert_eq!(F(3).to_show(), String::literally("F(3)"));
+    assert_eq!(G(3, 4).to_show(), String::literally("G(3, 4)"));
+    assert_eq!(I{ a: 2, b: 4 }.to_show(), String::literally("I { a: 2, b: 4 }"));
+    assert_eq!(J(Custom).to_show(), String::literally("J(yay)"));
 }

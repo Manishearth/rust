@@ -463,7 +463,7 @@ impl Clean<Item> for doctree::Module {
         let name = if self.name.is_some() {
             self.name.unwrap().clean(cx)
         } else {
-            "".to_string()
+            String::literally("")
         };
 
         let mut items: Vec<Item> = vec![];
@@ -998,7 +998,7 @@ impl Lifetime {
     }
 
     pub fn statik() -> Lifetime {
-        Lifetime("'static".to_string())
+        Lifetime(String::literally("'static"))
     }
 }
 
@@ -1401,7 +1401,7 @@ impl<'a> Clean<Arguments> for (&'a [P<hir::Ty>], &'a [Spanned<ast::Name>]) {
                 let mut name = self.1.get(i).map(|n| n.node.to_string())
                                             .unwrap_or(String::new());
                 if name.is_empty() {
-                    name = "_".to_string();
+                    name = String::literally("_");
                 }
                 Argument {
                     name,
@@ -1456,7 +1456,7 @@ impl<'a, 'tcx> Clean<FnDecl> for (DefId, ty::PolyFnSig<'tcx>) {
                 values: sig.skip_binder().inputs().iter().map(|t| {
                     Argument {
                         type_: t.clean(cx),
-                        name: names.next().map_or("".to_string(), |name| name.to_string()),
+                        name: names.next().map_or(String::literally(""), |name| name.to_string()),
                     }
                 }).collect(),
             },
@@ -3060,7 +3060,7 @@ impl Clean<Item> for hir::ForeignItem {
                 ForeignStaticItem(Static {
                     type_: ty.clean(cx),
                     mutability: if mutbl {Mutable} else {Immutable},
-                    expr: "".to_string(),
+                    expr: String::literally(""),
                 })
             }
             hir::ForeignItemType => {
@@ -3091,7 +3091,7 @@ impl ToSource for syntax_pos::Span {
         debug!("converting span {:?} to snippet", self.clean(cx));
         let sn = match cx.sess().codemap().span_to_snippet(*self) {
             Ok(x) => x.to_string(),
-            Err(_) => "".to_string()
+            Err(_) => String::literally("")
         };
         debug!("got snippet {}", sn);
         sn
@@ -3103,7 +3103,7 @@ fn name_from_pat(p: &hir::Pat) -> String {
     debug!("Trying to get a name from pattern: {:?}", p);
 
     match p.node {
-        PatKind::Wild => "_".to_string(),
+        PatKind::Wild => String::literally("_"),
         PatKind::Binding(_, _, ref p, _) => p.node.to_string(),
         PatKind::TupleStruct(ref p, ..) | PatKind::Path(ref p) => qpath_to_string(p),
         PatKind::Struct(ref name, ref fields, etc) => {
@@ -3121,7 +3121,7 @@ fn name_from_pat(p: &hir::Pat) -> String {
         PatKind::Lit(..) => {
             warn!("tried to get argument name from PatKind::Lit, \
                   which is silly in function arguments");
-            "()".to_string()
+            String::literally("()")
         },
         PatKind::Range(..) => panic!("tried to get argument name from PatKind::Range, \
                               which is not allowed in function arguments"),
@@ -3259,19 +3259,19 @@ impl Clean<Stability> for attr::Stability {
             feature: self.feature.to_string(),
             since: match self.level {
                 attr::Stable {ref since} => since.to_string(),
-                _ => "".to_string(),
+                _ => String::literally(""),
             },
             deprecated_since: match self.rustc_depr {
                 Some(attr::RustcDeprecation {ref since, ..}) => since.to_string(),
-                _=> "".to_string(),
+                _=> String::literally(""),
             },
             deprecated_reason: match self.rustc_depr {
                 Some(ref depr) => depr.reason.to_string(),
-                _ => "".to_string(),
+                _ => String::literally(""),
             },
             unstable_reason: match self.level {
                 attr::Unstable { reason: Some(ref reason), .. } => reason.to_string(),
-                _ => "".to_string(),
+                _ => String::literally(""),
             },
             issue: match self.level {
                 attr::Unstable {issue, ..} => Some(issue),
@@ -3290,8 +3290,8 @@ impl<'a> Clean<Stability> for &'a attr::Stability {
 impl Clean<Deprecation> for attr::Deprecation {
     fn clean(&self, _: &DocContext) -> Deprecation {
         Deprecation {
-            since: self.since.as_ref().map_or("".to_string(), |s| s.to_string()),
-            note: self.note.as_ref().map_or("".to_string(), |s| s.to_string()),
+            since: self.since.as_ref().map_or(String::literally(""), |s| s.to_string()),
+            note: self.note.as_ref().map_or(String::literally(""), |s| s.to_string()),
         }
     }
 }

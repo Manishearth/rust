@@ -2213,8 +2213,8 @@ mod tests {
 
         let buf = Cursor::new(&b"12\r\n\n"[..]);
         let mut s = buf.lines();
-        assert_eq!(s.next().unwrap().unwrap(), "12".to_string());
-        assert_eq!(s.next().unwrap().unwrap(), "".to_string());
+        assert_eq!(s.next().unwrap().unwrap(), String::literally("12"));
+        assert_eq!(s.next().unwrap().unwrap(), String::literally(""));
         assert!(s.next().is_none());
     }
 

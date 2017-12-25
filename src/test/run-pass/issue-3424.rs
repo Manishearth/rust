@@ -17,7 +17,7 @@ type rsrc_loader = Box<FnMut(&Path) -> Result<String, String>>;
 fn tester()
 {
     let mut loader: rsrc_loader = Box::new(move |_path| {
-        Ok("more blah".to_string())
+        Ok(String::literally("more blah"))
     });
 
     let path = Path;

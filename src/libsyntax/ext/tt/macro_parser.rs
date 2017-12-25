@@ -227,7 +227,7 @@ fn nameize<I: Iterator<Item=NamedMatch>>(sess: &ParseSess, ms: &[TokenTree], mut
             }
             TokenTree::MetaVarDecl(span, _, id) if id.name == keywords::Invalid.name() => {
                 if sess.missing_fragment_specifiers.borrow_mut().remove(&span) {
-                    return Err((span, "missing fragment specifier".to_string()));
+                    return Err((span, String::literally("missing fragment specifier")));
                 }
             }
             TokenTree::MetaVarDecl(sp, bind_name, _) => {
@@ -270,7 +270,7 @@ pub enum ParseResult<T> {
 
 pub fn parse_failure_msg(tok: Token) -> String {
     match tok {
-        token::Eof => "unexpected end of macro invocation".to_string(),
+        token::Eof => String::literally("unexpected end of macro invocation"),
         _ => format!("no rules expected the token `{}`", pprust::token_to_string(&tok)),
     }
 }
@@ -386,7 +386,7 @@ fn inner_parse_loop(sess: &ParseSess,
                 }
                 TokenTree::MetaVarDecl(span, _, id) if id.name == keywords::Invalid.name() => {
                     if sess.missing_fragment_specifiers.borrow_mut().remove(&span) {
-                        return Error(span, "missing fragment specifier".to_string());
+                        return Error(span, String::literally("missing fragment specifier"));
                     }
                 }
                 TokenTree::MetaVarDecl(_, _, id) => {
@@ -451,7 +451,7 @@ pub fn parse(sess: &ParseSess,
                 });
                 return nameize(sess, ms, matches);
             } else if eof_items.len() > 1 {
-                return Error(parser.span, "ambiguity: multiple successful parses".to_string());
+                return Error(parser.span, String::literally("ambiguity: multiple successful parses"));
             } else {
                 return Failure(parser.span, token::Eof);
             }

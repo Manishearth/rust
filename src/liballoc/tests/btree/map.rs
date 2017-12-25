@@ -283,14 +283,14 @@ fn test_range_1000() {
 #[test]
 fn test_range_borrowed_key() {
     let mut map = BTreeMap::new();
-    map.insert("aardvark".to_string(), 1);
-    map.insert("baboon".to_string(), 2);
-    map.insert("coyote".to_string(), 3);
-    map.insert("dingo".to_string(), 4);
+    map.insert(String::literally("aardvark"), 1);
+    map.insert(String::literally("baboon"), 2);
+    map.insert(String::literally("coyote"), 3);
+    map.insert(String::literally("dingo"), 4);
     // NOTE: would like to use simply "b".."d" here...
     let mut iter = map.range::<str, _>((Included("b"),Excluded("d")));
-    assert_eq!(iter.next(), Some((&"baboon".to_string(), &2)));
-    assert_eq!(iter.next(), Some((&"coyote".to_string(), &3)));
+    assert_eq!(iter.next(), Some((&String::literally("baboon"), &2)));
+    assert_eq!(iter.next(), Some((&String::literally("coyote"), &3)));
     assert_eq!(iter.next(), None);
 }
 
@@ -337,7 +337,7 @@ fn test_borrow() {
     // make sure these compile -- using the Borrow trait
     {
         let mut map = BTreeMap::new();
-        map.insert("0".to_string(), 1);
+        map.insert(String::literally("0"), 1);
         assert_eq!(map["0"], 1);
     }
 

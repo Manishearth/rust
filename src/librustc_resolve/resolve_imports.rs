@@ -611,7 +611,7 @@ impl<'a, 'b:'a> ImportResolver<'a, 'b> {
             match directive.subclass {
                 GlobImport { .. } if extern_absolute_paths => {
                     return Some((directive.span,
-                                 "cannot glob-import all possible crates".to_string()));
+                                 String::literally("cannot glob-import all possible crates")));
                 }
                 SingleImport { source, target, .. } => {
                     let crate_root = if source.name == keywords::Crate.name() {
@@ -687,7 +687,7 @@ impl<'a, 'b:'a> ImportResolver<'a, 'b> {
             GlobImport { .. } if module.def_id() == directive.parent.def_id() => {
                 // Importing a module into itself is not allowed.
                 return Some((directive.span,
-                             "Cannot glob-import a module into itself.".to_string()));
+                             String::literally("Cannot glob-import a module into itself.")));
             }
             GlobImport { is_prelude, ref max_vis } => {
                 if !is_prelude &&
@@ -1033,8 +1033,8 @@ fn import_path_to_string(names: &[SpannedIdent],
 fn import_directive_subclass_to_string(subclass: &ImportDirectiveSubclass) -> String {
     match *subclass {
         SingleImport { source, .. } => source.to_string(),
-        GlobImport { .. } => "*".to_string(),
-        ExternCrate(_) => "<extern crate>".to_string(),
-        MacroUse => "#[macro_use]".to_string(),
+        GlobImport { .. } => String::literally("*"),
+        ExternCrate(_) => String::literally("<extern crate>"),
+        MacroUse => String::literally("#[macro_use]"),
     }
 }

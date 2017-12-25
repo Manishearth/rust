@@ -15,18 +15,18 @@ use super::apple_ios_base::{opts, Arch};
 pub fn target() -> TargetResult {
     let base = opts(Arch::Armv7)?;
     Ok(Target {
-        llvm_target: "armv7-apple-ios".to_string(),
-        target_endian: "little".to_string(),
-        target_pointer_width: "32".to_string(),
-        target_c_int_width: "32".to_string(),
-        data_layout: "e-m:o-p:32:32-f64:32:64-v64:32:64-v128:32:128-a:0:32-n32-S32".to_string(),
-        arch: "arm".to_string(),
-        target_os: "ios".to_string(),
-        target_env: "".to_string(),
-        target_vendor: "apple".to_string(),
+        llvm_target: String::literally("armv7-apple-ios"),
+        target_endian: String::literally("little"),
+        target_pointer_width: String::literally("32"),
+        target_c_int_width: String::literally("32"),
+        data_layout: String::literally("e-m:o-p:32:32-f64:32:64-v64:32:64-v128:32:128-a:0:32-n32-S32"),
+        arch: String::literally("arm"),
+        target_os: String::literally("ios"),
+        target_env: String::literally(""),
+        target_vendor: String::literally("apple"),
         linker_flavor: LinkerFlavor::Gcc,
         options: TargetOptions {
-            features: "+v7,+vfp3,+neon".to_string(),
+            features: String::literally("+v7,+vfp3,+neon"),
             max_atomic_width: Some(64),
             abi_blacklist: super::arm_base::abi_blacklist(),
             .. base

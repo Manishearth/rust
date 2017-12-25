@@ -10,10 +10,10 @@
 
 
 pub fn main() {
-    assert_eq!(format!(concat!("foo", "bar", "{}"), "baz"), "foobarbaz".to_string());
-    assert_eq!(format!(concat!()), "".to_string());
+    assert_eq!(format!(concat!("foo", "bar", "{}"), "baz"), String::literally("foobarbaz"));
+    assert_eq!(format!(concat!()), String::literally(""));
     // check trailing comma is allowed in concat
-    assert_eq!(concat!("qux", "quux",).to_string(), "quxquux".to_string());
+    assert_eq!(concat!("qux", "quux",).to_string(), String::literally("quxquux"));
 
     assert_eq!(
         concat!(1, 2, 3, 4f32, 4.0, 'a', true),

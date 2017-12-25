@@ -12,8 +12,8 @@
 
 
 pub fn main() {
-    let a: String = "hello".to_string();
-    let b: String = "world".to_string();
+    let a: String = String::literally("hello");
+    let b: String = String::literally("world");
     let s: String = format!("{}{}", a, b);
     println!("{}", s.clone());
     assert_eq!(s.as_bytes()[9], 'd' as u8);

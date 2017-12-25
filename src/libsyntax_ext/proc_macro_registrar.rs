@@ -60,7 +60,7 @@ pub fn modify(sess: &ParseSess,
               is_test_crate: bool,
               num_crate_types: usize,
               handler: &errors::Handler) -> ast::Crate {
-    let ecfg = ExpansionConfig::default("proc_macro".to_string());
+    let ecfg = ExpansionConfig::default(String::literally("proc_macro"));
     let mut cx = ExtCtxt::new(sess, ecfg, resolver);
 
     let (derives, attr_macros, bang_macros) = {

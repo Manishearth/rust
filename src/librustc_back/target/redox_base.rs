@@ -22,16 +22,16 @@ pub fn opts() -> TargetOptions {
         // resolutions the linker does). This option only applies to all
         // following libraries so we're sure to pass it as one of the first
         // arguments.
-        "-Wl,--as-needed".to_string(),
+        String::literally("-Wl,--as-needed"),
 
         // Always enable NX protection when it is available
-        "-Wl,-z,noexecstack".to_string()
+        String::literally("-Wl,-z,noexecstack")
     ]);
 
     TargetOptions {
         pre_link_args: args,
         executables: true,
-        relocation_model: "static".to_string(),
+        relocation_model: String::literally("static"),
         disable_redzone: true,
         eliminate_frame_pointer: false,
         target_family: None,

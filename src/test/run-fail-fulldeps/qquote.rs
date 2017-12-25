@@ -28,7 +28,7 @@ fn main() {
     let mut resolver = syntax::ext::base::DummyResolver;
     let mut cx = syntax::ext::base::ExtCtxt::new(
         &ps,
-        syntax::ext::expand::ExpansionConfig::default("qquote".to_string()),
+        syntax::ext::expand::ExpansionConfig::default(String::literally("qquote")),
         &mut resolver);
     let cx = &mut cx;
 

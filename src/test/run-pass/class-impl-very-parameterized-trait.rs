@@ -102,9 +102,9 @@ impl<T> cat<T> {
 }
 
 pub fn main() {
-    let mut nyan: cat<String> = cat::new(0, 2, "nyan".to_string());
+    let mut nyan: cat<String> = cat::new(0, 2, String::literally("nyan"));
     for _ in 1_usize..5 { nyan.speak(); }
-    assert_eq!(*nyan.find(&1).unwrap(), "nyan".to_string());
+    assert_eq!(*nyan.find(&1).unwrap(), String::literally("nyan"));
     assert_eq!(nyan.find(&10), None);
     let mut spotty: cat<cat_type> = cat::new(2, 57, cat_type::tuxedo);
     for _ in 0_usize..6 { spotty.speak(); }

@@ -671,7 +671,7 @@ mod tests {
         test!('a', 'a');
         test!('!', '!');
         test!(b"H\xc3\x89".to_vec(), b"h\xc3\x89");
-        test!("HİKß".to_string(), "hİKß");
+        test!(String::literally("HİKß"), "hİKß");
     }
 
 
@@ -694,9 +694,9 @@ mod tests {
         test!('A', 'A');
         test!('!', '!');
         test!(b"h\xc3\xa9".to_vec(), b"H\xc3\xa9");
-        test!("hıKß".to_string(), "HıKß");
+        test!(String::literally("hıKß"), "HıKß");
 
-        let mut x = "Hello".to_string();
+        let mut x = String::literally("Hello");
         x[..3].make_ascii_uppercase();  // Test IndexMut on String.
         assert_eq!(x, "HELlo")
     }
@@ -721,7 +721,7 @@ mod tests {
 
     #[test]
     fn inference_works() {
-        let x = "a".to_string();
+        let x = String::literally("a");
         x.eq_ignore_ascii_case("A");
     }
 

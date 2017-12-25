@@ -424,7 +424,7 @@ impl CodeMap {
 
     pub fn span_to_string(&self, sp: Span) -> String {
         if self.files.borrow().is_empty() && sp.source_equal(&DUMMY_SP) {
-            return "no-location".to_string();
+            return String::literally("no-location");
         }
 
         let lo = self.lookup_char_pos_adj(sp.lo());
@@ -753,7 +753,7 @@ mod tests {
         let fm1 = cm.new_filemap(PathBuf::from("blork.rs").into(),
                                  "first line.\nsecond line".to_string());
         let fm2 = cm.new_filemap(PathBuf::from("empty.rs").into(),
-                                 "".to_string());
+                                 String::literally(""));
         let fm3 = cm.new_filemap(PathBuf::from("blork2.rs").into(),
                                  "first line.\nsecond line".to_string());
 
@@ -909,7 +909,7 @@ mod tests {
         let span = Span::new(BytePos(12), BytePos(23), NO_EXPANSION);
         let snippet = cm.span_to_snippet(span);
 
-        assert_eq!(snippet, Ok("second line".to_string()));
+        assert_eq!(snippet, Ok(String::literally("second line")));
     }
 
     #[test]

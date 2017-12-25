@@ -154,7 +154,7 @@ r##"<!DOCTYPE html>
     root_path = page.root_path,
     css_class = page.css_class,
     logo      = if layout.logo.is_empty() {
-        "".to_string()
+        String::literally("")
     } else {
         format!("<a href='{}{}/index.html'>\
                  <img src='{}' alt='logo' width='100'></a>",
@@ -165,7 +165,7 @@ r##"<!DOCTYPE html>
     description = page.description,
     keywords = page.keywords,
     favicon   = if layout.favicon.is_empty() {
-        "".to_string()
+        String::literally("")
     } else {
         format!(r#"<link rel="shortcut icon" href="{}">"#, layout.favicon)
     },

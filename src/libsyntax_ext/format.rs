@@ -253,8 +253,8 @@ impl<'a, 'b> Context<'a, 'b> {
 
     fn describe_num_args(&self) -> String {
         match self.args.len() {
-            0 => "no arguments were given".to_string(),
-            1 => "there is 1 argument".to_string(),
+            0 => String::literally("no arguments were given"),
+            1 => String::literally("there is 1 argument"),
             x => format!("there are {} arguments", x),
         }
     }

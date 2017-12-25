@@ -45,13 +45,13 @@ pub fn opts() -> TargetOptions {
         executables: true,
         // In 99%+ of cases, we want to use the `arm-none-eabi-gcc` compiler (there aren't many
         // options around)
-        linker: "arm-none-eabi-gcc".to_string(),
+        linker: String::literally("arm-none-eabi-gcc"),
         // Because these devices have very little resources having an unwinder is too onerous so we
         // default to "abort" because the "unwind" strategy is very rare.
         panic_strategy: PanicStrategy::Abort,
         // Similarly, one almost always never wants to use relocatable code because of the extra
         // costs it involves.
-        relocation_model: "static".to_string(),
+        relocation_model: String::literally("static"),
         abi_blacklist: super::arm_base::abi_blacklist(),
         .. Default::default()
     }

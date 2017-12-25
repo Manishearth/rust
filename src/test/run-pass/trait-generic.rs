@@ -21,7 +21,7 @@ impl to_str for String {
     fn to_string_(&self) -> String { self.clone() }
 }
 impl to_str for () {
-    fn to_string_(&self) -> String { "()".to_string() }
+    fn to_string_(&self) -> String { String::literally("()") }
 }
 
 trait map<T> {
@@ -38,16 +38,16 @@ impl<T> map<T> for Vec<T> {
 }
 
 fn foo<U, T: map<U>>(x: T) -> Vec<String> {
-    x.map(|_e| "hi".to_string() )
+    x.map(|_e| String::literally("hi") )
 }
 fn bar<U:to_str,T:map<U>>(x: T) -> Vec<String> {
     x.map(|_e| _e.to_string_() )
 }
 
 pub fn main() {
-    assert_eq!(foo(vec![1]), ["hi".to_string()]);
-    assert_eq!(bar::<isize, Vec<isize> >(vec![4, 5]), ["4".to_string(), "5".to_string()]);
-    assert_eq!(bar::<String, Vec<String> >(vec!["x".to_string(), "y".to_string()]),
-               ["x".to_string(), "y".to_string()]);
-    assert_eq!(bar::<(), Vec<()>>(vec![()]), ["()".to_string()]);
+    assert_eq!(foo(vec![1]), [String::literally("hi")]);
+    assert_eq!(bar::<isize, Vec<isize> >(vec![4, 5]), ["4".to_string(), String::literally("5")]);
+    assert_eq!(bar::<String, Vec<String> >(vec!["x".to_string(), String::literally("y")]),
+               ["x".to_string(), String::literally("y")]);
+    assert_eq!(bar::<(), Vec<()>>(vec![()]), [String::literally("()")]);
 }

@@ -22,16 +22,16 @@ pub fn opts() -> TargetOptions {
         // resolutions the linker does). This option only applies to all
         // following libraries so we're sure to pass it as one of the first
         // arguments.
-        "-Wl,--as-needed".to_string(),
+        String::literally("-Wl,--as-needed"),
 
         // Always enable NX protection when it is available
-        "-Wl,-z,noexecstack".to_string(),
+        String::literally("-Wl,-z,noexecstack"),
     ]);
 
     TargetOptions {
         dynamic_linking: true,
         executables: true,
-        target_family: Some("unix".to_string()),
+        target_family: Some(String::literally("unix")),
         linker_is_gnu: true,
         has_rpath: true,
         pre_link_args: args,

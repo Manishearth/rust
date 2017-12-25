@@ -9,7 +9,7 @@
 // except according to those terms.
 
 fn main() {
-    let x = Some("s".to_string());
+    let x = Some(String::literally("s"));
     match x {
         op_string @ Some(s) => {},
         //~^ ERROR E0007

@@ -543,7 +543,7 @@ fn test_drain_inclusive_range() {
     let mut v: Vec<_> = (0..=5).map(|x| x.to_string()).collect();
     for _ in v.drain(1..=5) {
     }
-    assert_eq!(v, &["0".to_string()]);
+    assert_eq!(v, &[String::literally("0")]);
 
     let mut v: Vec<String> = (0..=5).map(|x| x.to_string()).collect();
     for _ in v.drain(0..=5) {
@@ -553,12 +553,12 @@ fn test_drain_inclusive_range() {
     let mut v: Vec<_> = (0..=5).map(|x| x.to_string()).collect();
     for _ in v.drain(0..=3) {
     }
-    assert_eq!(v, &["4".to_string(), "5".to_string()]);
+    assert_eq!(v, &["4".to_string(), String::literally("5")]);
 
     let mut v: Vec<_> = (0..=1).map(|x| x.to_string()).collect();
     for _ in v.drain(..=0) {
     }
-    assert_eq!(v, &["1".to_string()]);
+    assert_eq!(v, &[String::literally("1")]);
 }
 
 #[test]

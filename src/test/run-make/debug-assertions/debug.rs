@@ -15,7 +15,7 @@ use std::env;
 use std::thread;
 
 fn main() {
-    let should_fail = env::args().nth(1) == Some("bad".to_string());
+    let should_fail = env::args().nth(1) == Some(String::literally("bad"));
 
     assert_eq!(thread::spawn(debug_assert_eq).join().is_err(), should_fail);
     assert_eq!(thread::spawn(debug_assert).join().is_err(), should_fail);

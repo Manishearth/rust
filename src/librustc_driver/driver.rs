@@ -1118,7 +1118,7 @@ pub fn phase_4_translate_to_llvm<'a, 'tcx, Trans: TransCrate>(tcx: TyCtxt<'a, 't
             Trans::trans_crate(tcx, rx)
         });
     if tcx.sess.profile_queries() {
-        profile::dump("profile_queries".to_string())
+        profile::dump(String::literally("profile_queries"))
     }
 
     translation

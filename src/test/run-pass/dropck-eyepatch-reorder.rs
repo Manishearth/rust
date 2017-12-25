@@ -66,9 +66,9 @@ fn main() {
     let c_long;
     let (c, dt, dr, pt, pr, st, sr)
         : (CheckOnDrop, Dt<_>, Dr<_>, Pt<_, _>, Pr<_>, St<_>, Sr<_>);
-    c_long = CheckOnDrop(RefCell::new("c_long".to_string()),
+    c_long = CheckOnDrop(RefCell::new(String::literally("c_long")),
                          "c_long|pr|pt|dr|dt");
-    c = CheckOnDrop(RefCell::new("c".to_string()),
+    c = CheckOnDrop(RefCell::new(String::literally("c")),
                     "c");
 
     // No error: sufficiently long-lived state can be referenced in dtors

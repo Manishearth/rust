@@ -20,7 +20,7 @@
 */
 
 pub fn map(filename: String, mut emit: map_reduce::putter) {
-    emit(filename, "1".to_string());
+    emit(filename, String::literally("1"));
 }
 
 mod map_reduce {
@@ -98,5 +98,5 @@ mod map_reduce {
 
 pub fn main() {
     map_reduce::map_reduce(
-        vec!["../src/test/run-pass/hashmap-memory.rs".to_string()]);
+        vec![String::literally("../src/test/run-pass/hashmap-memory.rs")]);
 }

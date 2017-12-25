@@ -54,7 +54,7 @@ fn main() {
         x: 1,
         y: 2,
     };
-    let mut s = "hello".to_string();
+    let mut s = String::literally("hello");
     let rs = &mut s;
 
     println!("{}", f[s]);

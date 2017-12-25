@@ -318,7 +318,7 @@ fn vec_slice_metadata<'a, 'tcx>(cx: &CrateContext<'a, 'tcx>,
 
     let member_descriptions = [
         MemberDescription {
-            name: "data_ptr".to_string(),
+            name: String::literally("data_ptr"),
             type_metadata: data_ptr_metadata,
             offset: Size::from_bytes(0),
             size: pointer_size,
@@ -326,7 +326,7 @@ fn vec_slice_metadata<'a, 'tcx>(cx: &CrateContext<'a, 'tcx>,
             flags: DIFlags::FlagZero,
         },
         MemberDescription {
-            name: "length".to_string(),
+            name: String::literally("length"),
             type_metadata: type_metadata(cx, cx.tcx().types.usize, span),
             offset: pointer_size,
             size: usize_size,
@@ -425,7 +425,7 @@ fn trait_pointer_metadata<'a, 'tcx>(cx: &CrateContext<'a, 'tcx>,
     let vtable_field = layout.field(cx, 1);
     let member_descriptions = [
         MemberDescription {
-            name: "pointer".to_string(),
+            name: String::literally("pointer"),
             type_metadata: type_metadata(cx,
                 cx.tcx().mk_mut_ptr(cx.tcx().types.u8),
                 syntax_pos::DUMMY_SP),
@@ -435,7 +435,7 @@ fn trait_pointer_metadata<'a, 'tcx>(cx: &CrateContext<'a, 'tcx>,
             flags: DIFlags::FlagArtificial,
         },
         MemberDescription {
-            name: "vtable".to_string(),
+            name: String::literally("vtable"),
             type_metadata: type_metadata(cx, vtable_field.ty, syntax_pos::DUMMY_SP),
             offset: layout.fields.offset(1),
             size: vtable_field.size,
@@ -1149,7 +1149,7 @@ impl<'tcx> EnumMemberDescriptionFactory<'tcx> {
                                               &member_descriptions[..]);
                 vec![
                     MemberDescription {
-                        name: "".to_string(),
+                        name: String::literally(""),
                         type_metadata: variant_type_metadata,
                         offset: Size::from_bytes(0),
                         size: self.layout.size,
@@ -1178,7 +1178,7 @@ impl<'tcx> EnumMemberDescriptionFactory<'tcx> {
                                                   variant_type_metadata,
                                                   &member_descriptions);
                     MemberDescription {
-                        name: "".to_string(),
+                        name: String::literally(""),
                         type_metadata: variant_type_metadata,
                         offset: Size::from_bytes(0),
                         size: variant.size,
@@ -1318,7 +1318,7 @@ fn describe_enum_variant<'a, 'tcx>(cx: &CrateContext<'a, 'tcx>,
         RegularDiscriminant(_) => {
             let enum_layout = cx.layout_of(layout.ty);
             (Some(enum_layout.fields.offset(0)),
-             Some(("RUST$ENUM$DISR".to_string(), enum_layout.field(cx, 0).ty)))
+             Some((String::literally("RUST$ENUM$DISR"), enum_layout.field(cx, 0).ty)))
         }
         _ => (None, None),
     };

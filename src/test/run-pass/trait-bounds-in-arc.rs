@@ -60,20 +60,20 @@ impl Pet for Goldfyshe {
 }
 
 pub fn main() {
-    let catte = Catte { num_whiskers: 7, name: "alonzo_church".to_string() };
+    let catte = Catte { num_whiskers: 7, name: String::literally("alonzo_church") };
     let dogge1 = Dogge {
         bark_decibels: 100,
         tricks_known: 42,
-        name: "alan_turing".to_string(),
+        name: String::literally("alan_turing"),
     };
     let dogge2 = Dogge {
         bark_decibels: 55,
         tricks_known: 11,
-        name: "albert_einstein".to_string(),
+        name: String::literally("albert_einstein"),
     };
     let fishe = Goldfyshe {
         swim_speed: 998,
-        name: "alec_guinness".to_string(),
+        name: String::literally("alec_guinness"),
     };
     let arc = Arc::new(vec![box catte  as Box<Pet+Sync+Send>,
                             box dogge1 as Box<Pet+Sync+Send>,

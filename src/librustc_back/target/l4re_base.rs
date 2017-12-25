@@ -32,8 +32,8 @@ pub fn opts() -> Result<TargetOptions, String> {
     let mut pre_link_args = LinkArgs::new();
     pre_link_args.insert(LinkerFlavor::Ld, vec![
         format!("-T{}/main_stat.ld", l4re_lib_path),
-        "--defsym=__executable_start=0x01000000".to_string(),
-        "--defsym=__L4_KIP_ADDR__=0x6ffff000".to_string(),
+        String::literally("--defsym=__executable_start=0x01000000"),
+        String::literally("--defsym=__L4_KIP_ADDR__=0x6ffff000"),
         format!("{}/crt1.o", l4re_lib_path),
         format!("{}/crti.o", l4re_lib_path),
         get_path_or("crtbeginT.o"),
@@ -56,14 +56,14 @@ pub fn opts() -> Result<TargetOptions, String> {
         format!("{}/l4f/lib4re-c-util.a", l4re_lib_path),
         get_path_or("libgcc_eh.a"),
         format!("{}/l4f/libdl.a", l4re_lib_path),
-        "--start-group".to_string(),
+        String::literally("--start-group"),
         format!("{}/l4f/libl4util.a", l4re_lib_path),
         format!("{}/l4f/libc_be_l4re.a", l4re_lib_path),
         format!("{}/l4f/libuc_c.a", l4re_lib_path),
         format!("{}/l4f/libc_be_l4refile.a", l4re_lib_path),
-        "--end-group".to_string(),
+        String::literally("--end-group"),
         format!("{}/l4f/libl4sys.a", l4re_lib_path),
-        "-gc-sections".to_string(),
+        String::literally("-gc-sections"),
         get_path_or("crtend.o"),
         format!("{}/crtn.o", l4re_lib_path),
     ]);
@@ -73,10 +73,10 @@ pub fn opts() -> Result<TargetOptions, String> {
         has_elf_tls: false,
         exe_allocation_crate: None,
         panic_strategy: PanicStrategy::Abort,
-        linker: "ld".to_string(),
+        linker: String::literally("ld"),
         pre_link_args,
         post_link_args,
-        target_family: Some("unix".to_string()),
+        target_family: Some(String::literally("unix")),
         .. Default::default()
     })
 }

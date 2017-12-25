@@ -12,7 +12,7 @@ fn main() {
     let x: &'static str = "x";
 
     {
-        let y = "y".to_string();
+        let y = String::literally("y");
         let ref mut x = &*x;
         *x = &*y;
     }

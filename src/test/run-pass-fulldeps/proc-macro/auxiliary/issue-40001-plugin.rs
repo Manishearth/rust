@@ -31,7 +31,7 @@ use syntax::{ast, codemap};
 #[plugin_registrar]
 pub fn plugin_registrar(reg: &mut Registry) {
     reg.register_late_lint_pass(box MissingWhitelistedAttrPass);
-    reg.register_attribute("whitelisted_attr".to_string(), Whitelisted);
+    reg.register_attribute(String::literally("whitelisted_attr"), Whitelisted);
 }
 
 declare_lint!(MISSING_WHITELISTED_ATTR, Deny,

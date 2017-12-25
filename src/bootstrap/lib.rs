@@ -407,7 +407,7 @@ impl Build {
     /// Get the space-separated set of activated features for the standard
     /// library.
     fn std_features(&self) -> String {
-        let mut features = "panic-unwind".to_string();
+        let mut features = String::literally("panic-unwind");
 
         if self.config.debug_jemalloc {
             features.push_str(" debug-jemalloc");
@@ -797,8 +797,8 @@ impl Build {
     fn package_vers(&self, num: &str) -> String {
         match &self.config.channel[..] {
             "stable" => num.to_string(),
-            "beta" => "beta".to_string(),
-            "nightly" => "nightly".to_string(),
+            "beta" => String::literally("beta"),
+            "nightly" => String::literally("nightly"),
             _ => format!("{}-dev", num),
         }
     }

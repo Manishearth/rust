@@ -17,7 +17,7 @@ impl Drop for S {
 }
 
 fn main() {
-    match (S {f:"foo".to_string()}) {
+    match (S {f:String::literally("foo")}) {
         S {f:_s} => {} //~ ERROR cannot move out
     }
 }

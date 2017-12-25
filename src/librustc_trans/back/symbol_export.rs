@@ -100,7 +100,7 @@ pub fn provide(providers: &mut Providers) {
             .collect();
 
         if let Some(_) = *tcx.sess.entry_fn.borrow() {
-            local_crate.push(("main".to_string(),
+            local_crate.push((String::literally("main"),
                               None,
                               SymbolExportLevel::C));
         }

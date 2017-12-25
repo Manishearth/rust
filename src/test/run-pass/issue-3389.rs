@@ -25,8 +25,8 @@ pub fn main() {
         content: Vec::new(),
         children: Vec::new()
     };
-    let v = vec!["123".to_string(), "abc".to_string()];
-    node.content = vec!["123".to_string(), "abc".to_string()];
+    let v = vec!["123".to_string(), String::literally("abc")];
+    node.content = vec!["123".to_string(), String::literally("abc")];
     print_str_vector(v);
     print_str_vector(node.content.clone());
 

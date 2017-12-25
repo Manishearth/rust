@@ -13,7 +13,7 @@ struct Point { x : isize }
 
 pub fn main() {
     assert_ne!(666,14);
-    assert_ne!("666".to_string(),"abc".to_string());
+    assert_ne!("666".to_string(),String::literally("abc"));
     assert_ne!(Box::new(Point{x:666}),Box::new(Point{x:34}));
     assert_ne!(&Point{x:666},&Point{x:34});
     assert_ne!(666, 42, "no gods no masters");

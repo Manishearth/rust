@@ -41,7 +41,7 @@ use super::{Target, TargetOptions, PanicStrategy};
 
 pub fn target() -> Result<Target, String> {
     let opts = TargetOptions {
-        linker: "not-used".to_string(),
+        linker: String::literally("not-used"),
 
         // we allow dynamic linking, but only cdylibs. Basically we allow a
         // final library artifact that exports some symbols (a wasm module) but
@@ -53,9 +53,9 @@ pub fn target() -> Result<Target, String> {
         executables: true,
 
         // relatively self-explanatory!
-        exe_suffix: ".wasm".to_string(),
-        dll_prefix: "".to_string(),
-        dll_suffix: ".wasm".to_string(),
+        exe_suffix: String::literally(".wasm"),
+        dll_prefix: String::literally(""),
+        dll_suffix: String::literally(".wasm"),
         linker_is_gnu: false,
 
         // We're storing bitcode for now in all the rlibs
@@ -86,17 +86,17 @@ pub fn target() -> Result<Target, String> {
         .. Default::default()
     };
     Ok(Target {
-        llvm_target: "wasm32-unknown-unknown".to_string(),
-        target_endian: "little".to_string(),
-        target_pointer_width: "32".to_string(),
-        target_c_int_width: "32".to_string(),
+        llvm_target: String::literally("wasm32-unknown-unknown"),
+        target_endian: String::literally("little"),
+        target_pointer_width: String::literally("32"),
+        target_c_int_width: String::literally("32"),
         // This is basically guaranteed to change in the future, don't rely on
         // this. Use `not(target_os = "emscripten")` for now.
-        target_os: "unknown".to_string(),
-        target_env: "".to_string(),
-        target_vendor: "unknown".to_string(),
-        data_layout: "e-m:e-p:32:32-i64:64-n32:64-S128".to_string(),
-        arch: "wasm32".to_string(),
+        target_os: String::literally("unknown"),
+        target_env: String::literally(""),
+        target_vendor: String::literally("unknown"),
+        data_layout: String::literally("e-m:e-p:32:32-i64:64-n32:64-S128"),
+        arch: String::literally("wasm32"),
         // A bit of a lie, but it gets the job done
         linker_flavor: LinkerFlavor::Binaryen,
         options: opts,

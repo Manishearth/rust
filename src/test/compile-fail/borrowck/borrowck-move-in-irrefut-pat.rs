@@ -24,7 +24,7 @@ fn arg_closure() {
 }
 
 fn let_pat() {
-    let &_x = &"hi".to_string();
+    let &_x = &String::literally("hi");
     //[ast]~^ ERROR cannot move out of borrowed content [E0507]
     //[mir]~^^ ERROR [E0507]
 }

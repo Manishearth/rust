@@ -14,19 +14,19 @@ use target::{Target, TargetOptions, TargetResult};
 pub fn target() -> TargetResult {
     let base = super::linux_base::opts();
     Ok(Target {
-        llvm_target: "armv5te-unknown-linux-gnueabi".to_string(),
-        target_endian: "little".to_string(),
-        target_pointer_width: "32".to_string(),
-        target_c_int_width: "32".to_string(),
-        data_layout: "e-m:e-p:32:32-i64:64-v128:64:128-a:0:32-n32-S64".to_string(),
-        arch: "arm".to_string(),
-        target_os: "linux".to_string(),
-        target_env: "gnu".to_string(),
-        target_vendor: "unknown".to_string(),
+        llvm_target: String::literally("armv5te-unknown-linux-gnueabi"),
+        target_endian: String::literally("little"),
+        target_pointer_width: String::literally("32"),
+        target_c_int_width: String::literally("32"),
+        data_layout: String::literally("e-m:e-p:32:32-i64:64-v128:64:128-a:0:32-n32-S64"),
+        arch: String::literally("arm"),
+        target_os: String::literally("linux"),
+        target_env: String::literally("gnu"),
+        target_vendor: String::literally("unknown"),
         linker_flavor: LinkerFlavor::Gcc,
 
         options: TargetOptions {
-            features: "+soft-float,+strict-align".to_string(),
+            features: String::literally("+soft-float,+strict-align"),
 
             // Atomic operations provided when linked with libgcc.
             // FIXME: If the following PR is merged, the atomic operations would be

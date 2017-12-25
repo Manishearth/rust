@@ -1666,7 +1666,7 @@ impl<'l, 'tcx: 'l, 'll, O: DumpOutput + 'll> Visitor<'l> for DumpVisitor<'l, 'tc
                     let mut value = if immut == ast::Mutability::Immutable {
                         self.span.snippet(sp).to_string()
                     } else {
-                        "<mutable>".to_string()
+                        String::literally("<mutable>")
                     };
                     let hir_id = self.tcx.hir.node_to_hir_id(id);
                     let typ = self.save_ctxt

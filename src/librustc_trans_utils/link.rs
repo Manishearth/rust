@@ -103,7 +103,7 @@ pub fn find_crate_name(sess: Option<&Session>,
         }
     }
 
-    "rust_out".to_string()
+    String::literally("rust_out")
 }
 
 pub fn filename_for_input(sess: &Session,

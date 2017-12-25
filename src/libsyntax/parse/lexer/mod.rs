@@ -1575,7 +1575,7 @@ impl<'a> StringReader<'a> {
             let pos = self.pos;
             panic!(self.fatal_span_verbose(start - BytePos(2),
                                            pos,
-                                           "unterminated byte constant".to_string()));
+                                           String::literally("unterminated byte constant")));
         }
 
         let id = if valid {
@@ -1815,7 +1815,7 @@ mod tests {
     fn doublecolonparsing() {
         let cm = Rc::new(CodeMap::new(FilePathMapping::empty()));
         let sh = mk_sess(cm.clone());
-        check_tokenization(setup(&cm, &sh, "a b".to_string()),
+        check_tokenization(setup(&cm, &sh, String::literally("a b")),
                            vec![mk_ident("a"), token::Whitespace, mk_ident("b")]);
     }
 
@@ -1823,7 +1823,7 @@ mod tests {
     fn dcparsing_2() {
         let cm = Rc::new(CodeMap::new(FilePathMapping::empty()));
         let sh = mk_sess(cm.clone());
-        check_tokenization(setup(&cm, &sh, "a::b".to_string()),
+        check_tokenization(setup(&cm, &sh, String::literally("a::b")),
                            vec![mk_ident("a"), token::ModSep, mk_ident("b")]);
     }
 
@@ -1831,7 +1831,7 @@ mod tests {
     fn dcparsing_3() {
         let cm = Rc::new(CodeMap::new(FilePathMapping::empty()));
         let sh = mk_sess(cm.clone());
-        check_tokenization(setup(&cm, &sh, "a ::b".to_string()),
+        check_tokenization(setup(&cm, &sh, String::literally("a ::b")),
                            vec![mk_ident("a"), token::Whitespace, token::ModSep, mk_ident("b")]);
     }
 
@@ -1839,7 +1839,7 @@ mod tests {
     fn dcparsing_4() {
         let cm = Rc::new(CodeMap::new(FilePathMapping::empty()));
         let sh = mk_sess(cm.clone());
-        check_tokenization(setup(&cm, &sh, "a:: b".to_string()),
+        check_tokenization(setup(&cm, &sh, String::literally("a:: b")),
                            vec![mk_ident("a"), token::ModSep, token::Whitespace, mk_ident("b")]);
     }
 
@@ -1847,7 +1847,7 @@ mod tests {
     fn character_a() {
         let cm = Rc::new(CodeMap::new(FilePathMapping::empty()));
         let sh = mk_sess(cm.clone());
-        assert_eq!(setup(&cm, &sh, "'a'".to_string()).next_token().tok,
+        assert_eq!(setup(&cm, &sh, String::literally("'a'")).next_token().tok,
                    token::Literal(token::Char(Symbol::intern("a")), None));
     }
 
@@ -1855,7 +1855,7 @@ mod tests {
     fn character_space() {
         let cm = Rc::new(CodeMap::new(FilePathMapping::empty()));
         let sh = mk_sess(cm.clone());
-        assert_eq!(setup(&cm, &sh, "' '".to_string()).next_token().tok,
+        assert_eq!(setup(&cm, &sh, String::literally("' '")).next_token().tok,
                    token::Literal(token::Char(Symbol::intern(" ")), None));
     }
 
@@ -1871,7 +1871,7 @@ mod tests {
     fn lifetime_name() {
         let cm = Rc::new(CodeMap::new(FilePathMapping::empty()));
         let sh = mk_sess(cm.clone());
-        assert_eq!(setup(&cm, &sh, "'abc".to_string()).next_token().tok,
+        assert_eq!(setup(&cm, &sh, String::literally("'abc")).next_token().tok,
                    token::Lifetime(Ident::from_str("'abc")));
     }
 
@@ -1911,7 +1911,7 @@ mod tests {
         test!("1.0", Float, "1.0");
         test!("1.0e10", Float, "1.0e10");
 
-        assert_eq!(setup(&cm, &sh, "2us".to_string()).next_token().tok,
+        assert_eq!(setup(&cm, &sh, String::literally("2us")).next_token().tok,
                    token::Literal(token::Integer(Symbol::intern("2")),
                                   Some(Symbol::intern("us"))));
         assert_eq!(setup(&cm, &sh, "r###\"raw\"###suffix".to_string()).next_token().tok,
@@ -1933,7 +1933,7 @@ mod tests {
     fn nested_block_comments() {
         let cm = Rc::new(CodeMap::new(FilePathMapping::empty()));
         let sh = mk_sess(cm.clone());
-        let mut lexer = setup(&cm, &sh, "/* /* */ */'a'".to_string());
+        let mut lexer = setup(&cm, &sh, String::literally("/* /* */ */'a'"));
         match lexer.next_token().tok {
             token::Comment => {}
             _ => panic!("expected a comment!"),

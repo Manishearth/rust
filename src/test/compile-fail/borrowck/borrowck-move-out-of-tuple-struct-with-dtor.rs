@@ -14,14 +14,14 @@ impl Drop for S {
 }
 
 fn move_in_match() {
-    match S("foo".to_string()) {
+    match S(String::literally("foo")) {
         S(_s) => {}
         //~^ ERROR cannot move out of type `S`, which implements the `Drop` trait
     }
 }
 
 fn move_in_let() {
-    let S(_s) = S("foo".to_string());
+    let S(_s) = S(String::literally("foo"));
     //~^ ERROR cannot move out of type `S`, which implements the `Drop` trait
 }
 

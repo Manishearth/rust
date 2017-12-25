@@ -17,6 +17,6 @@ is a test".to_string();
               is \
               another \
               test".to_string();
-    assert_eq!(a, "this is a test".to_string());
-    assert_eq!(b, "this is another test".to_string());
+    assert_eq!(a, String::literally("this is a test"));
+    assert_eq!(b, String::literally("this is another test"));
 }

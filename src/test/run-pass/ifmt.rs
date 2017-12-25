@@ -59,7 +59,7 @@ pub fn main() {
     t!(format!("{}", 1.0f32), "1");
     t!(format!("{}", 1.0f64), "1");
     t!(format!("{}", "a"), "a");
-    t!(format!("{}", "a".to_string()), "a");
+    t!(format!("{}", String::literally("a")), "a");
     t!(format!("{}", false), "false");
     t!(format!("{}", 'a'), "a");
 
@@ -81,7 +81,7 @@ pub fn main() {
     t!(format!("{:x}", 10_usize), "a");
     t!(format!("{:X}", 10_usize), "A");
     t!(format!("{}", "foo"), "foo");
-    t!(format!("{}", "foo".to_string()), "foo");
+    t!(format!("{}", String::literally("foo")), "foo");
     if cfg!(target_pointer_width = "32") {
         t!(format!("{:#p}", 0x1234 as *const isize), "0x00001234");
         t!(format!("{:#p}", 0x1234 as *mut isize), "0x00001234");
@@ -306,7 +306,7 @@ fn test_order() {
     }
     assert_eq!(format!("{} {} {a} {b} {} {c}",
                        foo(), foo(), foo(), a=foo(), b=foo(), c=foo()),
-               "1 2 4 5 3 6".to_string());
+               String::literally("1 2 4 5 3 6"));
 }
 
 fn test_once() {
@@ -320,7 +320,7 @@ fn test_once() {
         }
     }
     assert_eq!(format!("{0} {0} {0} {a} {a} {a}", foo(), a=foo()),
-               "1 1 1 2 2 2".to_string());
+               String::literally("1 1 1 2 2 2"));
 }
 
 fn test_refcell() {

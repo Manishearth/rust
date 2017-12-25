@@ -19,16 +19,16 @@ pub fn opts() -> TargetOptions {
         // which don't actually fulfill any relocations, but only for
         // libraries which follow this flag.  Thus, use it before
         // specifying libraries to link to.
-        "-Wl,--as-needed".to_string(),
+        String::literally("-Wl,--as-needed"),
 
         // Always enable NX protection when it is available
-        "-Wl,-z,noexecstack".to_string(),
+        String::literally("-Wl,-z,noexecstack"),
     ]);
 
     TargetOptions {
         dynamic_linking: true,
         executables: true,
-        target_family: Some("unix".to_string()),
+        target_family: Some(String::literally("unix")),
         linker_is_gnu: true,
         has_rpath: true,
         is_like_openbsd: true,

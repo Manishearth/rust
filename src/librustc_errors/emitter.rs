@@ -762,7 +762,7 @@ impl EmitterWriter {
                                                          // at by "in this macro invocation"
                                                          format!(" (#{})", i + 1)
                                                      } else {
-                                                         "".to_string()
+                                                         String::literally("")
                                                      })));
                         }
                         // Check to make sure we're not in any <*macros>
@@ -776,7 +776,7 @@ impl EmitterWriter {
                                                          // backtrace is multiple levels deep
                                                          format!(" (#{})", i + 1)
                                                      } else {
-                                                         "".to_string()
+                                                         String::literally("")
                                                      })));
                             if !always_backtrace {
                                 break;

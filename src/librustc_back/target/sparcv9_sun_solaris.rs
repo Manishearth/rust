@@ -13,26 +13,26 @@ use target::{Target, TargetResult};
 
 pub fn target() -> TargetResult {
     let mut base = super::solaris_base::opts();
-    base.pre_link_args.insert(LinkerFlavor::Gcc, vec!["-m64".to_string()]);
+    base.pre_link_args.insert(LinkerFlavor::Gcc, vec![String::literally("-m64")]);
     // llvm calls this "v9"
-    base.cpu = "v9".to_string();
+    base.cpu = String::literally("v9");
     base.max_atomic_width = Some(64);
     base.exe_allocation_crate = None;
 
     Ok(Target {
-        llvm_target: "sparcv9-sun-solaris".to_string(),
-        target_endian: "big".to_string(),
-        target_pointer_width: "64".to_string(),
-        target_c_int_width: "32".to_string(),
-        data_layout: "E-m:e-i64:64-n32:64-S128".to_string(),
+        llvm_target: String::literally("sparcv9-sun-solaris"),
+        target_endian: String::literally("big"),
+        target_pointer_width: String::literally("64"),
+        target_c_int_width: String::literally("32"),
+        data_layout: String::literally("E-m:e-i64:64-n32:64-S128"),
         // Use "sparc64" instead of "sparcv9" here, since the former is already
         // used widely in the source base.  If we ever needed ABI
         // differentiation from the sparc64, we could, but that would probably
         // just be confusing.
-        arch: "sparc64".to_string(),
-        target_os: "solaris".to_string(),
-        target_env: "".to_string(),
-        target_vendor: "sun".to_string(),
+        arch: String::literally("sparc64"),
+        target_os: String::literally("solaris"),
+        target_env: String::literally(""),
+        target_vendor: String::literally("sun"),
         linker_flavor: LinkerFlavor::Gcc,
         options: base,
     })

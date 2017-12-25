@@ -27,8 +27,8 @@ impl Barks for Dog {
 
 
 pub fn main() {
-    let snoopy = box Dog{name: "snoopy".to_string()};
-    let bubbles = box Dog{name: "bubbles".to_string()};
+    let snoopy = box Dog{name: String::literally("snoopy")};
+    let bubbles = box Dog{name: String::literally("bubbles")};
     let barker = [snoopy as Box<Barks>, bubbles as Box<Barks>];
 
     for pup in &barker {

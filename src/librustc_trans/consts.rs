@@ -174,7 +174,7 @@ pub fn get_static(ccx: &CrateContext, def_id: DefId) -> ValueRef {
                         // linkage and there are no definitions), then
                         // `extern_with_linkage_foo` will instead be initialized to
                         // zero.
-                        let mut real_name = "_rust_extern_with_linkage_".to_string();
+                        let mut real_name = String::literally("_rust_extern_with_linkage_");
                         real_name.push_str(&sym);
                         let g2 = declare::define_global(ccx, &real_name, llty).unwrap_or_else(||{
                             ccx.sess().span_fatal(span,

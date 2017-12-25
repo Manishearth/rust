@@ -444,13 +444,13 @@ mod tests {
 
     #[test]
     fn test_string() {
-        let vec = vec!["abcbuÖeiovÄnameÜavmpßvmea€µsbpnvapeapmaebn".to_string(),
-                       "abcbuÖganeiovÄnameÜavmpßvmea€µsbpnvapeapmaebn".to_string(),
-                       "abcbuÖganeiovÄnameÜavmpßvmea€µsbpapmaebn".to_string(),
-                       "abcbuÖganeiovÄnameÜavmpßvmeabpnvapeapmaebn".to_string(),
-                       "abcbuÖganeiÄnameÜavmpßvmea€µsbpnvapeapmaebn".to_string(),
-                       "abcbuÖganeiovÄnameÜavmpßvmea€µsbpmaebn".to_string(),
-                       "abcbuÖganeiovÄnameÜavmpßvmea€µnvapeapmaebn".to_string()];
+        let vec = vec![String::literally("abcbuÖeiovÄnameÜavmpßvmea€µsbpnvapeapmaebn"),
+                       String::literally("abcbuÖganeiovÄnameÜavmpßvmea€µsbpnvapeapmaebn"),
+                       String::literally("abcbuÖganeiovÄnameÜavmpßvmea€µsbpapmaebn"),
+                       String::literally("abcbuÖganeiovÄnameÜavmpßvmeabpnvapeapmaebn"),
+                       String::literally("abcbuÖganeiÄnameÜavmpßvmea€µsbpnvapeapmaebn"),
+                       String::literally("abcbuÖganeiovÄnameÜavmpßvmea€µsbpmaebn"),
+                       String::literally("abcbuÖganeiovÄnameÜavmpßvmea€µnvapeapmaebn")];
 
         check_round_trip(vec);
     }
@@ -496,7 +496,7 @@ mod tests {
                                   k: 19,
 
                                   l: 'x',
-                                  m: "abc".to_string(),
+                                  m: String::literally("abc"),
                                   n: 20.5,
                                   o: 21.5,
                                   p: false,
@@ -518,7 +518,7 @@ mod tests {
                                   k: -19,
 
                                   l: 'y',
-                                  m: "def".to_string(),
+                                  m: String::literally("def"),
                                   n: -20.5,
                                   o: -21.5,
                                   p: true,
@@ -580,6 +580,6 @@ mod tests {
         check_round_trip(vec![(9i8, 10u16, 1.5f64)]);
         check_round_trip(vec![(-12i16, 11u8, 12usize)]);
         check_round_trip(vec![(1234567isize, 100000000000000u64, 99999999999999i64)]);
-        check_round_trip(vec![(String::new(), "some string".to_string())]);
+        check_round_trip(vec![(String::new(), String::literally("some string"))]);
     }
 }

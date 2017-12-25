@@ -231,7 +231,7 @@ pub trait MonoItemExt<'a, 'tcx>: fmt::Debug {
                 to_string_internal(tcx, "static ", instance)
             },
             MonoItem::GlobalAsm(..) => {
-                "global_asm".to_string()
+                String::literally("global_asm")
             }
         };
 

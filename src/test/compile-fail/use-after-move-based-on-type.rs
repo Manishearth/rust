@@ -9,7 +9,7 @@
 // except according to those terms.
 
 fn main() {
-    let x = "Hello!".to_string();
+    let x = String::literally("Hello!");
     let _y = x;
     println!("{}", x); //~ ERROR use of moved value
 }

@@ -11,6 +11,6 @@
 // error-pattern:meh
 
 fn main() {
-    let str_var: String = "meh".to_string();
+    let str_var: String = String::literally("meh");
     panic!("{}", str_var);
 }

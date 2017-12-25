@@ -61,7 +61,7 @@ fn test_set_var_overwrite() {
 #[test]
 #[cfg_attr(target_os = "emscripten", ignore)]
 fn test_var_big() {
-    let mut s = "".to_string();
+    let mut s = String::literally("");
     let mut i = 0;
     while i < 100 {
         s.push_str("aaaaaaaaaa");

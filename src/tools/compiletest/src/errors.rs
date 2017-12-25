@@ -95,7 +95,7 @@ pub fn load_errors(testfile: &Path, cfg: Option<&str>) -> Vec<Error> {
 
     let tag = match cfg {
         Some(rev) => format!("//[{}]~", rev),
-        None => "//~".to_string(),
+        None => String::literally("//~"),
     };
 
     rdr.lines()

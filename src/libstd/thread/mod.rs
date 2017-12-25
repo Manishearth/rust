@@ -1370,8 +1370,8 @@ mod tests {
 
     #[test]
     fn test_named_thread() {
-        Builder::new().name("ada lovelace".to_string()).spawn(move|| {
-            assert!(thread::current().name().unwrap() == "ada lovelace".to_string());
+        Builder::new().name(String::literally("ada lovelace")).spawn(move|| {
+            assert!(thread::current().name().unwrap() == String::literally("ada lovelace"));
         }).unwrap().join().unwrap();
     }
 
@@ -1511,12 +1511,12 @@ mod tests {
     #[test]
     fn test_try_panic_message_owned_str() {
         match thread::spawn(move|| {
-            panic!("owned string".to_string());
+            panic!(String::literally("owned string"));
         }).join() {
             Err(e) => {
                 type T = String;
                 assert!(e.is::<T>());
-                assert_eq!(*e.downcast::<T>().unwrap(), "owned string".to_string());
+                assert_eq!(*e.downcast::<T>().unwrap(), String::literally("owned string"));
             }
             Ok(()) => panic!()
         }

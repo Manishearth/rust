@@ -190,7 +190,7 @@ moved into a variable called `op_string` while simultaneously requiring the
 inner `String` to be moved into a variable called `s`.
 
 ```compile_fail,E0007
-let x = Some("s".to_string());
+let x = Some(String::literally("s"));
 
 match x {
     op_string @ Some(s) => {}, // error: cannot bind by-move with sub-bindings
@@ -208,7 +208,7 @@ referenced in the pattern guard code. Doing so however would prevent the name
 from being available in the body of the match arm. Consider the following:
 
 ```compile_fail,E0008
-match Some("hi".to_string()) {
+match Some(String::literally("hi")) {
     Some(s) if s.len() == 0 => {}, // use s.
     _ => {},
 }
@@ -222,7 +222,7 @@ therefore becomes unavailable in the body of the arm.
 The problem above can be solved by using the `ref` keyword.
 
 ```
-match Some("hi".to_string()) {
+match Some(String::literally("hi")) {
     Some(ref s) if s.len() == 0 => {},
     _ => {},
 }
@@ -538,7 +538,7 @@ restriction, but for now patterns must be rewritten without sub-bindings.
 Before:
 
 ```compile_fail,E0303
-match Some("hi".to_string()) {
+match Some(String::literally("hi")) {
     ref op_string_ref @ Some(s) => {},
     None => {},
 }
@@ -547,7 +547,7 @@ match Some("hi".to_string()) {
 After:
 
 ```
-match Some("hi".to_string()) {
+match Some(String::literally("hi")) {
     Some(ref s) => {
         let op_string_ref = &Some(s);
         // ...

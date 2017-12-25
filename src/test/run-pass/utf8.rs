@@ -24,10 +24,10 @@ pub fn main() {
     assert_eq!(pi as isize, '\u{3a0}' as isize);
     assert_eq!('\x0a' as isize, '\n' as isize);
 
-    let bhutan: String = "འབྲུག་ཡུལ།".to_string();
-    let japan: String = "日本".to_string();
-    let uzbekistan: String = "Ўзбекистон".to_string();
-    let austria: String = "Österreich".to_string();
+    let bhutan: String = String::literally("འབྲུག་ཡུལ།");
+    let japan: String = String::literally("日本");
+    let uzbekistan: String = String::literally("Ўзбекистон");
+    let austria: String = String::literally("Österreich");
 
     let bhutan_e: String =
         "\u{f60}\u{f56}\u{fb2}\u{f74}\u{f42}\u{f0b}\u{f61}\u{f74}\u{f63}\u{f0d}".to_string();

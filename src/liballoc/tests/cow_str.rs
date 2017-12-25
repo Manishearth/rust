@@ -143,7 +143,7 @@ fn check_cow_add_assign_str() {
 #[test]
 fn check_cow_clone_from() {
     let mut c1: Cow<str> = Cow::Owned(String::with_capacity(25));
-    let s: String = "hi".to_string();
+    let s: String = String::literally("hi");
     assert!(s.capacity() < 25);
     let c2: Cow<str> = Cow::Owned(s);
     c1.clone_from(&c2);

@@ -451,7 +451,7 @@ fn parse_externs(matches: &getopts::Matches) -> Result<Externs, String> {
     let mut externs = BTreeMap::new();
     for arg in &matches.opt_strs("extern") {
         let mut parts = arg.splitn(2, '=');
-        let name = parts.next().ok_or("--extern value must not be empty".to_string())?;
+        let name = parts.next().ok_or(String::literally("--extern value must not be empty"))?;
         let location = parts.next()
                                  .ok_or("--extern value must be of the format `foo=bar`"
                                     .to_string())?;
@@ -546,7 +546,7 @@ where R: 'static + Send, F: 'static + Send + FnOnce(Output) -> R {
         }
 
         // Load all plugins/passes into a PluginManager
-        let path = plugin_path.unwrap_or("/tmp/rustdoc/plugins".to_string());
+        let path = plugin_path.unwrap_or(String::literally("/tmp/rustdoc/plugins"));
         let mut pm = plugins::PluginManager::new(PathBuf::from(path));
         for pass in &passes {
             let plugin = match passes::PASSES.iter()

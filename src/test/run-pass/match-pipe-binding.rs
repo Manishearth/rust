@@ -12,10 +12,10 @@
 
 fn test1() {
     // from issue 6338
-    match ((1, "a".to_string()), (2, "b".to_string())) {
+    match ((1, "a".to_string()), (2, String::literally("b"))) {
         ((1, a), (2, b)) | ((2, b), (1, a)) => {
-                assert_eq!(a, "a".to_string());
-                assert_eq!(b, "b".to_string());
+                assert_eq!(a, String::literally("a"));
+                assert_eq!(b, String::literally("b"));
             },
             _ => panic!(),
     }

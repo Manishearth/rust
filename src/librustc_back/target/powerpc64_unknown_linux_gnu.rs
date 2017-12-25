@@ -13,8 +13,8 @@ use target::{Target, TargetResult, RelroLevel};
 
 pub fn target() -> TargetResult {
     let mut base = super::linux_base::opts();
-    base.cpu = "ppc64".to_string();
-    base.pre_link_args.get_mut(&LinkerFlavor::Gcc).unwrap().push("-m64".to_string());
+    base.cpu = String::literally("ppc64");
+    base.pre_link_args.get_mut(&LinkerFlavor::Gcc).unwrap().push(String::literally("-m64"));
     base.max_atomic_width = Some(64);
 
     // ld.so in at least RHEL6 on ppc64 has a bug related to BIND_NOW, so only enable partial RELRO
@@ -25,15 +25,15 @@ pub fn target() -> TargetResult {
     base.exe_allocation_crate = None;
 
     Ok(Target {
-        llvm_target: "powerpc64-unknown-linux-gnu".to_string(),
-        target_endian: "big".to_string(),
-        target_pointer_width: "64".to_string(),
-        target_c_int_width: "32".to_string(),
-        data_layout: "E-m:e-i64:64-n32:64".to_string(),
-        arch: "powerpc64".to_string(),
-        target_os: "linux".to_string(),
-        target_env: "gnu".to_string(),
-        target_vendor: "unknown".to_string(),
+        llvm_target: String::literally("powerpc64-unknown-linux-gnu"),
+        target_endian: String::literally("big"),
+        target_pointer_width: String::literally("64"),
+        target_c_int_width: String::literally("32"),
+        data_layout: String::literally("E-m:e-i64:64-n32:64"),
+        arch: String::literally("powerpc64"),
+        target_os: String::literally("linux"),
+        target_env: String::literally("gnu"),
+        target_vendor: String::literally("unknown"),
         linker_flavor: LinkerFlavor::Gcc,
         options: base,
     })

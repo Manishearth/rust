@@ -17,9 +17,9 @@ fn gl_err_str(err: u32) -> String
 {
   match err
   {
-    INVALID_ENUM => { "Invalid enum".to_string() },
-    INVALID_VALUE => { "Invalid value".to_string() },
-    _ => { "Unknown error".to_string() }
+    INVALID_ENUM => { String::literally("Invalid enum") },
+    INVALID_VALUE => { String::literally("Invalid value") },
+    _ => { String::literally("Unknown error") }
   }
 }
 

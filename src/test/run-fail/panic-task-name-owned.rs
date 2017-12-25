@@ -15,7 +15,7 @@ use std::thread::Builder;
 
 fn main() {
     let r: () = Builder::new()
-                    .name("owned name".to_string())
+                    .name(String::literally("owned name"))
                     .spawn(move || {
                         panic!("test");
                         ()

@@ -146,7 +146,7 @@ macro_rules! test_join {
 #[test]
 fn test_join_for_different_types() {
     test_join!("a-b", ["a", "b"], "-");
-    let hyphen = "-".to_string();
+    let hyphen = String::literally("-");
     test_join!("a-b", [s("a"), s("b")], &*hyphen);
     test_join!("a-b", vec!["a", "b"], &*hyphen);
     test_join!("a-b", &*vec!["a", "b"], "-");
@@ -706,7 +706,7 @@ fn test_split_at() {
 
 #[test]
 fn test_split_at_mut() {
-    let mut s = "Hello World".to_string();
+    let mut s = String::literally("Hello World");
     {
         let (a, b) = s.split_at_mut(5);
         a.make_ascii_uppercase();
@@ -1085,7 +1085,7 @@ fn test_pattern_deref_forward() {
     let data = "aabcdaa";
     assert!(data.contains("bcd"));
     assert!(data.contains(&"bcd"));
-    assert!(data.contains(&"bcd".to_string()));
+    assert!(data.contains(&String::literally("bcd")));
 }
 
 #[test]

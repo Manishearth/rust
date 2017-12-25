@@ -30,14 +30,14 @@ impl PartialEq for color {
 }
 
 pub fn main() {
-    test_color(red, 0xff0000, "red".to_string());
-    test_color(green, 0x00ff00, "green".to_string());
-    test_color(blue, 0x0000ff, "blue".to_string());
-    test_color(black, 0x000000, "black".to_string());
-    test_color(white, 0xFFFFFF, "white".to_string());
-    test_color(imaginary, -1, "imaginary".to_string());
-    test_color(purple, 2, "purple".to_string());
-    test_color(orange, 4, "orange".to_string());
+    test_color(red, 0xff0000, String::literally("red"));
+    test_color(green, 0x00ff00, String::literally("green"));
+    test_color(blue, 0x0000ff, String::literally("blue"));
+    test_color(black, 0x000000, String::literally("black"));
+    test_color(white, 0xFFFFFF, String::literally("white"));
+    test_color(imaginary, -1, String::literally("imaginary"));
+    test_color(purple, 2, String::literally("purple"));
+    test_color(orange, 4, String::literally("orange"));
 }
 
 fn test_color(color: color, val: isize, name: String) {
@@ -49,25 +49,25 @@ fn test_color(color: color, val: isize, name: String) {
 
 fn get_color_alt(color: color) -> String {
     match color {
-      red => {"red".to_string()}
-      green => {"green".to_string()}
-      blue => {"blue".to_string()}
-      black => {"black".to_string()}
-      white => {"white".to_string()}
-      imaginary => {"imaginary".to_string()}
-      purple => {"purple".to_string()}
-      orange => {"orange".to_string()}
+      red => {String::literally("red")}
+      green => {String::literally("green")}
+      blue => {String::literally("blue")}
+      black => {String::literally("black")}
+      white => {String::literally("white")}
+      imaginary => {String::literally("imaginary")}
+      purple => {String::literally("purple")}
+      orange => {String::literally("orange")}
     }
 }
 
 fn get_color_if(color: color) -> String {
-    if color == red {"red".to_string()}
-    else if color == green {"green".to_string()}
-    else if color == blue {"blue".to_string()}
-    else if color == black {"black".to_string()}
-    else if color == white {"white".to_string()}
-    else if color == imaginary {"imaginary".to_string()}
-    else if color == purple {"purple".to_string()}
-    else if color == orange {"orange".to_string()}
-    else {"unknown".to_string()}
+    if color == red {String::literally("red")}
+    else if color == green {String::literally("green")}
+    else if color == blue {String::literally("blue")}
+    else if color == black {String::literally("black")}
+    else if color == white {String::literally("white")}
+    else if color == imaginary {String::literally("imaginary")}
+    else if color == purple {String::literally("purple")}
+    else if color == orange {String::literally("orange")}
+    else {String::literally("unknown")}
 }

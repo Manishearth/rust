@@ -47,7 +47,7 @@ pub mod sub_foo {
 
     impl Bort {
         pub fn bort() -> String {
-            "bort()".to_string()
+            String::literally("bort()")
         }
     }
 }

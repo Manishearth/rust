@@ -15,9 +15,9 @@ struct A<'a> {
 }
 
 pub fn main() {
-    let b: &[String] = &["foo".to_string()];
+    let b: &[String] = &[String::literally("foo")];
     let a = A {
-        a: &["test".to_string()],
+        a: &[String::literally("test")],
         b: Some(b),
     };
     assert_eq!(a.b.as_ref().unwrap()[0], "foo");

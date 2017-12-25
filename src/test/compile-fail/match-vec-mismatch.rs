@@ -11,7 +11,7 @@
 #![feature(slice_patterns)]
 
 fn main() {
-    match "foo".to_string() {
+    match String::literally("foo") {
         ['f', 'o', ..] => {}
         //~^ ERROR expected an array or slice, found `std::string::String`
         _ => { }

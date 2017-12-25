@@ -10,12 +10,12 @@
 
 fn f() -> String {  //~ ERROR mismatched types
     0u8;
-    "bla".to_string();
+    String::literally("bla");
 }
 
 fn g() -> String {  //~ ERROR mismatched types
-    "this won't work".to_string();
-    "removeme".to_string();
+    String::literally("this won't work");
+    String::literally("removeme");
 }
 
 fn main() {}

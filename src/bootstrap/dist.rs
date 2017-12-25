@@ -1458,7 +1458,7 @@ impl Step for Extended {
                 let dir = if name == "rust-std" || name == "rust-analysis" {
                     format!("{}-{}", name, target)
                 } else if name == "rls" {
-                    "rls-preview".to_string()
+                    String::literally("rls-preview")
                 } else {
                     name.to_string()
                 };

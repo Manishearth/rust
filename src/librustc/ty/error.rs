@@ -196,11 +196,11 @@ impl<'a, 'gcx, 'lcx, 'tcx> ty::TyS<'tcx> {
                 if let ConstVal::Integral(ConstInt::Usize(n)) = n.val {
                     format!("array of {} elements", n)
                 } else {
-                    "array".to_string()
+                    String::literally("array")
                 }
             }
-            ty::TySlice(_) => "slice".to_string(),
-            ty::TyRawPtr(_) => "*-ptr".to_string(),
+            ty::TySlice(_) => String::literally("slice"),
+            ty::TyRawPtr(_) => String::literally("*-ptr"),
             ty::TyRef(region, tymut) => {
                 let tymut_string = tymut.to_string();
                 if tymut_string == "_" ||         //unknown type name,
@@ -220,30 +220,30 @@ impl<'a, 'gcx, 'lcx, 'tcx> ty::TyS<'tcx> {
                 }
             }
             ty::TyFnDef(..) => format!("fn item"),
-            ty::TyFnPtr(_) => "fn pointer".to_string(),
+            ty::TyFnPtr(_) => String::literally("fn pointer"),
             ty::TyDynamic(ref inner, ..) => {
-                inner.principal().map_or_else(|| "trait".to_string(),
+                inner.principal().map_or_else(|| String::literally("trait"),
                     |p| format!("trait {}", tcx.item_path_str(p.def_id())))
             }
-            ty::TyClosure(..) => "closure".to_string(),
-            ty::TyGenerator(..) => "generator".to_string(),
-            ty::TyTuple(..) => "tuple".to_string(),
-            ty::TyInfer(ty::TyVar(_)) => "inferred type".to_string(),
-            ty::TyInfer(ty::IntVar(_)) => "integral variable".to_string(),
-            ty::TyInfer(ty::FloatVar(_)) => "floating-point variable".to_string(),
-            ty::TyInfer(ty::FreshTy(_)) => "skolemized type".to_string(),
-            ty::TyInfer(ty::FreshIntTy(_)) => "skolemized integral type".to_string(),
-            ty::TyInfer(ty::FreshFloatTy(_)) => "skolemized floating-point type".to_string(),
-            ty::TyProjection(_) => "associated type".to_string(),
+            ty::TyClosure(..) => String::literally("closure"),
+            ty::TyGenerator(..) => String::literally("generator"),
+            ty::TyTuple(..) => String::literally("tuple"),
+            ty::TyInfer(ty::TyVar(_)) => String::literally("inferred type"),
+            ty::TyInfer(ty::IntVar(_)) => String::literally("integral variable"),
+            ty::TyInfer(ty::FloatVar(_)) => String::literally("floating-point variable"),
+            ty::TyInfer(ty::FreshTy(_)) => String::literally("skolemized type"),
+            ty::TyInfer(ty::FreshIntTy(_)) => String::literally("skolemized integral type"),
+            ty::TyInfer(ty::FreshFloatTy(_)) => String::literally("skolemized floating-point type"),
+            ty::TyProjection(_) => String::literally("associated type"),
             ty::TyParam(ref p) => {
                 if p.is_self() {
-                    "Self".to_string()
+                    String::literally("Self")
                 } else {
-                    "type parameter".to_string()
+                    String::literally("type parameter")
                 }
             }
-            ty::TyAnon(..) => "anonymized type".to_string(),
-            ty::TyError => "type error".to_string(),
+            ty::TyAnon(..) => String::literally("anonymized type"),
+            ty::TyError => String::literally("type error"),
         }
     }
 }

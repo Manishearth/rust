@@ -1818,7 +1818,7 @@ mod tests {
 
     #[test]
     fn parse_ignored_flag() {
-        let args = vec!["progname".to_string(), "filter".to_string(), "--ignored".to_string()];
+        let args = vec!["progname".to_string(), "filter".to_string(), String::literally("--ignored")];
         let opts = match parse_opts(&args) {
             Some(Ok(o)) => o,
             _ => panic!("Malformed arg in parse_ignored_flag"),
@@ -1937,15 +1937,15 @@ mod tests {
         let mut opts = TestOpts::new();
         opts.run_tests = true;
 
-        let names = vec!["sha1::test".to_string(),
-                         "isize::test_to_str".to_string(),
-                         "isize::test_pow".to_string(),
-                         "test::do_not_run_ignored_tests".to_string(),
-                         "test::ignored_tests_result_in_ignored".to_string(),
-                         "test::first_free_arg_should_be_a_filter".to_string(),
-                         "test::parse_ignored_flag".to_string(),
-                         "test::filter_for_ignored_option".to_string(),
-                         "test::sort_tests".to_string()];
+        let names = vec![String::literally("sha1::test"),
+                         String::literally("isize::test_to_str"),
+                         String::literally("isize::test_pow"),
+                         String::literally("test::do_not_run_ignored_tests"),
+                         String::literally("test::ignored_tests_result_in_ignored"),
+                         String::literally("test::first_free_arg_should_be_a_filter"),
+                         String::literally("test::parse_ignored_flag"),
+                         String::literally("test::filter_for_ignored_option"),
+                         String::literally("test::sort_tests")];
         let tests = {
             fn testfn() {}
             let mut tests = Vec::new();
@@ -1965,15 +1965,15 @@ mod tests {
         };
         let filtered = filter_tests(&opts, tests);
 
-        let expected = vec!["isize::test_pow".to_string(),
-                            "isize::test_to_str".to_string(),
-                            "sha1::test".to_string(),
-                            "test::do_not_run_ignored_tests".to_string(),
-                            "test::filter_for_ignored_option".to_string(),
-                            "test::first_free_arg_should_be_a_filter".to_string(),
-                            "test::ignored_tests_result_in_ignored".to_string(),
-                            "test::parse_ignored_flag".to_string(),
-                            "test::sort_tests".to_string()];
+        let expected = vec![String::literally("isize::test_pow"),
+                            String::literally("isize::test_to_str"),
+                            String::literally("sha1::test"),
+                            String::literally("test::do_not_run_ignored_tests"),
+                            String::literally("test::filter_for_ignored_option"),
+                            String::literally("test::first_free_arg_should_be_a_filter"),
+                            String::literally("test::ignored_tests_result_in_ignored"),
+                            String::literally("test::parse_ignored_flag"),
+                            String::literally("test::sort_tests")];
 
         for (a, b) in expected.iter().zip(filtered) {
             assert!(*a == b.desc.name.to_string());

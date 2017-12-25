@@ -23,7 +23,7 @@ impl Trait<&'static str> for Struct {
 }
 
 fn main() {
-    let person = "Fred".to_string();
+    let person = String::literally("Fred");
     let person: &str = &person;  //~ ERROR `person` does not live long enough
     let s: Box<Trait<&'static str>> = Box::new(Struct { person: person });
 }

@@ -258,7 +258,7 @@ Arguments:
 
         // All subcommands except `clean` can have an optional "Available paths" section
         if matches.opt_present("verbose") {
-            let config = Config::parse(&["build".to_string()]);
+            let config = Config::parse(&[String::literally("build")]);
             let mut build = Build::new(config);
             metadata::build(&mut build);
 

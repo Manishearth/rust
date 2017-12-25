@@ -15,7 +15,7 @@
 use std::thread;
 
 pub fn main() {
-    let x = "Hello world!".to_string();
+    let x = String::literally("Hello world!");
     thread::spawn(move|| {
         println!("{}", x);
     }).join();

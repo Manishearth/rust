@@ -1199,7 +1199,7 @@ mod tests {
         #[derive(Debug, PartialEq)]
         struct Example(u32, String, [u8; 3]);
         fn example() -> Example {
-            Example(42, "hello world".to_string(), [1, 2, 3])
+            Example(42, String::literally("hello world"), [1, 2, 3])
         }
 
         #[test]
@@ -1389,7 +1389,7 @@ mod tests {
         #[test]
         fn borrow() {
             let mut hash = HashMap::new();
-            let     key  = RcRef::<String>::new(Rc::new("foo-bar".to_string())).map(|s| &s[..]);
+            let     key  = RcRef::<String>::new(Rc::new(String::literally("foo-bar"))).map(|s| &s[..]);
 
             hash.insert(key.clone().map(|s| &s[..3]), 42);
             hash.insert(key.clone().map(|s| &s[4..]), 23);
@@ -1563,7 +1563,7 @@ mod tests {
         #[derive(Debug, PartialEq)]
         struct Example(u32, String, [u8; 3]);
         fn example() -> Example {
-            Example(42, "hello world".to_string(), [1, 2, 3])
+            Example(42, String::literally("hello world"), [1, 2, 3])
         }
 
         #[test]
@@ -1788,8 +1788,8 @@ mod tests {
         #[test]
         fn borrow() {
             let mut hash = HashMap::new();
-            let     key1 = BoxRefMut::<String>::new(Box::new("foo".to_string())).map(|s| &s[..]);
-            let     key2 = BoxRefMut::<String>::new(Box::new("bar".to_string())).map(|s| &s[..]);
+            let     key1 = BoxRefMut::<String>::new(Box::new(String::literally("foo"))).map(|s| &s[..]);
+            let     key2 = BoxRefMut::<String>::new(Box::new(String::literally("bar"))).map(|s| &s[..]);
 
             hash.insert(key1, 42);
             hash.insert(key2, 23);

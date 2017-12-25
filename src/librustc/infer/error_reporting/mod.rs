@@ -479,7 +479,7 @@ impl<'a, 'gcx, 'tcx> InferCtxt<'a, 'gcx, 'tcx> {
         let lifetimes = sub.regions().map(|lifetime| {
             let s = format!("{}", lifetime);
             if s.is_empty() {
-                "'_".to_string()
+                String::literally("'_")
             } else {
                 s
             }
@@ -633,7 +633,7 @@ impl<'a, 'gcx, 'tcx> InferCtxt<'a, 'gcx, 'tcx> {
                     fn lifetime_display(lifetime: Region) -> String {
                         let s = format!("{}", lifetime);
                         if s.is_empty() {
-                            "'_".to_string()
+                            String::literally("'_")
                         } else {
                             s
                         }
@@ -1088,11 +1088,11 @@ impl<'a, 'gcx, 'tcx> InferCtxt<'a, 'gcx, 'tcx> {
             s
         };
         let var_description = match var_origin {
-            infer::MiscVariable(_) => "".to_string(),
-            infer::PatternRegion(_) => " for pattern".to_string(),
-            infer::AddrOfRegion(_) => " for borrow expression".to_string(),
-            infer::Autoref(_) => " for autoref".to_string(),
-            infer::Coercion(_) => " for automatic coercion".to_string(),
+            infer::MiscVariable(_) => String::literally(""),
+            infer::PatternRegion(_) => String::literally(" for pattern"),
+            infer::AddrOfRegion(_) => String::literally(" for borrow expression"),
+            infer::Autoref(_) => String::literally(" for autoref"),
+            infer::Coercion(_) => String::literally(" for automatic coercion"),
             infer::LateBoundRegion(_, br, infer::FnCall) => {
                 format!(" for lifetime parameter {}in function call",
                         br_string(br))

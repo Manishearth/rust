@@ -13,7 +13,7 @@ fn decode() -> String {
         let mut ch_start: usize;
         break 'outer;
     }
-    "".to_string()
+    String::literally("")
 }
 
 pub fn main() {

@@ -10,7 +10,7 @@
 
 fn main() {
     let msg;
-    match Some("Hello".to_string()) {
+    match Some(String::literally("Hello")) {
         Some(ref m) => {
         //~^ ERROR borrowed value does not live long enough
             msg = m;

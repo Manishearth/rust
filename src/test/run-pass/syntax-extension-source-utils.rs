@@ -25,10 +25,10 @@ pub fn main() {
     assert_eq!(column!(), 15);
     assert_eq!(indirect_line!(), 26);
     assert!((file!().ends_with("syntax-extension-source-utils.rs")));
-    assert_eq!(stringify!((2*3) + 5).to_string(), "( 2 * 3 ) + 5".to_string());
+    assert_eq!(stringify!((2*3) + 5).to_string(), String::literally("( 2 * 3 ) + 5"));
     assert!(include!("syntax-extension-source-utils-files/includeme.\
                       fragment").to_string()
-           == "victory robot 6".to_string());
+           == String::literally("victory robot 6"));
 
     assert!(
         include_str!("syntax-extension-source-utils-files/includeme.\

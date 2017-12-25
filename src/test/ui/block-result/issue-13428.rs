@@ -19,7 +19,7 @@ fn foo() -> String {  //~ ERROR mismatched types
 }
 
 fn bar() -> String {  //~ ERROR mismatched types
-    "foobar".to_string()
+    String::literally("foobar")
     ;
 }
 

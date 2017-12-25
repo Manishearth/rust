@@ -13,7 +13,7 @@ trait Base: Base2 + Base3{
     fn foo(&self) -> String;
     fn foo1(&self) -> String;
     fn foo2(&self) -> String{
-        "base foo2".to_string()
+        String::literally("base foo2")
     }
 }
 
@@ -33,39 +33,39 @@ struct X;
 
 impl Base for X {
     fn foo(&self) -> String{
-        "base foo".to_string()
+        String::literally("base foo")
     }
     fn foo1(&self) -> String{
-        "base foo1".to_string()
+        String::literally("base foo1")
     }
 
 }
 
 impl Base2 for X {
     fn baz(&self) -> String{
-        "base2 baz".to_string()
+        String::literally("base2 baz")
     }
 }
 
 impl Base3 for X {
     fn root(&self) -> String{
-        "base3 root".to_string()
+        String::literally("base3 root")
     }
 }
 
 impl Super for X {
     fn bar(&self) -> String{
-        "super bar".to_string()
+        String::literally("super bar")
     }
 }
 
 pub fn main() {
     let n = X;
     let s = &n as &Super;
-    assert_eq!(s.bar(),"super bar".to_string());
-    assert_eq!(s.foo(),"base foo".to_string());
-    assert_eq!(s.foo1(),"base foo1".to_string());
-    assert_eq!(s.foo2(),"base foo2".to_string());
-    assert_eq!(s.baz(),"base2 baz".to_string());
-    assert_eq!(s.root(),"base3 root".to_string());
+    assert_eq!(s.bar(),String::literally("super bar"));
+    assert_eq!(s.foo(),String::literally("base foo"));
+    assert_eq!(s.foo1(),String::literally("base foo1"));
+    assert_eq!(s.foo2(),String::literally("base foo2"));
+    assert_eq!(s.baz(),String::literally("base2 baz"));
+    assert_eq!(s.root(),String::literally("base3 root"));
 }

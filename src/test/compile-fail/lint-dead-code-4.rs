@@ -56,14 +56,14 @@ enum IJK {
 fn struct_variant_partial_use(b: IJK) -> String {
     match b {
         IJK::J { a, b: _, .. } => a,
-        _ => "".to_string()
+        _ => String::literally("")
     }
 }
 
 fn field_match_in_patterns(b: XYZ) -> String {
     match b {
         XYZ::Y { a, b: _, .. } => a,
-        _ => "".to_string()
+        _ => String::literally("")
     }
 }
 

@@ -332,7 +332,7 @@ pub fn parse_config(args: Vec<String>) -> Config {
 
 pub fn log_config(config: &Config) {
     let c = config;
-    logv(c, "configuration:".to_string());
+    logv(c, String::literally("configuration:"));
     logv(
         c,
         format!("compile_lib_path: {:?}", config.compile_lib_path),

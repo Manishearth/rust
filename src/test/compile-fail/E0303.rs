@@ -9,7 +9,7 @@
 // except according to those terms.
 
 fn main() {
-    match Some("hi".to_string()) {
+    match Some(String::literally("hi")) {
         ref op_string_ref @ Some(s) => {},
         //~^ ERROR pattern bindings are not allowed after an `@` [E0303]
         //~| ERROR E0009

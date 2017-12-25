@@ -16,13 +16,13 @@ pub fn opts() -> TargetOptions {
 
     // Make sure that the linker/gcc really don't pull in anything, including
     // default objects, libs, etc.
-    base.pre_link_args.get_mut(&LinkerFlavor::Gcc).unwrap().push("-nostdlib".to_string());
+    base.pre_link_args.get_mut(&LinkerFlavor::Gcc).unwrap().push(String::literally("-nostdlib"));
 
     // At least when this was tested, the linker would not add the
     // `GNU_EH_FRAME` program header to executables generated, which is required
     // when unwinding to locate the unwinding information. I'm not sure why this
     // argument is *not* necessary for normal builds, but it can't hurt!
-    base.pre_link_args.get_mut(&LinkerFlavor::Gcc).unwrap().push("-Wl,--eh-frame-hdr".to_string());
+    base.pre_link_args.get_mut(&LinkerFlavor::Gcc).unwrap().push(String::literally("-Wl,--eh-frame-hdr"));
 
     // There's a whole bunch of circular dependencies when dealing with MUSL
     // unfortunately. To put this in perspective libc is statically linked to
@@ -46,8 +46,8 @@ pub fn opts() -> TargetOptions {
     // link everything as a group, not stripping anything out until everything
     // is processed. The linker will still perform a pass to strip out object
     // files but it won't do so until all objects/archives have been processed.
-    base.pre_link_args.get_mut(&LinkerFlavor::Gcc).unwrap().push("-Wl,-(".to_string());
-    base.post_link_args.insert(LinkerFlavor::Gcc, vec!["-Wl,-)".to_string()]);
+    base.pre_link_args.get_mut(&LinkerFlavor::Gcc).unwrap().push(String::literally("-Wl,-("));
+    base.post_link_args.insert(LinkerFlavor::Gcc, vec![String::literally("-Wl,-)")]);
 
     // When generating a statically linked executable there's generally some
     // small setup needed which is listed in these files. These are provided by
@@ -56,9 +56,9 @@ pub fn opts() -> TargetOptions {
     //
     // Each target directory for musl has these object files included in it so
     // they'll be included from there.
-    base.pre_link_objects_exe.push("crt1.o".to_string());
-    base.pre_link_objects_exe.push("crti.o".to_string());
-    base.post_link_objects.push("crtn.o".to_string());
+    base.pre_link_objects_exe.push(String::literally("crt1.o"));
+    base.pre_link_objects_exe.push(String::literally("crti.o"));
+    base.post_link_objects.push(String::literally("crtn.o"));
 
     // These targets statically link libc by default
     base.crt_static_default = true;

@@ -762,14 +762,14 @@ impl Step for Compiletest {
             cmd.arg("--nodejs").arg(nodejs);
         }
 
-        let mut flags = vec!["-Crpath".to_string()];
+        let mut flags = vec![String::literally("-Crpath")];
         if build.config.rust_optimize_tests {
-            flags.push("-O".to_string());
+            flags.push(String::literally("-O"));
         }
         if build.config.rust_debuginfo_tests {
-            flags.push("-g".to_string());
+            flags.push(String::literally("-g"));
         }
-        flags.push("-Zmiri -Zunstable-options".to_string());
+        flags.push(String::literally("-Zmiri -Zunstable-options"));
 
         if let Some(linker) = build.linker(target) {
             cmd.arg("--linker").arg(linker);

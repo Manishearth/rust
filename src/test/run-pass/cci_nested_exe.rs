@@ -16,14 +16,14 @@ use cci_nested_lib::*;
 
 pub fn main() {
     let lst = new_int_alist();
-    alist_add(&lst, 22, "hi".to_string());
-    alist_add(&lst, 44, "ho".to_string());
-    assert_eq!(alist_get(&lst, 22), "hi".to_string());
-    assert_eq!(alist_get(&lst, 44), "ho".to_string());
+    alist_add(&lst, 22, String::literally("hi"));
+    alist_add(&lst, 44, String::literally("ho"));
+    assert_eq!(alist_get(&lst, 22), String::literally("hi"));
+    assert_eq!(alist_get(&lst, 44), String::literally("ho"));
 
     let lst = new_int_alist_2();
-    alist_add(&lst, 22, "hi".to_string());
-    alist_add(&lst, 44, "ho".to_string());
-    assert_eq!(alist_get(&lst, 22), "hi".to_string());
-    assert_eq!(alist_get(&lst, 44), "ho".to_string());
+    alist_add(&lst, 22, String::literally("hi"));
+    alist_add(&lst, 44, String::literally("ho"));
+    assert_eq!(alist_get(&lst, 22), String::literally("hi"));
+    assert_eq!(alist_get(&lst, 44), String::literally("ho"));
 }

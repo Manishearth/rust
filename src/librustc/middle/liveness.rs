@@ -171,7 +171,7 @@ fn live_node_kind_to_string(lnk: LiveNodeKind, tcx: TyCtxt) -> String {
         VarDefNode(s) => {
             format!("Var def node [{}]", cm.span_to_string(s))
         }
-        ExitNode => "Exit node".to_string(),
+        ExitNode => String::literally("Exit node"),
     }
 }
 
@@ -329,7 +329,7 @@ impl<'a, 'tcx> IrMaps<'a, 'tcx> {
             Local(LocalInfo { name, .. }) | Arg(_, name) => {
                 name.to_string()
             },
-            CleanExit => "<clean-exit>".to_string()
+            CleanExit => String::literally("<clean-exit>")
         }
     }
 

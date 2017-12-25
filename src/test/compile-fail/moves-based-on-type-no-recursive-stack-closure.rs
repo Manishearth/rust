@@ -20,7 +20,7 @@ struct R<'a> {
 }
 
 fn innocent_looking_victim() {
-    let mut x = Some("hello".to_string());
+    let mut x = Some(String::literally("hello"));
     conspirator(|f, writer| {
         if writer {
             x = None;

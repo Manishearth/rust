@@ -18,7 +18,7 @@ fn process_or_insert_default(map: &mut HashMap<usize, String>, key: usize) {
             process(value);
         }
         None => {
-            map.insert(key, "".to_string());
+            map.insert(key, String::literally(""));
         }
     }
 }

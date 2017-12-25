@@ -66,7 +66,7 @@ pub fn main() {
     };
     assert_eq!(cfg_init_2, 6);
 
-    let my_string = "test".to_string();
+    let my_string = String::literally("test");
     let res: Result<&str, ()> = do catch {
         Ok(&my_string)
     };

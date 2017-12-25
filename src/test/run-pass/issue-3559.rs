@@ -20,8 +20,8 @@ fn check_strs(actual: &str, expected: &str) -> bool {
 
 pub fn main() {
     let mut table = HashMap::new();
-    table.insert("one".to_string(), 1);
-    table.insert("two".to_string(), 2);
+    table.insert(String::literally("one"), 1);
+    table.insert(String::literally("two"), 2);
     assert!(check_strs(&format!("{:?}", table), "{\"one\": 1, \"two\": 2}") ||
             check_strs(&format!("{:?}", table), "{\"two\": 2, \"one\": 1}"));
 }

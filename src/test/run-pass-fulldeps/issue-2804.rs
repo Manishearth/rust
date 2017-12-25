@@ -42,15 +42,15 @@ fn add_interface(_store: isize, managed_ip: String, data: json::Json) -> (String
     match &data {
         &Json::Object(ref interface) => {
             let name = lookup(interface.clone(),
-                              "ifDescr".to_string(),
-                              "".to_string());
+                              String::literally("ifDescr"),
+                              String::literally(""));
             let label = format!("{}-{}", managed_ip, name);
 
             (label, object::bool_value(false))
         }
         _ => {
             println!("Expected dict for {} interfaces, found {}", managed_ip, data);
-            ("gnos:missing-interface".to_string(), object::bool_value(true))
+            (String::literally("gnos:missing-interface"), object::bool_value(true))
         }
     }
 }

@@ -686,7 +686,7 @@ fn link_natively(sess: &Session,
             fn escape_string(s: &[u8]) -> String {
                 str::from_utf8(s).map(|s| s.to_owned())
                     .unwrap_or_else(|_| {
-                        let mut x = "Non-UTF-8 output: ".to_string();
+                        let mut x = String::literally("Non-UTF-8 output: ");
                         x.extend(s.iter()
                                  .flat_map(|&b| ascii::escape_default(b))
                                  .map(|b| char::from_u32(b as u32).unwrap()));

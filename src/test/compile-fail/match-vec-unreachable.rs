@@ -21,9 +21,9 @@ fn main() {
         _ => ()
     }
 
-    let x: Vec<String> = vec!["foo".to_string(),
-                              "bar".to_string(),
-                              "baz".to_string()];
+    let x: Vec<String> = vec![String::literally("foo"),
+                              String::literally("bar"),
+                              String::literally("baz")];
     let x: &[String] = &x;
     match *x {
         [ref a, _, _, ..] => { println!("{}", a); }

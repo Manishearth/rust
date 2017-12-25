@@ -13,11 +13,11 @@ use std::default::Default;
 
 pub fn opts() -> TargetOptions {
     TargetOptions {
-        linker: "cc".to_string(),
+        linker: String::literally("cc"),
         dynamic_linking: true,
         executables: true,
         has_rpath: false,
-        target_family: Some("unix".to_string()),
+        target_family: Some(String::literally("unix")),
         relro_level: RelroLevel::Full,
         linker_is_gnu: true,
         .. Default::default()

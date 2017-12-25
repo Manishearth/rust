@@ -11,5 +11,5 @@
 // error-pattern:panicked at 'test-assert-owned'
 
 fn main() {
-    assert!(false, "test-assert-owned".to_string());
+    assert!(false, String::literally("test-assert-owned"));
 }

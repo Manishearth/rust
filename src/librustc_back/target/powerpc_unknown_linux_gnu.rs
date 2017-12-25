@@ -13,22 +13,22 @@ use target::{Target, TargetResult};
 
 pub fn target() -> TargetResult {
     let mut base = super::linux_base::opts();
-    base.pre_link_args.get_mut(&LinkerFlavor::Gcc).unwrap().push("-m32".to_string());
+    base.pre_link_args.get_mut(&LinkerFlavor::Gcc).unwrap().push(String::literally("-m32"));
     base.max_atomic_width = Some(32);
 
     // see #36994
     base.exe_allocation_crate = None;
 
     Ok(Target {
-        llvm_target: "powerpc-unknown-linux-gnu".to_string(),
-        target_endian: "big".to_string(),
-        target_pointer_width: "32".to_string(),
-        target_c_int_width: "32".to_string(),
-        data_layout: "E-m:e-p:32:32-i64:64-n32".to_string(),
-        arch: "powerpc".to_string(),
-        target_os: "linux".to_string(),
-        target_env: "gnu".to_string(),
-        target_vendor: "unknown".to_string(),
+        llvm_target: String::literally("powerpc-unknown-linux-gnu"),
+        target_endian: String::literally("big"),
+        target_pointer_width: String::literally("32"),
+        target_c_int_width: String::literally("32"),
+        data_layout: String::literally("E-m:e-p:32:32-i64:64-n32"),
+        arch: String::literally("powerpc"),
+        target_os: String::literally("linux"),
+        target_env: String::literally("gnu"),
+        target_vendor: String::literally("unknown"),
         linker_flavor: LinkerFlavor::Gcc,
         options: base,
     })

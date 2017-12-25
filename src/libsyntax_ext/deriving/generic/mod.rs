@@ -1216,7 +1216,7 @@ impl<'a> MethodDef<'a> {
             .enumerate()
             .map(|(arg_count, _self_arg)| {
                 if arg_count == 0 {
-                    "__self".to_string()
+                    String::literally("__self")
                 } else {
                     format!("__arg_{}", arg_count)
                 }

@@ -3261,7 +3261,7 @@ impl<'a, 'gcx, 'tcx> FnCtxt<'a, 'gcx, 'tcx> {
             displayable_field_names.sort();
 
             let truncated_fields_error = if len <= 3 {
-                "".to_string()
+                String::literally("")
             } else {
                 format!(" and {} other field{}", (len - 3), if len - 3 == 1 {""} else {"s"})
             };
@@ -4404,7 +4404,7 @@ impl<'a, 'gcx, 'tcx> FnCtxt<'a, 'gcx, 'tcx> {
                     let sp = cause_span.next_point();
                     err.span_suggestion(sp,
                                         "try adding a semicolon",
-                                        ";".to_string());
+                                        String::literally(";"));
                 }
                 _ => (),
             }
@@ -4493,7 +4493,7 @@ impl<'a, 'gcx, 'tcx> FnCtxt<'a, 'gcx, 'tcx> {
         }
         let original_span = original_sp(last_stmt.span, blk.span);
         let span_semi = original_span.with_lo(original_span.hi() - BytePos(1));
-        err.span_suggestion(span_semi, "consider removing this semicolon", "".to_string());
+        err.span_suggestion(span_semi, "consider removing this semicolon", String::literally(""));
     }
 
     // Instantiates the given path, which must refer to an item with the given

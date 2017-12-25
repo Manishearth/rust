@@ -917,7 +917,7 @@ impl<'a, 'gcx, 'tcx> InferCtxt<'a, 'gcx, 'tcx> {
                                 tys.into_iter().map(|ty| if let Some(ty) = ty {
                                     ty
                                 } else {
-                                    "_".to_string()
+                                    String::literally("_")
                                 }).collect::<Vec<String>>().join(", ")
                             ))
                         } else {

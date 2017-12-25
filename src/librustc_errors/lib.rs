@@ -528,7 +528,7 @@ impl Handler {
                 }
                 return;
             }
-            1 => s = "aborting due to previous error".to_string(),
+            1 => s = String::literally("aborting due to previous error"),
             _ => {
                 s = format!("aborting due to {} previous errors", self.err_count());
             }

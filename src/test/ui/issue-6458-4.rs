@@ -9,7 +9,7 @@
 // except according to those terms.
 
 fn foo(b: bool) -> Result<bool,String> { //~ ERROR mismatched types
-    Err("bar".to_string());
+    Err(String::literally("bar"));
 }
 
 fn main() {

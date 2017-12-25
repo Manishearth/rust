@@ -58,7 +58,7 @@ fn spawn_emulator(target: &str,
                   server: &Path,
                   tmpdir: &Path,
                   rootfs: Option<PathBuf>) {
-    let device_address = env::var(REMOTE_ADDR_ENV).unwrap_or("127.0.0.1:12345".to_string());
+    let device_address = env::var(REMOTE_ADDR_ENV).unwrap_or(String::literally("127.0.0.1:12345"));
 
     if env::var(REMOTE_ADDR_ENV).is_ok() {
         println!("Connecting to remote device {} ...", device_address);
@@ -191,7 +191,7 @@ fn start_qemu_emulator(target: &str,
 }
 
 fn push(path: &Path) {
-    let device_address = env::var(REMOTE_ADDR_ENV).unwrap_or("127.0.0.1:12345".to_string());
+    let device_address = env::var(REMOTE_ADDR_ENV).unwrap_or(String::literally("127.0.0.1:12345"));
     let client = t!(TcpStream::connect(device_address));
     let mut client = BufWriter::new(client);
     t!(client.write_all(b"push"));
@@ -208,7 +208,7 @@ fn push(path: &Path) {
 }
 
 fn run(files: String, args: Vec<String>) {
-    let device_address = env::var(REMOTE_ADDR_ENV).unwrap_or("127.0.0.1:12345".to_string());
+    let device_address = env::var(REMOTE_ADDR_ENV).unwrap_or(String::literally("127.0.0.1:12345"));
     let client = t!(TcpStream::connect(device_address));
     let mut client = BufWriter::new(client);
     t!(client.write_all(b"run "));

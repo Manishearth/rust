@@ -55,7 +55,7 @@ pub fn eval_body<'a, 'tcx>(
     };
 
     if ecx.tcx.has_attr(instance.def_id(), "linkage") {
-        return Err(ConstEvalError::NotConst("extern global".to_string()).into());
+        return Err(ConstEvalError::NotConst(String::literally("extern global")).into());
     }
     let instance_ty = instance.ty(tcx);
     if tcx.interpret_interner.borrow().get_cached(cid).is_none() {
@@ -122,7 +122,7 @@ pub fn eval_body_as_integer<'a, 'tcx>(
         _ => {
             return Err(
                 ConstEvalError::NeedsRfc(
-                    "evaluating anything other than isize/usize during typeck".to_string(),
+                    String::literally("evaluating anything other than isize/usize during typeck"),
                 ).into(),
             )
         }
@@ -266,7 +266,7 @@ impl<'tcx> super::Machine<'tcx> for CompileTimeEvaluator {
             Ok(None)
         } else {
             Err(
-                ConstEvalError::NeedsRfc("Pointer arithmetic or comparison".to_string()).into(),
+                ConstEvalError::NeedsRfc(String::literally("Pointer arithmetic or comparison")).into(),
             )
         }
     }
@@ -281,7 +281,7 @@ impl<'tcx> super::Machine<'tcx> for CompileTimeEvaluator {
         _dest: Place,
     ) -> EvalResult<'tcx> {
         Err(
-            ConstEvalError::NeedsRfc("Heap allocations via `box` keyword".to_string()).into(),
+            ConstEvalError::NeedsRfc(String::literally("Heap allocations via `box` keyword")).into(),
         )
     }
 
@@ -291,7 +291,7 @@ impl<'tcx> super::Machine<'tcx> for CompileTimeEvaluator {
         _mutability: Mutability,
     ) -> EvalResult<'tcx> {
         Err(
-            ConstEvalError::NotConst("statics with `linkage` attribute".to_string()).into(),
+            ConstEvalError::NotConst(String::literally("statics with `linkage` attribute")).into(),
         )
     }
 }

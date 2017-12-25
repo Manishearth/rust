@@ -1539,7 +1539,7 @@ impl<'test> TestCx<'test> {
                 let mir_dump_dir = self.get_mir_dump_dir();
                 let _ = fs::remove_dir_all(&mir_dump_dir);
                 create_dir_all(mir_dump_dir.as_path()).unwrap();
-                let mut dir_opt = "-Zdump-mir-dir=".to_string();
+                let mut dir_opt = String::literally("-Zdump-mir-dir=");
                 dir_opt.push_str(mir_dump_dir.to_str().unwrap());
                 debug!("dir_opt: {:?}", dir_opt);
 

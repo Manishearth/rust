@@ -41,7 +41,7 @@ fn c() -> Result<Foo, Bar> {
 fn d() -> X<X<String, String>, String> {
     let x = X {
         x: X {
-            x: "".to_string(),
+            x: String::literally(""),
             y: 2,
         },
         y: 3,
@@ -52,10 +52,10 @@ fn d() -> X<X<String, String>, String> {
 fn e() -> X<X<String, String>, String> {
     let x = X {
         x: X {
-            x: "".to_string(),
+            x: String::literally(""),
             y: 2,
         },
-        y: "".to_string(),
+        y: String::literally(""),
     };
     x //~ ERROR mismatched types
 }

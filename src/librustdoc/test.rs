@@ -131,12 +131,12 @@ pub fn run(input_path: &Path,
             collector: &mut collector,
             map: &map
         };
-        hir_collector.visit_testable("".to_string(), &krate.attrs, |this| {
+        hir_collector.visit_testable(String::literally(""), &krate.attrs, |this| {
             intravisit::walk_crate(this, krate);
         });
     }
 
-    test_args.insert(0, "rustdoctest".to_string());
+    test_args.insert(0, String::literally("rustdoctest"));
 
     testing::test_main(&test_args,
                        collector.tests.into_iter().collect(),

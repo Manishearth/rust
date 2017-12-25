@@ -148,7 +148,7 @@ impl MetadataLoaderTrait for NoLlvmMetadataLoader {
             }
         }
 
-        Err("Couldnt find metadata section".to_string())
+        Err(String::literally("Couldnt find metadata section"))
     }
 
     fn get_dylib_metadata(
@@ -233,7 +233,7 @@ impl TransCrate for MetadataOnlyTransCrate {
                 &trans.0.metadata.raw_data
             };
             let mut builder = Builder::new(File::create(&output_name).unwrap());
-            let header = Header::new("rust.metadata.bin".to_string(), metadata.len() as u64);
+            let header = Header::new(String::literally("rust.metadata.bin"), metadata.len() as u64);
             builder.append(&header, Cursor::new(metadata)).unwrap();
         }
 

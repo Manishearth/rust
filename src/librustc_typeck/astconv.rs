@@ -1350,7 +1350,7 @@ fn report_lifetime_number_error(tcx: TyCtxt, span: Span, number: usize, expected
     } else {
         let additional = number - expected;
         if additional == 1 {
-            "unexpected lifetime parameter".to_string()
+            String::literally("unexpected lifetime parameter")
         } else {
             format!("{} unexpected lifetime parameters", additional)
         }

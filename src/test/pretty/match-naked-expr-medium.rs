@@ -15,10 +15,10 @@ fn main() {
     let _y =
         match x {
             Some(_) =>
-            ["some(_)".to_string(), "not".to_string(), "SO".to_string(),
-             "long".to_string(), "string".to_string()],
+            ["some(_)".to_string(), "not".to_string(), String::literally("SO"),
+             "long".to_string(), String::literally("string")],
             None =>
-            ["none".to_string(), "a".to_string(), "a".to_string(),
-             "a".to_string(), "a".to_string()],
+            ["none".to_string(), "a".to_string(), String::literally("a"),
+             "a".to_string(), String::literally("a")],
         };
 }

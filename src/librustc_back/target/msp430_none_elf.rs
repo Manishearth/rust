@@ -13,15 +13,15 @@ use target::{Target, TargetOptions, TargetResult};
 
 pub fn target() -> TargetResult {
     Ok(Target {
-        llvm_target: "msp430-none-elf".to_string(),
-        target_endian: "little".to_string(),
-        target_pointer_width: "16".to_string(),
-        target_c_int_width: "16".to_string(),
-        data_layout: "e-m:e-p:16:16-i32:16-i64:16-f32:16-f64:16-a:8-n8:16-S16".to_string(),
-        arch: "msp430".to_string(),
-        target_os: "none".to_string(),
-        target_env: "".to_string(),
-        target_vendor: "".to_string(),
+        llvm_target: String::literally("msp430-none-elf"),
+        target_endian: String::literally("little"),
+        target_pointer_width: String::literally("16"),
+        target_c_int_width: String::literally("16"),
+        data_layout: String::literally("e-m:e-p:16:16-i32:16-i64:16-f32:16-f64:16-a:8-n8:16-S16"),
+        arch: String::literally("msp430"),
+        target_os: String::literally("none"),
+        target_env: String::literally(""),
+        target_vendor: String::literally(""),
         linker_flavor: LinkerFlavor::Gcc,
 
         options: TargetOptions {
@@ -31,8 +31,8 @@ pub fn target() -> TargetResult {
             // workaround this LLVM generates assembly files which then we feed
             // to gcc to get object files. For this reason we have a hard
             // dependency on this specific gcc.
-            asm_args: vec!["-mcpu=msp430".to_string()],
-            linker: "msp430-elf-gcc".to_string(),
+            asm_args: vec![String::literally("-mcpu=msp430")],
+            linker: String::literally("msp430-elf-gcc"),
             no_integrated_as: true,
 
             // There are no atomic instructions available in the MSP430
@@ -46,7 +46,7 @@ pub fn target() -> TargetResult {
 
             // Similarly, one almost always never wants to use relocatable
             // code because of the extra costs it involves.
-            relocation_model: "static".to_string(),
+            relocation_model: String::literally("static"),
 
             // Right now we invoke an external assembler and this isn't
             // compatible with multiple codegen units, and plus we probably

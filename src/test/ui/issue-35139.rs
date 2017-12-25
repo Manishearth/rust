@@ -29,7 +29,7 @@ fn dangling(a: &str) -> Box<fmt::Debug> {
 }
 
 fn main() {
-    let mut s = "hello".to_string();
+    let mut s = String::literally("hello");
     let x = dangling(&s);
     s = String::new();
     println!("{:?}", x);

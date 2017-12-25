@@ -15,18 +15,18 @@ use super::apple_ios_base::{opts, Arch};
 pub fn target() -> TargetResult {
     let base = opts(Arch::Arm64)?;
     Ok(Target {
-        llvm_target: "arm64-apple-ios".to_string(),
-        target_endian: "little".to_string(),
-        target_pointer_width: "64".to_string(),
-        target_c_int_width: "32".to_string(),
-        data_layout: "e-m:o-i64:64-i128:128-n32:64-S128".to_string(),
-        arch: "aarch64".to_string(),
-        target_os: "ios".to_string(),
-        target_env: "".to_string(),
-        target_vendor: "apple".to_string(),
+        llvm_target: String::literally("arm64-apple-ios"),
+        target_endian: String::literally("little"),
+        target_pointer_width: String::literally("64"),
+        target_c_int_width: String::literally("32"),
+        data_layout: String::literally("e-m:o-i64:64-i128:128-n32:64-S128"),
+        arch: String::literally("aarch64"),
+        target_os: String::literally("ios"),
+        target_env: String::literally(""),
+        target_vendor: String::literally("apple"),
         linker_flavor: LinkerFlavor::Gcc,
         options: TargetOptions {
-            features: "+neon,+fp-armv8,+cyclone".to_string(),
+            features: String::literally("+neon,+fp-armv8,+cyclone"),
             eliminate_frame_pointer: false,
             max_atomic_width: Some(128),
             abi_blacklist: super::arm_base::abi_blacklist(),

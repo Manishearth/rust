@@ -145,7 +145,7 @@ fn merge_error() -> Result<i32, Error> {
 fn main() {
     assert_eq!(Ok(3), on_method());
 
-    assert_eq!(Ok("3".to_string()), in_chain());
+    assert_eq!(Ok(String::literally("3")), in_chain());
 
     assert_eq!(Ok(4), on_call());
 

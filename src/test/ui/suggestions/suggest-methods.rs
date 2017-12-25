@@ -27,7 +27,7 @@ fn main() {
     let f = Foo;
     f.bat(1.0); //~ ERROR no method named
 
-    let s = "foo".to_string();
+    let s = String::literally("foo");
     let _ = s.is_emtpy(); //~ ERROR no method named
 
     // Generates a warning for `count_zeros()`. `count_ones()` is also a close

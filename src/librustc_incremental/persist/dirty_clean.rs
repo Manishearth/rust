@@ -587,7 +587,7 @@ fn expect_associated_value(tcx: TyCtxt, item: &NestedMetaItem) -> ast::Name {
         let msg = if let Some(name) = item.name() {
             format!("associated value expected for `{}`", name)
         } else {
-            "expected an associated value".to_string()
+            String::literally("expected an associated value")
         };
 
         tcx.sess.span_fatal(item.span, &msg);

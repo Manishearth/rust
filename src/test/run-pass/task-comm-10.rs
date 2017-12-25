@@ -22,10 +22,10 @@ fn start(tx: &Sender<Sender<String>>) {
     let mut a;
     let mut b;
     a = rx.recv().unwrap();
-    assert_eq!(a, "A".to_string());
+    assert_eq!(a, String::literally("A"));
     println!("{}", a);
     b = rx.recv().unwrap();
-    assert_eq!(b, "B".to_string());
+    assert_eq!(b, String::literally("B"));
     println!("{}", b);
 }
 
@@ -34,8 +34,8 @@ pub fn main() {
     let child = thread::spawn(move|| { start(&tx) });
 
     let mut c = rx.recv().unwrap();
-    c.send("A".to_string()).unwrap();
-    c.send("B".to_string()).unwrap();
+    c.send(String::literally("A")).unwrap();
+    c.send(String::literally("B")).unwrap();
     thread::yield_now();
 
     child.join();

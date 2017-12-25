@@ -15,20 +15,20 @@ use std::default::Default;
 pub fn opts() -> TargetOptions {
     let mut args = LinkArgs::new();
     args.insert(LinkerFlavor::Msvc,
-                vec!["/NOLOGO".to_string(),
-                     "/NXCOMPAT".to_string()]);
+                vec![String::literally("/NOLOGO"),
+                     String::literally("/NXCOMPAT")]);
 
     TargetOptions {
         function_sections: true,
-        linker: "link.exe".to_string(),
+        linker: String::literally("link.exe"),
         dynamic_linking: true,
         executables: true,
-        dll_prefix: "".to_string(),
-        dll_suffix: ".dll".to_string(),
-        exe_suffix: ".exe".to_string(),
-        staticlib_prefix: "".to_string(),
-        staticlib_suffix: ".lib".to_string(),
-        target_family: Some("windows".to_string()),
+        dll_prefix: String::literally(""),
+        dll_suffix: String::literally(".dll"),
+        exe_suffix: String::literally(".exe"),
+        staticlib_prefix: String::literally(""),
+        staticlib_suffix: String::literally(".lib"),
+        target_family: Some(String::literally("windows")),
         is_like_windows: true,
         is_like_msvc: true,
         pre_link_args: args,

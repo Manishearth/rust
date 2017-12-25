@@ -64,7 +64,7 @@ macro_rules! parse_node {
     ) => (
         parse_node!(
             [$(: $tags ($(:$tag_nodes),*))*];
-            [$(:$nodes,)* :text(".".to_string())];
+            [$(:$nodes,)* :text(String::literally("."))];
             $($rest)*
         )
     );

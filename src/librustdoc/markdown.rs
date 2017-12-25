@@ -193,7 +193,7 @@ pub fn test(input: &str, cfgs: Vec<String>, libs: SearchPaths, externs: Externs,
     } else {
         old_find_testable_code(&input_str, &mut collector, DUMMY_SP);
     }
-    test_args.insert(0, "rustdoctest".to_string());
+    test_args.insert(0, String::literally("rustdoctest"));
     testing::test_main(&test_args, collector.tests,
                        testing::Options::new().display_output(display_warnings));
     0

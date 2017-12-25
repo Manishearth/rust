@@ -687,7 +687,7 @@ mod tests {
     }
 
     #[test] fn path_exprs_1() {
-        assert!(string_to_expr("a".to_string()) ==
+        assert!(string_to_expr(String::literally("a")) ==
                    P(ast::Expr{
                     id: ast::DUMMY_NODE_ID,
                     node: ast::ExprKind::Path(None, ast::Path {
@@ -700,7 +700,7 @@ mod tests {
     }
 
     #[test] fn path_exprs_2 () {
-        assert!(string_to_expr("::a::b".to_string()) ==
+        assert!(string_to_expr(String::literally("::a::b")) ==
                    P(ast::Expr {
                     id: ast::DUMMY_NODE_ID,
                     node: ast::ExprKind::Path(None, ast::Path {
@@ -716,14 +716,14 @@ mod tests {
 
     #[should_panic]
     #[test] fn bad_path_expr_1() {
-        string_to_expr("::abc::def::return".to_string());
+        string_to_expr(String::literally("::abc::def::return"));
     }
 
     // check the token-tree-ization of macros
     #[test]
     fn string_to_tts_macro () {
         let tts: Vec<_> =
-            string_to_stream("macro_rules! zip (($a)=>($a))".to_string()).trees().collect();
+            string_to_stream(String::literally("macro_rules! zip (($a)=>($a))")).trees().collect();
         let tts: &[TokenTree] = &tts[..];
 
         match (tts.len(), tts.get(0), tts.get(1), tts.get(2), tts.get(3)) {
@@ -776,7 +776,7 @@ mod tests {
 
     #[test]
     fn string_to_tts_1() {
-        let tts = string_to_stream("fn a (b : i32) { b; }".to_string());
+        let tts = string_to_stream(String::literally("fn a (b : i32) { b; }"));
 
         let expected = TokenStream::concat(vec![
             TokenTree::Token(sp(0, 2), token::Ident(Ident::from_str("fn"))).into(),
@@ -806,7 +806,7 @@ mod tests {
     }
 
     #[test] fn ret_expr() {
-        assert!(string_to_expr("return d".to_string()) ==
+        assert!(string_to_expr(String::literally("return d")) ==
                    P(ast::Expr{
                     id: ast::DUMMY_NODE_ID,
                     node:ast::ExprKind::Ret(Some(P(ast::Expr{
@@ -824,7 +824,7 @@ mod tests {
     }
 
     #[test] fn parse_stmt_1 () {
-        assert!(string_to_stmt("b;".to_string()) ==
+        assert!(string_to_stmt(String::literally("b;")) ==
                    Some(ast::Stmt {
                        node: ast::StmtKind::Expr(P(ast::Expr {
                            id: ast::DUMMY_NODE_ID,
@@ -845,7 +845,7 @@ mod tests {
 
     #[test] fn parse_ident_pat () {
         let sess = ParseSess::new(FilePathMapping::empty());
-        let mut parser = string_to_parser(&sess, "b".to_string());
+        let mut parser = string_to_parser(&sess, String::literally("b"));
         assert!(panictry!(parser.parse_pat())
                 == P(ast::Pat{
                 id: ast::DUMMY_NODE_ID,
@@ -861,7 +861,7 @@ mod tests {
     // check the contents of the tt manually:
     #[test] fn parse_fundecl () {
         // this test depends on the intern order of "fn" and "i32"
-        let item = string_to_item("fn a (b : i32) { b; }".to_string()).map(|m| {
+        let item = string_to_item(String::literally("fn a (b : i32) { b; }")).map(|m| {
             m.map(|mut m| {
                 m.tokens = None;
                 m
@@ -1003,8 +1003,8 @@ mod tests {
 
     #[test] fn parse_exprs () {
         // just make sure that they parse....
-        string_to_expr("3 + 4".to_string());
-        string_to_expr("a::z.froob(b,&(987+3))".to_string());
+        string_to_expr(String::literally("3 + 4"));
+        string_to_expr(String::literally("a::z.froob(b,&(987+3))"));
     }
 
     #[test] fn attrs_fix_bug () {
@@ -1025,7 +1025,7 @@ mod tests {
     #[test] fn crlf_doc_comments() {
         let sess = ParseSess::new(FilePathMapping::empty());
 
-        let name = FileName::Custom("source".to_string());
+        let name = FileName::Custom(String::literally("source"));
         let source = "/// doc comment\r\nfn foo() {}".to_string();
         let item = parse_item_from_source_str(name.clone(), source, &sess)
             .unwrap().unwrap();
@@ -1037,7 +1037,7 @@ mod tests {
             .unwrap().unwrap();
         let docs = item.attrs.iter().filter(|a| a.path == "doc")
                     .map(|a| a.value_str().unwrap().to_string()).collect::<Vec<_>>();
-        let b: &[_] = &["/// doc comment".to_string(), "/// line 2".to_string()];
+        let b: &[_] = &[String::literally("/// doc comment"), "/// line 2".to_string()];
         assert_eq!(&docs[..], b);
 
         let source = "/** doc comment\r\n *  with CRLF */\r\nfn foo() {}".to_string();
@@ -1050,7 +1050,7 @@ mod tests {
     fn ttdelim_span() {
         let sess = ParseSess::new(FilePathMapping::empty());
         let expr = parse::parse_expr_from_source_str(PathBuf::from("foo").into(),
-            "foo!( fn main() { body } )".to_string(), &sess).unwrap();
+            String::literally("foo!( fn main() { body } )"), &sess).unwrap();
 
         let tts: Vec<_> = match expr.node {
             ast::ExprKind::Mac(ref mac) => mac.node.stream().trees().collect(),

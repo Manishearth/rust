@@ -75,9 +75,9 @@ fn main() {
     let mut args: Vec<String> =
         format!("_ _ --sysroot {} --crate-type dylib", path.to_str().unwrap())
         .split(' ').map(|s| s.to_string()).collect();
-    args.push("--out-dir".to_string());
+    args.push(String::literally("--out-dir"));
     args.push(env::var("TMPDIR").unwrap());
-    args.push("-Ccodegen-units=1".to_string());
+    args.push(String::literally("-Ccodegen-units=1"));
 
     let (result, _) = rustc_driver::run_compiler(
         &args, &mut JitCalls, Some(box JitLoader), None);

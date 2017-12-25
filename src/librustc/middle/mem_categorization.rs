@@ -1450,16 +1450,16 @@ impl<'tcx> cmt_<'tcx> {
     pub fn descriptive_string(&self, tcx: TyCtxt) -> String {
         match self.cat {
             Categorization::StaticItem => {
-                "static item".to_string()
+                String::literally("static item")
             }
             Categorization::Rvalue(..) => {
-                "non-lvalue".to_string()
+                String::literally("non-lvalue")
             }
             Categorization::Local(vid) => {
                 if tcx.hir.is_argument(vid) {
-                    "argument".to_string()
+                    String::literally("argument")
                 } else {
-                    "local variable".to_string()
+                    String::literally("local variable")
                 }
             }
             Categorization::Deref(_, pk) => {
@@ -1488,16 +1488,16 @@ impl<'tcx> cmt_<'tcx> {
                 }
             }
             Categorization::Interior(_, InteriorField(NamedField(_))) => {
-                "field".to_string()
+                String::literally("field")
             }
             Categorization::Interior(_, InteriorField(PositionalField(_))) => {
-                "anonymous field".to_string()
+                String::literally("anonymous field")
             }
             Categorization::Interior(_, InteriorElement(InteriorOffsetKind::Index)) => {
-                "indexed content".to_string()
+                String::literally("indexed content")
             }
             Categorization::Interior(_, InteriorElement(InteriorOffsetKind::Pattern)) => {
-                "pattern-bound indexed content".to_string()
+                String::literally("pattern-bound indexed content")
             }
             Categorization::Upvar(ref var) => {
                 var.to_string()

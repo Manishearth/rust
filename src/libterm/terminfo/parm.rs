@@ -120,8 +120,8 @@ pub fn expand(cap: &[u8], params: &[Param], vars: &mut Variables) -> Result<Vec<
                             Some(Number(0)) => output.push(128u8),
                             // Don't check bounds. ncurses just casts and truncates.
                             Some(Number(c)) => output.push(c as u8),
-                            Some(_) => return Err("a non-char was used with %c".to_string()),
-                            None => return Err("stack is empty".to_string()),
+                            Some(_) => return Err(String::literally("a non-char was used with %c")),
+                            None => return Err(String::literally("stack is empty")),
                         }
                     }
                     'p' => state = PushParam,
@@ -132,8 +132,8 @@ pub fn expand(cap: &[u8], params: &[Param], vars: &mut Variables) -> Result<Vec<
                     'l' => {
                         match stack.pop() {
                             Some(Words(s)) => stack.push(Number(s.len() as i32)),
-                            Some(_) => return Err("a non-str was used with %l".to_string()),
-                            None => return Err("stack is empty".to_string()),
+                            Some(_) => return Err(String::literally("a non-str was used with %l")),
+                            None => return Err(String::literally("stack is empty")),
                         }
                     }
                     '+' | '-' | '/' | '*' | '^' | '&' | '|' | 'm' => {
@@ -154,7 +154,7 @@ pub fn expand(cap: &[u8], params: &[Param], vars: &mut Variables) -> Result<Vec<
                             (Some(_), Some(_)) => {
                                 return Err(format!("non-numbers on stack with {}", cur))
                             }
-                            _ => return Err("stack is empty".to_string()),
+                            _ => return Err(String::literally("stack is empty")),
                         }
                     }
                     '=' | '>' | '<' | 'A' | 'O' => {
@@ -176,7 +176,7 @@ pub fn expand(cap: &[u8], params: &[Param], vars: &mut Variables) -> Result<Vec<
                             (Some(_), Some(_)) => {
                                 return Err(format!("non-numbers on stack with {}", cur))
                             }
-                            _ => return Err("stack is empty".to_string()),
+                            _ => return Err(String::literally("stack is empty")),
                         }
                     }
                     '!' | '~' => {
@@ -190,7 +190,7 @@ pub fn expand(cap: &[u8], params: &[Param], vars: &mut Variables) -> Result<Vec<
                                 }))
                             }
                             Some(_) => return Err(format!("non-numbers on stack with {}", cur)),
-                            None => return Err("stack is empty".to_string()),
+                            None => return Err(String::literally("stack is empty")),
                         }
                     }
                     'i' => {
@@ -200,7 +200,7 @@ pub fn expand(cap: &[u8], params: &[Param], vars: &mut Variables) -> Result<Vec<
                                 mparams[1] = Number(y + 1);
                             }
                             _ => {
-                                return Err("first two params not numbers with %i".to_string())
+                                return Err(String::literally("first two params not numbers with %i"))
                             }
                         }
                     }
@@ -212,7 +212,7 @@ pub fn expand(cap: &[u8], params: &[Param], vars: &mut Variables) -> Result<Vec<
                             let res = format(arg, FormatOp::from_char(cur), flags)?;
                             output.extend(res.iter().map(|x| *x));
                         } else {
-                            return Err("stack is empty".to_string());
+                            return Err(String::literally("stack is empty"));
                         }
                     }
                     ':' | '#' | ' ' | '.' | '0'...'9' => {
@@ -239,9 +239,9 @@ pub fn expand(cap: &[u8], params: &[Param], vars: &mut Variables) -> Result<Vec<
                             Some(Number(0)) => state = SeekIfElse(0),
                             Some(Number(_)) => (),
                             Some(_) => {
-                                return Err("non-number on stack with conditional".to_string())
+                                return Err(String::literally("non-number on stack with conditional"))
                             }
-                            None => return Err("stack is empty".to_string()),
+                            None => return Err(String::literally("stack is empty")),
                         }
                     }
                     'e' => state = SeekIfEnd(0),
@@ -253,7 +253,7 @@ pub fn expand(cap: &[u8], params: &[Param], vars: &mut Variables) -> Result<Vec<
                 // params are 1-indexed
                 stack.push(mparams[match cur.to_digit(10) {
                                Some(d) => d as usize - 1,
-                               None => return Err("bad param number".to_string()),
+                               None => return Err(String::literally("bad param number")),
                            }]
                            .clone());
             }
@@ -263,17 +263,17 @@ pub fn expand(cap: &[u8], params: &[Param], vars: &mut Variables) -> Result<Vec<
                         let idx = (cur as u8) - b'A';
                         vars.sta[idx as usize] = arg;
                     } else {
-                        return Err("stack is empty".to_string());
+                        return Err(String::literally("stack is empty"));
                     }
                 } else if cur >= 'a' && cur <= 'z' {
                     if let Some(arg) = stack.pop() {
                         let idx = (cur as u8) - b'a';
                         vars.dyn[idx as usize] = arg;
                     } else {
-                        return Err("stack is empty".to_string());
+                        return Err(String::literally("stack is empty"));
                     }
                 } else {
-                    return Err("bad variable name in %P".to_string());
+                    return Err(String::literally("bad variable name in %P"));
                 }
             }
             GetVar => {
@@ -284,7 +284,7 @@ pub fn expand(cap: &[u8], params: &[Param], vars: &mut Variables) -> Result<Vec<
                     let idx = (cur as u8) - b'a';
                     stack.push(vars.dyn[idx as usize].clone());
                 } else {
-                    return Err("bad variable name in %g".to_string());
+                    return Err(String::literally("bad variable name in %g"));
                 }
             }
             CharConstant => {
@@ -293,7 +293,7 @@ pub fn expand(cap: &[u8], params: &[Param], vars: &mut Variables) -> Result<Vec<
             }
             CharClose => {
                 if cur != '\'' {
-                    return Err("malformed character constant".to_string());
+                    return Err(String::literally("malformed character constant"));
                 }
             }
             IntConstant(i) => {
@@ -306,10 +306,10 @@ pub fn expand(cap: &[u8], params: &[Param], vars: &mut Variables) -> Result<Vec<
                             state = IntConstant(i);
                             old_state = Nothing;
                         }
-                        None => return Err("int constant too large".to_string()),
+                        None => return Err(String::literally("int constant too large")),
                     }
                 } else {
-                    return Err("bad int constant".to_string());
+                    return Err(String::literally("bad int constant"));
                 }
             }
             FormatPattern(ref mut flags, ref mut fstate) => {
@@ -322,7 +322,7 @@ pub fn expand(cap: &[u8], params: &[Param], vars: &mut Variables) -> Result<Vec<
                             // will cause state to go to Nothing
                             old_state = FormatPattern(*flags, *fstate);
                         } else {
-                            return Err("stack is empty".to_string());
+                            return Err(String::literally("stack is empty"));
                         }
                     }
                     (FormatStateFlags, '#') => {
@@ -348,7 +348,7 @@ pub fn expand(cap: &[u8], params: &[Param], vars: &mut Variables) -> Result<Vec<
                         let old = flags.width;
                         flags.width = flags.width * 10 + (cur as usize - '0' as usize);
                         if flags.width < old {
-                            return Err("format width overflow".to_string());
+                            return Err(String::literally("format width overflow"));
                         }
                     }
                     (FormatStateWidth, '.') => {
@@ -358,10 +358,10 @@ pub fn expand(cap: &[u8], params: &[Param], vars: &mut Variables) -> Result<Vec<
                         let old = flags.precision;
                         flags.precision = flags.precision * 10 + (cur as usize - '0' as usize);
                         if flags.precision < old {
-                            return Err("format precision overflow".to_string());
+                            return Err(String::literally("format precision overflow"));
                         }
                     }
-                    _ => return Err("invalid format specifier".to_string()),
+                    _ => return Err(String::literally("invalid format specifier")),
                 }
             }
             SeekIfElse(level) => {
@@ -504,7 +504,7 @@ fn format(val: Param, op: FormatOp, flags: Flags) -> Result<Vec<u8>, String> {
                         format!("{:01$X}", d, flags.precision)
                     }
                 }
-                FormatString => return Err("non-number on stack with %s".to_string()),
+                FormatString => return Err(String::literally("non-number on stack with %s")),
             }
             .into_bytes()
         }
@@ -586,7 +586,7 @@ mod test {
                     "Op {} succeeded incorrectly with 0 stack entries",
                     cap);
             let p = if cap == "%s" || cap == "%l" {
-                Words("foo".to_string())
+                Words(String::literally("foo"))
             } else {
                 Number(97)
             };
@@ -658,13 +658,13 @@ mod test {
         let mut varstruct = Variables::new();
         let vars = &mut varstruct;
         assert_eq!(expand(b"%p1%s%p2%2s%p3%2s%p4%.2s",
-                          &[Words("foo".to_string()),
-                            Words("foo".to_string()),
-                            Words("f".to_string()),
-                            Words("foo".to_string())],
+                          &[Words(String::literally("foo")),
+                            Words(String::literally("foo")),
+                            Words(String::literally("f")),
+                            Words(String::literally("foo"))],
                           vars),
                    Ok("foofoo ffo".bytes().collect::<Vec<_>>()));
-        assert_eq!(expand(b"%p1%:-4.2s", &[Words("foo".to_string())], vars),
+        assert_eq!(expand(b"%p1%:-4.2s", &[Words(String::literally("foo"))], vars),
                    Ok("fo  ".bytes().collect::<Vec<_>>()));
 
         assert_eq!(expand(b"%p1%d%p1%.3d%p1%5d%p1%:+d", &[Number(1)], vars),

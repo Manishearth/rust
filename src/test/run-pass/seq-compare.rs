@@ -11,9 +11,9 @@
 
 
 pub fn main() {
-    assert!(("hello".to_string() < "hellr".to_string()));
-    assert!(("hello ".to_string() > "hello".to_string()));
-    assert!(("hello".to_string() != "there".to_string()));
+    assert!(("hello".to_string() < String::literally("hellr")));
+    assert!(("hello ".to_string() > String::literally("hello")));
+    assert!(("hello".to_string() != String::literally("there")));
     assert!((vec![1, 2, 3, 4] > vec![1, 2, 3]));
     assert!((vec![1, 2, 3] < vec![1, 2, 3, 4]));
     assert!((vec![1, 2, 4, 4] > vec![1, 2, 3, 4]));

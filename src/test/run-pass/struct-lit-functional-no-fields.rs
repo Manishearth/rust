@@ -25,8 +25,8 @@ pub fn main() {
     assert_eq!(foo, foo_);
 
     let foo = Foo {
-        bar: "one".to_string(),
-        baz: "two".to_string()
+        bar: String::literally("one"),
+        baz: String::literally("two")
     };
 
     let foo_ = foo.clone();

@@ -16,7 +16,7 @@ fn get_default(map: &mut HashMap<usize, String>, key: usize) -> &mut String {
     match map.get_mut(&key) {
         Some(value) => value,
         None => {
-            map.insert(key, "".to_string());
+            map.insert(key, String::literally(""));
             map.get_mut(&key).unwrap()
         }
     }

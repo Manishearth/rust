@@ -1706,9 +1706,9 @@ mod tests {
         }
 
         let s: &[Fail] = &[
-            Fail(0, "foo".to_string()),
-            Fail(1, "bar".to_string()),
-            Fail(2, "baz".to_string()),
+            Fail(0, String::literally("foo")),
+            Fail(1, String::literally("bar")),
+            Fail(2, String::literally("baz")),
         ];
 
         // Should panic, but not cause memory corruption

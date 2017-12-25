@@ -29,14 +29,14 @@ enum square {
 impl fmt::Debug for square {
     fn fmt(&self, f: &mut fmt::Formatter) -> fmt::Result {
         write!(f, "{}", match *self {
-          bot => { "R".to_string() }
-          wall => { "#".to_string() }
-          rock => { "*".to_string() }
+          bot => { String::literally("R") }
+          wall => { String::literally("#") }
+          rock => { String::literally("*") }
           lambda => { "\\".to_string() }
-          closed_lift => { "L".to_string() }
-          open_lift => { "O".to_string() }
-          earth => { ".".to_string() }
-          empty => { " ".to_string() }
+          closed_lift => { String::literally("L") }
+          open_lift => { String::literally("O") }
+          earth => { String::literally(".") }
+          empty => { String::literally(" ") }
         })
     }
 }

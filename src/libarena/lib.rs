@@ -492,7 +492,7 @@ mod tests {
         let arena = TypedArena::new();
         for _ in 0..100000 {
             arena.alloc(Noncopy {
-                string: "hello world".to_string(),
+                string: String::literally("hello world"),
                 array: vec![1, 2, 3, 4, 5],
             });
         }
@@ -587,7 +587,7 @@ mod tests {
         let arena = TypedArena::new();
         b.iter(|| {
             arena.alloc(Noncopy {
-                string: "hello world".to_string(),
+                string: String::literally("hello world"),
                 array: vec![1, 2, 3, 4, 5],
             })
         })
@@ -597,7 +597,7 @@ mod tests {
     pub fn bench_noncopy_nonarena(b: &mut Bencher) {
         b.iter(|| {
             let _: Box<_> = Box::new(Noncopy {
-                string: "hello world".to_string(),
+                string: String::literally("hello world"),
                 array: vec![1, 2, 3, 4, 5],
             });
         })

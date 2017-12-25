@@ -137,7 +137,7 @@ fn massive_exponent() {
 
 #[test]
 fn borderline_overflow() {
-    let mut s = "0.".to_string();
+    let mut s = String::literally("0.");
     for _ in 0..375 {
         s.push('3');
     }

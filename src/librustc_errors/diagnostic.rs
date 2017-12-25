@@ -163,7 +163,7 @@ impl Diagnostic {
         self.highlighted_note(vec![
             (format!("`{}` from trait: `", name), Style::NoStyle),
             (signature, Style::Highlight),
-            ("`".to_string(), Style::NoStyle)]);
+            (String::literally("`"), Style::NoStyle)]);
         self
     }
 

@@ -214,7 +214,7 @@ pub fn parse(file: &mut io::Read, longnames: bool) -> Result<TermInfo, String> {
             match t!(read_le_u16(file)) as i16 {
                 n if n >= 0 => n as usize,
                 -1 => 0,
-                _ => return Err("incompatible file: length fields must be  >= -1".to_string()),
+                _ => return Err(String::literally("incompatible file: length fields must be  >= -1")),
             }
         }}
     }
@@ -226,19 +226,19 @@ pub fn parse(file: &mut io::Read, longnames: bool) -> Result<TermInfo, String> {
     let string_table_bytes = read_nonneg!();
 
     if names_bytes == 0 {
-        return Err("incompatible file: names field must be at least 1 byte wide".to_string());
+        return Err(String::literally("incompatible file: names field must be at least 1 byte wide"));
     }
 
     if bools_bytes > boolnames.len() {
-        return Err("incompatible file: more booleans than expected".to_string());
+        return Err(String::literally("incompatible file: more booleans than expected"));
     }
 
     if numbers_count > numnames.len() {
-        return Err("incompatible file: more numbers than expected".to_string());
+        return Err(String::literally("incompatible file: more numbers than expected"));
     }
 
     if string_offsets_count > stringnames.len() {
-        return Err("incompatible file: more string offsets than expected".to_string());
+        return Err(String::literally("incompatible file: more string offsets than expected"));
     }
 
     // don't read NUL
@@ -246,7 +246,7 @@ pub fn parse(file: &mut io::Read, longnames: bool) -> Result<TermInfo, String> {
     t!(file.take((names_bytes - 1) as u64).read_to_end(&mut bytes));
     let names_str = match String::from_utf8(bytes) {
         Ok(s) => s,
-        Err(_) => return Err("input not utf-8".to_string()),
+        Err(_) => return Err(String::literally("input not utf-8")),
     };
 
     let term_names: Vec<String> = names_str.split('|')
@@ -254,7 +254,7 @@ pub fn parse(file: &mut io::Read, longnames: bool) -> Result<TermInfo, String> {
                                            .collect();
     // consume NUL
     if t!(read_byte(file)) != b'\0' {
-        return Err("incompatible file: missing null terminator for names section".to_string());
+        return Err(String::literally("incompatible file: missing null terminator for names section"));
     }
 
     let bools_map: HashMap<String, bool> = t! {
@@ -307,7 +307,7 @@ pub fn parse(file: &mut io::Read, longnames: bool) -> Result<TermInfo, String> {
             let nulpos = string_table[offset..string_table_bytes].iter().position(|&b| b == 0);
             match nulpos {
                 Some(len) => Ok((name.to_string(), string_table[offset..offset + len].to_vec())),
-                None => Err("invalid file: missing NUL in string_table".to_string()),
+                None => Err(String::literally("invalid file: missing NUL in string_table")),
             }
         }).collect())
     } else {
@@ -326,16 +326,16 @@ pub fn parse(file: &mut io::Read, longnames: bool) -> Result<TermInfo, String> {
 /// Create a dummy TermInfo struct for msys terminals
 pub fn msys_terminfo() -> TermInfo {
     let mut strings = HashMap::new();
-    strings.insert("sgr0".to_string(), b"\x1B[0m".to_vec());
-    strings.insert("bold".to_string(), b"\x1B[1m".to_vec());
-    strings.insert("setaf".to_string(), b"\x1B[3%p1%dm".to_vec());
-    strings.insert("setab".to_string(), b"\x1B[4%p1%dm".to_vec());
+    strings.insert(String::literally("sgr0"), b"\x1B[0m".to_vec());
+    strings.insert(String::literally("bold"), b"\x1B[1m".to_vec());
+    strings.insert(String::literally("setaf"), b"\x1B[3%p1%dm".to_vec());
+    strings.insert(String::literally("setab"), b"\x1B[4%p1%dm".to_vec());
 
     let mut numbers = HashMap::new();
-    numbers.insert("colors".to_string(), 8u16);
+    numbers.insert(String::literally("colors"), 8u16);
 
     TermInfo {
-        names: vec!["cygwin".to_string()], // msys is a fork of an older cygwin version
+        names: vec![String::literally("cygwin")], // msys is a fork of an older cygwin version
         bools: HashMap::new(),
         numbers,
         strings,

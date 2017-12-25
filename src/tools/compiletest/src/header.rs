@@ -247,7 +247,7 @@ impl TestProps {
             check_stdout: false,
             no_prefer_dynamic: false,
             pretty_expanded: false,
-            pretty_mode: "normal".to_string(),
+            pretty_mode: String::literally("normal"),
             pretty_compare_only: false,
             forbid_output: vec![],
             incremental_dir: None,

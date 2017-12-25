@@ -303,7 +303,7 @@ impl<'a> ArchiveBuilder<'a> {
             let ret = if r.into_result().is_err() {
                 let err = llvm::LLVMRustGetLastError();
                 let msg = if err.is_null() {
-                    "failed to write archive".to_string()
+                    String::literally("failed to write archive")
                 } else {
                     String::from_utf8_lossy(CStr::from_ptr(err).to_bytes())
                             .into_owned()

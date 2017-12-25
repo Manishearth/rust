@@ -274,7 +274,7 @@ fn generate_test_harness(sess: &ParseSess,
 
     let cx = TestCtxt {
         span_diagnostic: sd,
-        ext_cx: ExtCtxt::new(sess, ExpansionConfig::default("test".to_string()), resolver),
+        ext_cx: ExtCtxt::new(sess, ExpansionConfig::default(String::literally("test")), resolver),
         path: Vec::new(),
         testfns: Vec::new(),
         reexport_test_harness_main,

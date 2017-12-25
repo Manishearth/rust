@@ -24,7 +24,7 @@ pub fn foo() -> Foo {
 
 pub fn bar() -> Foo {
     fn
-    Foo { text: "".to_string() }
+    Foo { text: String::literally("") }
 }
 //~^^ ERROR expected one of `(` or `<`, found `{`
 

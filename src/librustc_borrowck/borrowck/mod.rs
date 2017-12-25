@@ -845,7 +845,7 @@ impl<'a, 'tcx> BorrowckCtxt<'a, 'tcx> {
             }
             err_out_of_scope(super_scope, sub_scope, cause) => {
                 let msg = match opt_loan_path(&err.cmt) {
-                    None => "borrowed value".to_string(),
+                    None => String::literally("borrowed value"),
                     Some(lp) => {
                         format!("`{}`", self.loan_path_to_string(&lp))
                     }

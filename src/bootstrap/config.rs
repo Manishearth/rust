@@ -317,7 +317,7 @@ impl Config {
         config.submodules = true;
         config.docs = true;
         config.rust_rpath = true;
-        config.channel = "dev".to_string();
+        config.channel = String::literally("dev");
         config.codegen_tests = true;
         config.ignore_git = false;
         config.rust_dist_src = true;
@@ -439,7 +439,7 @@ impl Config {
                     config.ccache = Some(s.to_string())
                 }
                 Some(StringOrBool::Bool(true)) => {
-                    config.ccache = Some("ccache".to_string());
+                    config.ccache = Some(String::literally("ccache"));
                 }
                 Some(StringOrBool::Bool(false)) | None => {}
             }
@@ -453,7 +453,7 @@ impl Config {
             set(&mut config.llvm_link_shared, llvm.link_shared);
             config.llvm_targets = llvm.targets.clone();
             config.llvm_experimental_targets = llvm.experimental_targets.clone()
-                .unwrap_or("WebAssembly".to_string());
+                .unwrap_or(String::literally("WebAssembly"));
             config.llvm_link_jobs = llvm.link_jobs;
         }
 

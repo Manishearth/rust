@@ -14,26 +14,26 @@ use target::{Target, TargetResult};
 pub fn target() -> TargetResult {
     let mut base = super::linux_base::opts();
     // z10 is the oldest CPU supported by LLVM
-    base.cpu = "z10".to_string();
+    base.cpu = String::literally("z10");
     // FIXME: The data_layout string below and the ABI implementation in
     // cabi_s390x.rs are for now hard-coded to assume the no-vector ABI.
     // Pass the -vector feature string to LLVM to respect this assumption.
-    base.features = "-vector".to_string();
+    base.features = String::literally("-vector");
     base.max_atomic_width = Some(64);
     // see #36994
     base.exe_allocation_crate = None;
     base.min_global_align = Some(16);
 
     Ok(Target {
-        llvm_target: "s390x-unknown-linux-gnu".to_string(),
-        target_endian: "big".to_string(),
-        target_pointer_width: "64".to_string(),
-        target_c_int_width: "32".to_string(),
-        data_layout: "E-m:e-i1:8:16-i8:8:16-i64:64-f128:64-a:8:16-n32:64".to_string(),
-        arch: "s390x".to_string(),
-        target_os: "linux".to_string(),
-        target_env: "gnu".to_string(),
-        target_vendor: "unknown".to_string(),
+        llvm_target: String::literally("s390x-unknown-linux-gnu"),
+        target_endian: String::literally("big"),
+        target_pointer_width: String::literally("64"),
+        target_c_int_width: String::literally("32"),
+        data_layout: String::literally("E-m:e-i1:8:16-i8:8:16-i64:64-f128:64-a:8:16-n32:64"),
+        arch: String::literally("s390x"),
+        target_os: String::literally("linux"),
+        target_env: String::literally("gnu"),
+        target_vendor: String::literally("unknown"),
         linker_flavor: LinkerFlavor::Gcc,
         options: base,
     })

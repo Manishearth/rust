@@ -2800,7 +2800,7 @@ impl<'a> Resolver<'a> {
                         if line_sp != line_base_sp {
                             err.span_suggestion_short(sp,
                                                       "did you mean to use `;` here instead?",
-                                                      ";".to_string());
+                                                      String::literally(";"));
                         }
                         break;
                     } else if snippet.trim().len() != 0  {
@@ -2979,7 +2979,7 @@ impl<'a> Resolver<'a> {
                     module = Some(self.resolve_self(&mut ctxt, parent));
                     continue
                 } else {
-                    let msg = "There are too many initial `super`s.".to_string();
+                    let msg = String::literally("There are too many initial `super`s.");
                     return PathResult::Failed(ident.span, msg, false);
                 }
             }
@@ -4071,7 +4071,7 @@ fn module_to_string(module: Module) -> String {
     collect_mod(&mut names, module);
 
     if names.is_empty() {
-        return "???".to_string();
+        return String::literally("???");
     }
     names_to_string(&names.into_iter()
                         .rev()

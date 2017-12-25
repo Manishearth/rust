@@ -67,6 +67,6 @@ fn print_out(thing: Box<ToString>, expected: String) {
 }
 
 pub fn main() {
-  let nyan: Box<ToString> = box cat(0, 2, "nyan".to_string()) as Box<ToString>;
-  print_out(nyan, "nyan".to_string());
+  let nyan: Box<ToString> = box cat(0, 2, String::literally("nyan")) as Box<ToString>;
+  print_out(nyan, String::literally("nyan"));
 }

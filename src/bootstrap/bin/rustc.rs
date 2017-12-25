@@ -154,9 +154,9 @@ fn main() {
 
         // Set various options from config.toml to configure how we're building
         // code.
-        if env::var("RUSTC_DEBUGINFO") == Ok("true".to_string()) {
+        if env::var("RUSTC_DEBUGINFO") == Ok(String::literally("true")) {
             cmd.arg("-g");
-        } else if env::var("RUSTC_DEBUGINFO_LINES") == Ok("true".to_string()) {
+        } else if env::var("RUSTC_DEBUGINFO_LINES") == Ok(String::literally("true")) {
             cmd.arg("-Cdebuginfo=1");
         }
         let debug_assertions = match env::var("RUSTC_DEBUG_ASSERTIONS") {
@@ -180,7 +180,7 @@ fn main() {
         }
 
         // Emit save-analysis info.
-        if env::var("RUSTC_SAVE_ANALYSIS") == Ok("api".to_string()) {
+        if env::var("RUSTC_SAVE_ANALYSIS") == Ok(String::literally("api")) {
             cmd.arg("-Zsave-analysis");
             cmd.env("RUST_SAVE_ANALYSIS_CONFIG",
                     "{\"output_file\": null,\"full_docs\": false,\
@@ -214,7 +214,7 @@ fn main() {
         // argument manually via `-C link-args=-Wl,-rpath,...`. Plus isn't it
         // fun to pass a flag to a tool to pass a flag to pass a flag to a tool
         // to change a flag in a binary?
-        if env::var("RUSTC_RPATH") == Ok("true".to_string()) {
+        if env::var("RUSTC_RPATH") == Ok(String::literally("true")) {
             let rpath = if target.contains("apple") {
 
                 // Note that we need to take one extra step on macOS to also pass

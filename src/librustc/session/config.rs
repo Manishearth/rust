@@ -451,7 +451,7 @@ impl Input {
         match *self {
             Input::File(ref ifile) => ifile.file_stem().unwrap()
                                            .to_str().unwrap().to_string(),
-            Input::Str { .. } => "rust_out".to_string(),
+            Input::Str { .. } => String::literally("rust_out"),
         }
     }
 }
@@ -985,7 +985,7 @@ options! {CodegenOptions, CodegenSetter, basic_codegen_options,
         "perform LLVM link-time optimizations"),
     target_cpu: Option<String> = (None, parse_opt_string, [TRACKED],
         "select target processor (rustc --print target-cpus for details)"),
-    target_feature: String = ("".to_string(), parse_string, [TRACKED],
+    target_feature: String = (String::literally(""), parse_string, [TRACKED],
         "target specific attributes (rustc --print target-features for details)"),
     passes: Vec<String> = (Vec::new(), parse_list, [TRACKED],
         "a list of extra LLVM passes to run (space separated)"),
@@ -1019,7 +1019,7 @@ options! {CodegenOptions, CodegenSetter, basic_codegen_options,
          "choose the code model to use (rustc --print code-models for details)"),
     metadata: Vec<String> = (Vec::new(), parse_list, [TRACKED],
          "metadata to mangle symbol names with"),
-    extra_filename: String = ("".to_string(), parse_string, [UNTRACKED],
+    extra_filename: String = (String::literally(""), parse_string, [UNTRACKED],
          "extra data to put in each output filename"),
     codegen_units: Option<usize> = (None, parse_opt_uint, [UNTRACKED],
         "divide crate into N units to optimize in parallel"),
@@ -1726,7 +1726,7 @@ pub fn build_session_options_and_crate_config(matches: &getopts::Matches)
     };
     if cg.target_feature == "help" {
         prints.push(PrintRequest::TargetFeatures);
-        cg.target_feature = "".to_string();
+        cg.target_feature = String::literally("");
     }
     if cg.relocation_model.as_ref().map_or(false, |s| s == "help") {
         prints.push(PrintRequest::RelocationModels);
@@ -2189,7 +2189,7 @@ mod tests {
     #[test]
     fn test_switch_implies_cfg_test() {
         let matches =
-            &match optgroups().parse(&["--test".to_string()]) {
+            &match optgroups().parse(&[String::literally("--test")]) {
               Ok(m) => m,
               Err(f) => panic!("test_switch_implies_cfg_test: {}", f)
             };
@@ -2205,7 +2205,7 @@ mod tests {
     #[test]
     fn test_switch_implies_cfg_test_unless_cfg_test() {
         let matches =
-            &match optgroups().parse(&["--test".to_string(), "--cfg=test".to_string()]) {
+            &match optgroups().parse(&["--test".to_string(), String::literally("--cfg=test")]) {
               Ok(m) => m,
               Err(f) => {
                 panic!("test_switch_implies_cfg_test_unless_cfg_test: {}", f)
@@ -2224,7 +2224,7 @@ mod tests {
     fn test_can_print_warnings() {
         {
             let matches = optgroups().parse(&[
-                "-Awarnings".to_string()
+                String::literally("-Awarnings")
             ]).unwrap();
             let registry = errors::registry::Registry::new(&[]);
             let (sessopts, _) = build_session_options_and_crate_config(&matches);
@@ -2234,8 +2234,8 @@ mod tests {
 
         {
             let matches = optgroups().parse(&[
-                "-Awarnings".to_string(),
-                "-Dwarnings".to_string()
+                String::literally("-Awarnings"),
+                String::literally("-Dwarnings")
             ]).unwrap();
             let registry = errors::registry::Registry::new(&[]);
             let (sessopts, _) = build_session_options_and_crate_config(&matches);
@@ -2245,7 +2245,7 @@ mod tests {
 
         {
             let matches = optgroups().parse(&[
-                "-Adead_code".to_string()
+                String::literally("-Adead_code")
             ]).unwrap();
             let registry = errors::registry::Registry::new(&[]);
             let (sessopts, _) = build_session_options_and_crate_config(&matches);

@@ -96,7 +96,7 @@ static mut STATIC13: SafeStruct = SafeStruct{field1: SafeEnum::Variant1,
 
 static mut STATIC14: SafeStruct = SafeStruct {
     field1: SafeEnum::Variant1,
-    field2: SafeEnum::Variant4("str".to_string())
+    field2: SafeEnum::Variant4(String::literally("str"))
 //~^ ERROR calls in statics are limited to constant functions
 };
 

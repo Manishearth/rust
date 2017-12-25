@@ -22,14 +22,14 @@ impl<'a> Drop for Foo<'a> {
 fn main() {
     {
         let (y, x);
-        x = "alive".to_string();
+        x = String::literally("alive");
         y = Arc::new(Foo(&x));
     }
     //~^^ ERROR `x` does not live long enough
 
     {
         let (y, x);
-        x = "alive".to_string();
+        x = String::literally("alive");
         y = Rc::new(Foo(&x));
     }
     //~^^ ERROR `x` does not live long enough

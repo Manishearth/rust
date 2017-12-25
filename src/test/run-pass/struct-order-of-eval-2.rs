@@ -15,7 +15,7 @@ struct S {
 }
 
 pub fn main() {
-    let s = "Hello, world!".to_string();
+    let s = String::literally("Hello, world!");
     let s = S {
         f1: s.to_string(),
         f0: s

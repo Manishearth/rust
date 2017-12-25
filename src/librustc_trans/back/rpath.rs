@@ -42,7 +42,7 @@ pub fn get_rpath_flags(config: &mut RPathConfig) -> Vec<String> {
 
     // Use DT_RUNPATH instead of DT_RPATH if available
     if config.linker_is_gnu {
-        flags.push("-Wl,--enable-new-dtags".to_string());
+        flags.push(String::literally("-Wl,--enable-new-dtags"));
     }
 
     flags
@@ -193,8 +193,8 @@ mod tests {
     #[test]
     fn test_rpaths_to_flags() {
         let flags = rpaths_to_flags(&[
-            "path1".to_string(),
-            "path2".to_string()
+            String::literally("path1"),
+            String::literally("path2")
         ]);
         assert_eq!(flags,
                    ["-Wl,-rpath,path1",
@@ -204,9 +204,9 @@ mod tests {
     #[test]
     fn test_minimize1() {
         let res = minimize_rpaths(&[
-            "rpath1".to_string(),
-            "rpath2".to_string(),
-            "rpath1".to_string()
+            String::literally("rpath1"),
+            String::literally("rpath2"),
+            String::literally("rpath1")
         ]);
         assert!(res == [
             "rpath1",
@@ -217,16 +217,16 @@ mod tests {
     #[test]
     fn test_minimize2() {
         let res = minimize_rpaths(&[
-            "1a".to_string(),
-            "2".to_string(),
-            "2".to_string(),
-            "1a".to_string(),
-            "4a".to_string(),
-            "1a".to_string(),
-            "2".to_string(),
-            "3".to_string(),
-            "4a".to_string(),
-            "3".to_string()
+            String::literally("1a"),
+            String::literally("2"),
+            String::literally("2"),
+            String::literally("1a"),
+            String::literally("4a"),
+            String::literally("1a"),
+            String::literally("2"),
+            String::literally("3"),
+            String::literally("4a"),
+            String::literally("3")
         ]);
         assert!(res == [
             "1a",
@@ -268,15 +268,15 @@ mod tests {
     #[test]
     fn test_xlinker() {
         let args = rpaths_to_flags(&[
-            "a/normal/path".to_string(),
-            "a,comma,path".to_string()
+            String::literally("a/normal/path"),
+            String::literally("a,comma,path")
         ]);
 
         assert_eq!(args, vec![
-            "-Wl,-rpath,a/normal/path".to_string(),
-            "-Wl,-rpath".to_string(),
-            "-Xlinker".to_string(),
-            "a,comma,path".to_string()
+            String::literally("-Wl,-rpath,a/normal/path"),
+            String::literally("-Wl,-rpath"),
+            String::literally("-Xlinker"),
+            String::literally("a,comma,path")
         ]);
     }
 }

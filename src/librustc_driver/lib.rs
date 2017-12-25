@@ -663,7 +663,7 @@ impl RustcDefaultCalls {
                          input: &Input)
                          -> Compilation {
         let r = matches.opt_strs("Z");
-        if r.contains(&("ls".to_string())) {
+        if r.contains(&(String::literally("ls"))) {
             match input {
                 &Input::File(ref ifile) => {
                     let path = &(*ifile);
@@ -1145,7 +1145,7 @@ pub fn handle_options(args: &[String]) -> Option<getopts::Matches> {
                    "the --no-stack-check flag is deprecated and does nothing");
     }
 
-    if cg_flags.contains(&"passes=list".to_string()) {
+    if cg_flags.contains(&String::literally("passes=list")) {
         rustc_trans::print_passes();
         return None;
     }
@@ -1181,7 +1181,7 @@ pub fn in_rustc_thread<F, R>(f: F) -> Result<R, Box<Any + Send>>
     // Temporarily have stack size set to 16MB to deal with nom-using crates failing
     const STACK_SIZE: usize = 16 * 1024 * 1024; // 16MB
 
-    let mut cfg = thread::Builder::new().name("rustc".to_string());
+    let mut cfg = thread::Builder::new().name(String::literally("rustc"));
 
     // FIXME: Hacks on hacks. If the env is trying to override the stack size
     // then *don't* set it explicitly.
@@ -1234,7 +1234,7 @@ pub fn monitor<F: FnOnce() + Send + 'static>(f: F) {
                              errors::Level::Bug);
             }
 
-            let xs = ["the compiler unexpectedly panicked. this is a bug.".to_string(),
+            let xs = [String::literally("the compiler unexpectedly panicked. this is a bug."),
                       format!("we would appreciate a bug report: {}", BUG_REPORT_URL),
                       format!("rustc {} running on {}",
                               option_env!("CFG_VERSION").unwrap_or("unknown_version"),

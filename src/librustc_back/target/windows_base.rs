@@ -40,56 +40,56 @@ pub fn opts() -> TargetOptions {
             //
             // [1] - https://sourceware.org/bugzilla/show_bug.cgi?id=13130
             // [2] - https://code.google.com/p/go/issues/detail?id=2139
-            "-Wl,--enable-long-section-names".to_string(),
+            String::literally("-Wl,--enable-long-section-names"),
 
             // Tell GCC to avoid linker plugins, because we are not bundling
             // them with Windows installer, and Rust does its own LTO anyways.
-            "-fno-use-linker-plugin".to_string(),
+            String::literally("-fno-use-linker-plugin"),
 
             // Always enable DEP (NX bit) when it is available
-            "-Wl,--nxcompat".to_string(),
+            String::literally("-Wl,--nxcompat"),
 
             // Do not use the standard system startup files or libraries when linking
-            "-nostdlib".to_string(),
+            String::literally("-nostdlib"),
         ]);
 
     let mut late_link_args = LinkArgs::new();
     late_link_args.insert(LinkerFlavor::Gcc, vec![
-        "-lmingwex".to_string(),
-        "-lmingw32".to_string(),
-        "-lgcc".to_string(), // alas, mingw* libraries above depend on libgcc
-        "-lmsvcrt".to_string(),
-        "-luser32".to_string(),
-        "-lkernel32".to_string(),
+        String::literally("-lmingwex"),
+        String::literally("-lmingw32"),
+        String::literally("-lgcc"), // alas, mingw* libraries above depend on libgcc
+        String::literally("-lmsvcrt"),
+        String::literally("-luser32"),
+        String::literally("-lkernel32"),
     ]);
 
     TargetOptions {
         // FIXME(#13846) this should be enabled for windows
         function_sections: false,
-        linker: "gcc".to_string(),
+        linker: String::literally("gcc"),
         dynamic_linking: true,
         executables: true,
-        dll_prefix: "".to_string(),
-        dll_suffix: ".dll".to_string(),
-        exe_suffix: ".exe".to_string(),
-        staticlib_prefix: "".to_string(),
-        staticlib_suffix: ".lib".to_string(),
+        dll_prefix: String::literally(""),
+        dll_suffix: String::literally(".dll"),
+        exe_suffix: String::literally(".exe"),
+        staticlib_prefix: String::literally(""),
+        staticlib_suffix: String::literally(".lib"),
         no_default_libraries: true,
-        target_family: Some("windows".to_string()),
+        target_family: Some(String::literally("windows")),
         is_like_windows: true,
         allows_weak_linkage: false,
         pre_link_args,
         pre_link_objects_exe: vec![
-            "crt2.o".to_string(),    // mingw C runtime initialization for executables
-            "rsbegin.o".to_string(), // Rust compiler runtime initialization, see rsbegin.rs
+            String::literally("crt2.o"),    // mingw C runtime initialization for executables
+            String::literally("rsbegin.o"), // Rust compiler runtime initialization, see rsbegin.rs
         ],
         pre_link_objects_dll: vec![
-            "dllcrt2.o".to_string(), // mingw C runtime initialization for dlls
-            "rsbegin.o".to_string(),
+            String::literally("dllcrt2.o"), // mingw C runtime initialization for dlls
+            String::literally("rsbegin.o"),
         ],
         late_link_args,
         post_link_objects: vec![
-            "rsend.o".to_string()
+            String::literally("rsend.o")
         ],
         custom_unwind_resume: true,
 

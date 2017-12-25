@@ -79,10 +79,10 @@ fn g() {
 
 fn h() {
     let s = SFnOnce {
-        x: "hello".to_string(),
+        x: String::literally("hello"),
     };
-    s(" world".to_string());
-    s(" world".to_string());    //~ ERROR use of moved value: `s`
+    s(String::literally(" world"));
+    s(String::literally(" world"));    //~ ERROR use of moved value: `s`
 }
 
 fn main() {}
