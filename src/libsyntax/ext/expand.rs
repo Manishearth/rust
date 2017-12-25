@@ -411,6 +411,7 @@ impl<'a, 'b> MacroExpander<'a, 'b> {
                 cx: self.cx,
                 invocations: Vec::new(),
                 monotonic: self.monotonic,
+                counter: 1,
             };
             (expansion.fold_with(&mut collector), collector.invocations)
         };
@@ -784,6 +785,7 @@ struct InvocationCollector<'a, 'b: 'a> {
     cfg: StripUnconfigured<'a>,
     invocations: Vec<Invocation>,
     monotonic: bool,
+    counter: u32,
 }
 
 impl<'a, 'b> InvocationCollector<'a, 'b> {
@@ -1088,7 +1090,41 @@ impl<'a, 'b> Folder for InvocationCollector<'a, 'b> {
             return noop_fold_attribute(at, self);
         }
 
-        if let Some(list) = at.meta_item_list() {
+        if let Some(docstr) = at.value_str() {
+            // FIXME (Manishearth) this needs to be conditional on a doc run
+            // FIXME (Manishearth) some of the spans can't be dummy spans
+            if docstr.as_str().contains("](") {
+                let mut list = vec![];
+                for split in docstr.as_str().split("](") {
+                    if let Some(pos) = split.find(')') {
+                        if list.is_empty() {
+                            list.push(dummy_spanned(ast::NestedMetaItemKind::MetaItem(attr::mk_name_value_item_str("text".into(), docstr))));
+                        }
+                        let lit = dummy_spanned(ast::LitKind::Int(self.counter as u128, ast::LitIntType::Unsuffixed));
+                        self.counter += 1;
+                        let link_info = vec![
+                            dummy_spanned(ast::NestedMetaItemKind::MetaItem(
+                                    attr::mk_name_value_item_str("text".into(),
+                                                                 split[..pos].into()))),
+                            dummy_spanned(ast::NestedMetaItemKind::MetaItem(
+                                    attr::mk_name_value_item("id".into(), lit))),
+                        ];
+                        list.push(dummy_spanned(ast::NestedMetaItemKind::MetaItem(
+                                    attr::mk_list_item("link".into(), link_info))));
+                    }
+                }
+                if !list.is_empty() {
+                    let meta = attr::mk_list_item("doc".into(), list);
+                    match at.style {
+                        ast::AttrStyle::Inner =>
+                            return Some(attr::mk_spanned_attr_inner(at.span, at.id, meta)),
+                        ast::AttrStyle::Outer =>
+                            return Some(attr::mk_spanned_attr_outer(at.span, at.id, meta)),
+                    }
+                }
+            }
+            noop_fold_attribute(at, self)
+        } else if let Some(list) = at.meta_item_list() {
             if !list.iter().any(|it| it.check_name("include")) {
                 return noop_fold_attribute(at, self);
             }
