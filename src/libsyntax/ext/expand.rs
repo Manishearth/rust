@@ -1100,14 +1100,17 @@ impl<'a, 'b> Folder for InvocationCollector<'a, 'b> {
                         if list.is_empty() {
                             list.push(dummy_spanned(ast::NestedMetaItemKind::MetaItem(attr::mk_name_value_item_str("text".into(), docstr))));
                         }
-                        let lit = dummy_spanned(ast::LitKind::Int(self.counter as u128, ast::LitIntType::Unsuffixed));
+                        // can't use a literal number here, literal numbers trigger stability warnings
+                        // FIXME(Manishearth) we should just have extra internal typed meta item kinds
+                        // for this
+                        let lit = self.counter.to_string();
                         self.counter += 1;
                         let link_info = vec![
                             dummy_spanned(ast::NestedMetaItemKind::MetaItem(
                                     attr::mk_name_value_item_str("text".into(),
                                                                  split[..pos].into()))),
                             dummy_spanned(ast::NestedMetaItemKind::MetaItem(
-                                    attr::mk_name_value_item("id".into(), lit))),
+                                    attr::mk_name_value_item_str("id".into(), (&*lit).into()))),
                         ];
                         list.push(dummy_spanned(ast::NestedMetaItemKind::MetaItem(
                                     attr::mk_list_item("link".into(), link_info))));

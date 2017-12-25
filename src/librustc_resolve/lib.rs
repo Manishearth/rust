@@ -1355,7 +1355,7 @@ pub struct Resolver<'a> {
 
     injected_crate: Option<Module<'a>>,
 
-    pub doc_link_map: FxHashMap<u32, Def>,
+    pub doc_link_map: FxHashMap<String, Def>,
 }
 
 pub struct ResolverArenas<'a> {
@@ -3977,7 +3977,7 @@ impl<'a> Resolver<'a> {
                     for link in list {
                         if let Some(innerlist) = link.meta_item_list() {
                             let (text, id) = if let Some((name, val)) = innerlist.get(0).and_then(|item| item.name_value_literal()) {
-                                let val = if let ast::LitKind::Int(val, _) = val.node {
+                                let val = if let ast::LitKind::Str(val, ..) = val.node {
                                     val
                                 } else { continue };
                                 (name, val)
@@ -3996,7 +3996,7 @@ impl<'a> Resolver<'a> {
                             // FIXME(Manishearth) probably should store these as u32 directly
                             // since otherwise it's possible to trigger UB by manually writing one of these
                             // doc attrs
-                            self.doc_link_map.insert(id as u32, def);
+                            self.doc_link_map.insert(String::from(&*id.as_str()), def);
                         }
                     }
                 }
