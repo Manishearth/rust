@@ -9,9 +9,10 @@
 // except according to those terms.
 
 use rustc::dep_graph::DepGraph;
-use rustc::hir::{self, map as hir_map};
+use rustc::hir::{self, def as hir_def, map as hir_map};
 use rustc::hir::lowering::lower_crate;
 use rustc::ich::Fingerprint;
+use rustc_data_structures::fx::FxHashMap;
 use rustc_data_structures::stable_hasher::StableHasher;
 use rustc_mir as mir;
 use rustc::session::{Session, CompileResult, CrateDisambiguator};
@@ -158,7 +159,7 @@ pub fn compile_input(sess: &Session,
 
         let crate_name =
             ::rustc_trans_utils::link::find_crate_name(Some(sess), &krate.attrs, input);
-        let ExpansionResult { expanded_crate, defs, analysis, resolutions, mut hir_forest } = {
+        let ExpansionResult { expanded_crate, defs, analysis, resolutions, mut hir_forest, .. } = {
             phase_2_configure_and_expand(
                 sess,
                 &cstore,
@@ -617,6 +618,7 @@ pub struct ExpansionResult {
     pub analysis: ty::CrateAnalysis,
     pub resolutions: Resolutions,
     pub hir_forest: hir_map::Forest,
+    pub doc_link_map: FxHashMap<String, hir_def::Def>,
 }
 
 /// Run the "early phases" of the compiler: initial `cfg` processing,
@@ -931,6 +933,7 @@ pub fn phase_2_configure_and_expand<F>(sess: &Session,
             maybe_unused_extern_crates: resolver.maybe_unused_extern_crates,
         },
         hir_forest,
+        doc_link_map: resolver.doc_link_map,
     })
 }
 

@@ -661,6 +661,23 @@ impl Attributes {
         None
     }
 
+    fn extract_doc_str(mi: &ast::MetaItem) -> Option<&str> {
+        if let Some(value) = mi.value_str() {
+            Some(value);
+        } else if let Some(list) = mi.meta_item_list() {
+            if let Some((n, v)) = list.get(0).and_then(|li| li.name_value_literal()) {
+                if n == "text" {
+                    if let ast::LitKind::String(s, _) = v.node {
+                        Some(s)
+                    }
+                }
+                None
+            }
+        } else {
+            None
+        }
+    }
+
     /// Reads a `MetaItem` from within an attribute, looks for whether it is a
     /// `#[doc(include="file")]`, and returns the filename and contents of the file as loaded from
     /// its expansion.
@@ -727,7 +744,7 @@ impl Attributes {
             attr.with_desugared_doc(|attr| {
                 if attr.check_name("doc") {
                     if let Some(mi) = attr.meta() {
-                        if let Some(value) = mi.value_str() {
+                        if let Some(value) = Attributes::extract_doc_str(&mi) {
                             // Extracted #[doc = "..."]
                             let value = value.to_string();
                             let line = doc_line;
