@@ -635,6 +635,7 @@ pub struct Attributes {
     pub other_attrs: Vec<ast::Attribute>,
     pub cfg: Option<Rc<Cfg>>,
     pub span: Option<syntax_pos::Span>,
+    pub links: HashMap<String, String>,
 }
 
 impl Attributes {
@@ -661,15 +662,25 @@ impl Attributes {
         None
     }
 
-    fn extract_doc_str(mi: &ast::MetaItem) -> Option<&str> {
+    fn extract_doc_str(mi: &ast::MetaItem, map: &mut HashMap<String, String>) -> Option<&str> {
         if let Some(value) = mi.value_str() {
             Some(value);
         } else if let Some(list) = mi.meta_item_list() {
             if let Some((n, v)) = list.get(0).and_then(|li| li.name_value_literal()) {
                 if n == "text" {
-                    if let ast::LitKind::String(s, _) = v.node {
+                    let ret = if let ast::LitKind::String(s, _) = v.node {
                         Some(s)
+                    } else { return None };
+                    for link in list.iter().skip(1) {
+                        let list = link.meta_item_list()?;
+                        let link = list.get(0)?.name_value_literal()?;
+                        let id = list.get(1)?.name_value_literal()?;
+                        if let (ast::LitKind::String(link, _), ast::LitKind::String(id, _)) = (link.1, id.1) {
+                            map.insert(link.to_string(), id.to_string())
+                        }
                     }
+
+                    ret
                 }
                 None
             }
@@ -739,12 +750,13 @@ impl Attributes {
         let mut sp = None;
         let mut cfg = Cfg::True;
         let mut doc_line = 0;
+        let mut links = HashMap::new();
 
         let other_attrs = attrs.iter().filter_map(|attr| {
             attr.with_desugared_doc(|attr| {
                 if attr.check_name("doc") {
                     if let Some(mi) = attr.meta() {
-                        if let Some(value) = Attributes::extract_doc_str(&mi) {
+                        if let Some(value) = Attributes::extract_doc_str(&mi, &mut links) {
                             // Extracted #[doc = "..."]
                             let value = value.to_string();
                             let line = doc_line;
@@ -776,6 +788,7 @@ impl Attributes {
                                                                   filename,
                                                                   contents));
                         }
+
                     }
                 }
                 Some(attr.clone())
@@ -786,6 +799,7 @@ impl Attributes {
             other_attrs,
             cfg: if cfg == Cfg::True { None } else { Some(Rc::new(cfg)) },
             span: sp,
+            links
         }
     }
 
