@@ -13,7 +13,7 @@
 fn foo(_: u32) {}
 
 fn main() {
-    foo("Bonjour".to_owned());
+    foo(String::literally("Bonjour"));
     let x = 0u32;
     x.salut();
 }

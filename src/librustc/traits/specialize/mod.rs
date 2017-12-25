@@ -404,7 +404,7 @@ fn to_pretty_impl_header(tcx: TyCtxt, impl_def_id: DefId) -> Option<String> {
         return None;
     };
 
-    let mut w = "impl".to_owned();
+    let mut w = String::literally("impl");
 
     let substs = Substs::identity_for_item(tcx, impl_def_id);
 

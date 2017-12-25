@@ -1073,7 +1073,7 @@ mod tests {
         let sess = ParseSess::new(FilePathMapping::empty());
         let item = parse_item_from_source_str(
             PathBuf::from("foo").into(),
-            "mod foo { struct S; mod this_does_not_exist; }".to_owned(),
+            String::literally("mod foo { struct S; mod this_does_not_exist; }"),
             &sess,
         ).unwrap().unwrap();
 

@@ -428,7 +428,7 @@ impl<'a, 'gcx, 'tcx> InferCtxt<'a, 'gcx, 'tcx> {
                           if impl_candidates.len() > 5 {
                               format!("\nand {} others", impl_candidates.len() - 4)
                           } else {
-                              "".to_owned()
+                              String::literally("")
                           }
                           ));
     }

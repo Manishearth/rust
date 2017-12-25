@@ -61,7 +61,7 @@ impl Encodable for Ident {
         if self.ctxt.modern() == SyntaxContext::empty() {
             s.emit_str(&self.name.as_str())
         } else { // FIXME(jseyfried) intercrate hygiene
-            let mut string = "#".to_owned();
+            let mut string = String::literally("#");
             string.push_str(&self.name.as_str());
             s.emit_str(&string)
         }

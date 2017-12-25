@@ -101,7 +101,7 @@ impl<'a, 'gcx, 'tcx> NiceRegionError<'a, 'gcx, 'tcx> {
                 format!("the type of `{}`", simple_name),
             )
         } else {
-            ("parameter type".to_owned(), "type".to_owned())
+            ("parameter type".to_owned(), String::literally("type"))
         };
 
         struct_span_err!(

@@ -56,7 +56,7 @@ fn set_to_summary_str(set: &BTreeSet<String>, dir: &str
                                       n,
                                       dir,
                                       n.replace('_', "-")))
-        .fold("".to_owned(), |s, a| s + &a + "\n")
+        .fold(String::literally(""), |s, a| s + &a + "\n")
 }
 
 fn generate_summary(path: &Path, lang_features: &Features, lib_features: &Features) {

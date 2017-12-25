@@ -40,13 +40,13 @@ impl<'cx, 'gcx, 'tcx> MirBorrowckCtxt<'cx, 'gcx, 'tcx> {
         if mois.is_empty() {
             let item_msg = match self.describe_place(place) {
                 Some(name) => format!("`{}`", name),
-                None => "value".to_owned(),
+                None => String::literally("value"),
             };
             self.tcx
                 .cannot_act_on_uninitialized_variable(
                     span,
                     desired_action.as_noun(),
-                    &self.describe_place(place).unwrap_or("_".to_owned()),
+                    &self.describe_place(place).unwrap_or(String::literally("_")),
                     Origin::Mir,
                 )
                 .span_label(span, format!("use of possibly uninitialized {}", item_msg))
@@ -58,7 +58,7 @@ impl<'cx, 'gcx, 'tcx> MirBorrowckCtxt<'cx, 'gcx, 'tcx> {
                 span,
                 desired_action.as_noun(),
                 msg,
-                &self.describe_place(place).unwrap_or("_".to_owned()),
+                &self.describe_place(place).unwrap_or(String::literally("_")),
                 Origin::Mir,
             );
 
@@ -94,15 +94,15 @@ impl<'cx, 'gcx, 'tcx> MirBorrowckCtxt<'cx, 'gcx, 'tcx> {
     ) {
         let value_msg = match self.describe_place(place) {
             Some(name) => format!("`{}`", name),
-            None => "value".to_owned(),
+            None => String::literally("value"),
         };
         let borrow_msg = match self.describe_place(&borrow.borrowed_place) {
             Some(name) => format!("`{}`", name),
-            None => "value".to_owned(),
+            None => String::literally("value"),
         };
         let mut err = self.tcx.cannot_move_when_borrowed(
             span,
-            &self.describe_place(place).unwrap_or("_".to_owned()),
+            &self.describe_place(place).unwrap_or(String::literally("_")),
             Origin::Mir,
         );
         err.span_label(
@@ -122,9 +122,9 @@ impl<'cx, 'gcx, 'tcx> MirBorrowckCtxt<'cx, 'gcx, 'tcx> {
     ) {
         let mut err = self.tcx.cannot_use_when_mutably_borrowed(
             span,
-            &self.describe_place(place).unwrap_or("_".to_owned()),
+            &self.describe_place(place).unwrap_or(String::literally("_")),
             self.retrieve_borrow_span(borrow),
-            &self.describe_place(&borrow.borrowed_place).unwrap_or("_".to_owned()),
+            &self.describe_place(&borrow.borrowed_place).unwrap_or(String::literally("_")),
             Origin::Mir,
         );
 
@@ -214,7 +214,7 @@ impl<'cx, 'gcx, 'tcx> MirBorrowckCtxt<'cx, 'gcx, 'tcx> {
             .map(|(args, _)| args)
             .unwrap_or(issued_span);
 
-        let desc_place = self.describe_place(place).unwrap_or("_".to_owned());
+        let desc_place = self.describe_place(place).unwrap_or(String::literally("_"));
 
         // FIXME: supply non-"" `opt_via` when appropriate
         let mut err = match (
@@ -522,7 +522,7 @@ impl<'cx, 'gcx, 'tcx> MirBorrowckCtxt<'cx, 'gcx, 'tcx> {
         let mut err = self.tcx.cannot_assign_to_borrowed(
             span,
             self.retrieve_borrow_span(loan),
-            &self.describe_place(place).unwrap_or("_".to_owned()),
+            &self.describe_place(place).unwrap_or(String::literally("_")),
             Origin::Mir,
         );
 
@@ -539,14 +539,14 @@ impl<'cx, 'gcx, 'tcx> MirBorrowckCtxt<'cx, 'gcx, 'tcx> {
     ) {
         let mut err = self.tcx.cannot_reassign_immutable(
             span,
-            &self.describe_place(place).unwrap_or("_".to_owned()),
+            &self.describe_place(place).unwrap_or(String::literally("_")),
             Origin::Mir,
         );
         err.span_label(span, "cannot assign twice to immutable variable");
         if span != assigned_span {
             let value_msg = match self.describe_place(place) {
                 Some(name) => format!("`{}`", name),
-                None => "value".to_owned(),
+                None => String::literally("value"),
             };
             err.span_label(assigned_span, format!("first assignment to {}", value_msg));
         }

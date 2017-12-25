@@ -389,9 +389,9 @@ impl ToJson for Type {
         match self.name {
             Some(ref name) => {
                 let mut data = BTreeMap::new();
-                data.insert("name".to_owned(), name.to_json());
+                data.insert(String::literally("name"), name.to_json());
                 if let Some(ref generics) = self.generics {
-                    data.insert("generics".to_owned(), generics.to_json());
+                    data.insert(String::literally("generics"), generics.to_json());
                 }
                 Json::Object(data)
             },
@@ -413,8 +413,8 @@ impl ToJson for IndexItemFunctionType {
             Json::Null
         } else {
             let mut data = BTreeMap::new();
-            data.insert("inputs".to_owned(), self.inputs.to_json());
-            data.insert("output".to_owned(), self.output.to_json());
+            data.insert(String::literally("inputs"), self.inputs.to_json());
+            data.insert(String::literally("output"), self.output.to_json());
             Json::Object(data)
         }
     }
@@ -838,9 +838,9 @@ fn build_index(krate: &clean::Crate, cache: &mut Cache) -> String {
     }).unwrap_or(String::new());
 
     let mut crate_data = BTreeMap::new();
-    crate_data.insert("doc".to_owned(), Json::String(crate_doc));
-    crate_data.insert("items".to_owned(), Json::Array(crate_items));
-    crate_data.insert("paths".to_owned(), Json::Array(crate_paths));
+    crate_data.insert(String::literally("doc"), Json::String(crate_doc));
+    crate_data.insert(String::literally("items"), Json::Array(crate_items));
+    crate_data.insert(String::literally("paths"), Json::Array(crate_paths));
 
     // Collect the index into a string
     format!("searchIndex[{}] = {};",

@@ -75,7 +75,7 @@ trait Trait {
 
 impl Trait for String {
     fn foo(&self) -> Self {
-        "hi".to_owned()
+        String::literally("hi")
     }
 }
 

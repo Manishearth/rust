@@ -885,7 +885,7 @@ impl<'l, 'tcx: 'l> SaveContext<'l, 'tcx> {
 }
 
 fn make_signature(decl: &ast::FnDecl, generics: &ast::Generics) -> String {
-    let mut sig = "fn ".to_owned();
+    let mut sig = String::literally("fn ");
     if !generics.params.is_empty() {
         sig.push('<');
         sig.push_str(&generics
@@ -1005,9 +1005,9 @@ impl<'a> DumpHandler<'a> {
                     .iter()
                     .any(|ct| *ct == CrateTypeExecutable);
                 let mut out_name = if executable {
-                    "".to_owned()
+                    String::literally("")
                 } else {
-                    "lib".to_owned()
+                    String::literally("lib")
                 };
                 out_name.push_str(&self.cratename);
                 out_name.push_str(&sess.opts.cg.extra_filename);

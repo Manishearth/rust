@@ -504,7 +504,7 @@ impl Config {
                 .collect();
 
             match strs.len() {
-                1 => (strs.pop().unwrap(), "".to_owned()),
+                1 => (strs.pop().unwrap(), String::literally("")),
                 2 => {
                     let end = strs.pop().unwrap();
                     (strs.pop().unwrap(), end)

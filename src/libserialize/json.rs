@@ -2093,7 +2093,7 @@ macro_rules! expect {
     ($e:expr, Null) => ({
         match $e {
             Json::Null => Ok(()),
-            other => Err(ExpectedError("Null".to_owned(),
+            other => Err(ExpectedError(String::literally("Null"),
                                        format!("{}", other)))
         }
     });
@@ -2114,14 +2114,14 @@ macro_rules! read_primitive {
             match self.pop() {
                 Json::I64(f) => Ok(f as $ty),
                 Json::U64(f) => Ok(f as $ty),
-                Json::F64(f) => Err(ExpectedError("Integer".to_owned(), format!("{}", f))),
+                Json::F64(f) => Err(ExpectedError(String::literally("Integer"), format!("{}", f))),
                 // re: #12967.. a type w/ numeric keys (ie HashMap<usize, V> etc)
                 // is going to have a string here, as per JSON spec.
                 Json::String(s) => match s.parse().ok() {
                     Some(f) => Ok(f),
-                    None => Err(ExpectedError("Number".to_owned(), s)),
+                    None => Err(ExpectedError(String::literally("Number"), s)),
                 },
-                value => Err(ExpectedError("Number".to_owned(), format!("{}", value))),
+                value => Err(ExpectedError(String::literally("Number"), format!("{}", value))),
             }
         }
     }
@@ -2159,11 +2159,11 @@ impl ::Decoder for Decoder {
                 // is going to have a string here, as per JSON spec.
                 match s.parse().ok() {
                     Some(f) => Ok(f),
-                    None => Err(ExpectedError("Number".to_owned(), s)),
+                    None => Err(ExpectedError(String::literally("Number"), s)),
                 }
             },
             Json::Null => Ok(f64::NAN),
-            value => Err(ExpectedError("Number".to_owned(), format!("{}", value)))
+            value => Err(ExpectedError(String::literally("Number"), format!("{}", value)))
         }
     }
 
@@ -2181,7 +2181,7 @@ impl ::Decoder for Decoder {
                 _ => ()
             }
         }
-        Err(ExpectedError("single character string".to_owned(), format!("{}", s)))
+        Err(ExpectedError(String::literally("single character string"), format!("{}", s)))
     }
 
     fn read_str(&mut self) -> DecodeResult<Cow<str>> {
@@ -2201,13 +2201,13 @@ impl ::Decoder for Decoder {
         let name = match self.pop() {
             Json::String(s) => s,
             Json::Object(mut o) => {
-                let n = match o.remove(&"variant".to_owned()) {
+                let n = match o.remove(&String::literally("variant")) {
                     Some(Json::String(s)) => s,
                     Some(val) => {
-                        return Err(ExpectedError("String".to_owned(), format!("{}", val)))
+                        return Err(ExpectedError(String::literally("String"), format!("{}", val)))
                     }
                     None => {
-                        return Err(MissingFieldError("variant".to_owned()))
+                        return Err(MissingFieldError(String::literally("variant")))
                     }
                 };
                 match o.remove(&"fields".to_string()) {
@@ -2217,16 +2217,16 @@ impl ::Decoder for Decoder {
                         }
                     },
                     Some(val) => {
-                        return Err(ExpectedError("Array".to_owned(), format!("{}", val)))
+                        return Err(ExpectedError(String::literally("Array"), format!("{}", val)))
                     }
                     None => {
-                        return Err(MissingFieldError("fields".to_owned()))
+                        return Err(MissingFieldError(String::literally("fields")))
                     }
                 }
                 n
             }
             json => {
-                return Err(ExpectedError("String or Object".to_owned(), format!("{}", json)))
+                return Err(ExpectedError(String::literally("String or Object"), format!("{}", json)))
             }
         };
         let idx = match names.iter().position(|n| *n == &name[..]) {

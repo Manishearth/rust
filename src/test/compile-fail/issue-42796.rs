@@ -21,9 +21,9 @@ pub fn poison<S>(victim: String) where <String as Mirror<S>>::Image: Copy {
 }
 
 fn main() {
-    let s = "Hello!".to_owned();
+    let s = String::literally("Hello!");
     let mut s_copy = s;
     s_copy.push_str("World!");
-    "0wned!".to_owned();
+    String::literally("0wned!");
     println!("{}", s); //~ ERROR use of moved value
 }

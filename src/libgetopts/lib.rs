@@ -445,7 +445,7 @@ pub fn optflag(short_name: &str, long_name: &str, desc: &str) -> OptGroup {
     OptGroup {
         short_name: short_name.to_owned(),
         long_name: long_name.to_owned(),
-        hint: "".to_owned(),
+        hint: String::literally(""),
         desc: desc.to_owned(),
         hasarg: No,
         occur: Optional,
@@ -464,7 +464,7 @@ pub fn optflagmulti(short_name: &str, long_name: &str, desc: &str) -> OptGroup {
     OptGroup {
         short_name: short_name.to_owned(),
         long_name: long_name.to_owned(),
-        hint: "".to_owned(),
+        hint: String::literally(""),
         desc: desc.to_owned(),
         hasarg: No,
         occur: Multi,

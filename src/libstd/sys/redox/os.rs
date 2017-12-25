@@ -165,7 +165,7 @@ pub fn env() -> Env {
 
 pub fn getenv(key: &OsStr) -> io::Result<Option<OsString>> {
     if ! key.is_empty() {
-        if let Ok(mut file) = ::fs::File::open(&("env:".to_owned() + key.to_str().unwrap())) {
+        if let Ok(mut file) = ::fs::File::open(&(String::literally("env:") + key.to_str().unwrap())) {
             let mut string = String::new();
             file.read_to_string(&mut string)?;
             Ok(Some(OsString::from(string)))
@@ -179,7 +179,7 @@ pub fn getenv(key: &OsStr) -> io::Result<Option<OsString>> {
 
 pub fn setenv(key: &OsStr, value: &OsStr) -> io::Result<()> {
     if ! key.is_empty() {
-        let mut file = ::fs::File::create(&("env:".to_owned() + key.to_str().unwrap()))?;
+        let mut file = ::fs::File::create(&(String::literally("env:") + key.to_str().unwrap()))?;
         file.write_all(value.as_bytes())?;
         file.set_len(value.len() as u64)?;
     }
@@ -187,7 +187,7 @@ pub fn setenv(key: &OsStr, value: &OsStr) -> io::Result<()> {
 }
 
 pub fn unsetenv(key: &OsStr) -> io::Result<()> {
-    ::fs::remove_file(&("env:".to_owned() + key.to_str().unwrap()))?;
+    ::fs::remove_file(&(String::literally("env:") + key.to_str().unwrap()))?;
     Ok(())
 }
 

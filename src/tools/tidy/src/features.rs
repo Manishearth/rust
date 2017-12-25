@@ -255,9 +255,9 @@ pub fn collect_lib_features(base_src_path: &Path) -> Features {
     // has been moved out-of-tree. Now it can no longer be auto-discovered by
     // `tidy`, because we need to filter out its (submodule) directory. Manually
     // add it to the set of known library features so we can still generate docs.
-    lib_features.insert("compiler_builtins_lib".to_owned(), Feature {
+    lib_features.insert(String::literally("compiler_builtins_lib"), Feature {
         level: Status::Unstable,
-        since: "".to_owned(),
+        since: String::literally(""),
         has_gate_test: false,
         tracking_issue: None,
     });
@@ -362,7 +362,7 @@ fn map_lib_features(base_src_path: &Path,
                 };
                 let feature = Feature {
                     level: Status::Unstable,
-                    since: "None".to_owned(),
+                    since: String::literally("None"),
                     has_gate_test: false,
                     // Whether there is a common tracking issue
                     // for these feature gates remains an open question

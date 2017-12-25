@@ -9,7 +9,7 @@
 // except according to those terms.
 
 fn main() {
-    let mut c = (1, "".to_owned());
+    let mut c = (1, String::literally(""));
     match c {
         c2 => {
             c.0 = 2;

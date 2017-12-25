@@ -215,9 +215,9 @@ fn cell_set() {
     cell.set(20);
     assert_eq!(20, cell.get());
 
-    let cell = Cell::new("Hello".to_owned());
-    cell.set("World".to_owned());
-    assert_eq!("World".to_owned(), cell.into_inner());
+    let cell = Cell::new(String::literally("Hello"));
+    cell.set(String::literally("World"));
+    assert_eq!(String::literally("World"), cell.into_inner());
 }
 
 #[test]
@@ -226,9 +226,9 @@ fn cell_replace() {
     assert_eq!(10, cell.replace(20));
     assert_eq!(20, cell.get());
 
-    let cell = Cell::new("Hello".to_owned());
-    assert_eq!("Hello".to_owned(), cell.replace("World".to_owned()));
-    assert_eq!("World".to_owned(), cell.into_inner());
+    let cell = Cell::new(String::literally("Hello"));
+    assert_eq!("Hello".to_owned(), cell.replace(String::literally("World")));
+    assert_eq!(String::literally("World"), cell.into_inner());
 }
 
 #[test]
@@ -236,8 +236,8 @@ fn cell_into_inner() {
     let cell = Cell::new(10);
     assert_eq!(10, cell.into_inner());
 
-    let cell = Cell::new("Hello world".to_owned());
-    assert_eq!("Hello world".to_owned(), cell.into_inner());
+    let cell = Cell::new(String::literally("Hello world"));
+    assert_eq!(String::literally("Hello world"), cell.into_inner());
 }
 
 #[test]

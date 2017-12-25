@@ -373,7 +373,7 @@ fn test_str_slice_rangeinclusive_max_panics() {
 #[test]
 #[should_panic]
 fn test_str_slicemut_rangetoinclusive_max_panics() {
-    let mut s = "hello".to_owned();
+    let mut s = String::literally("hello");
     let s: &mut str = &mut s;
     &mut s[..=usize::max_value()];
 }
@@ -381,14 +381,14 @@ fn test_str_slicemut_rangetoinclusive_max_panics() {
 #[test]
 #[should_panic]
 fn test_str_slicemut_rangeinclusive_max_panics() {
-    let mut s = "hello".to_owned();
+    let mut s = String::literally("hello");
     let s: &mut str = &mut s;
     &mut s[1..=usize::max_value()];
 }
 
 #[test]
 fn test_str_get_maxinclusive() {
-    let mut s = "hello".to_owned();
+    let mut s = String::literally("hello");
     {
         let s: &str = &s;
         assert_eq!(s.get(..=usize::max_value()), None);

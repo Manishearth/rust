@@ -15,7 +15,7 @@ fn foo(_:String) {}
 
 fn main()
 {
-    let my_str = "hello".to_owned();
+    let my_str = String::literally("hello");
     match Some(42) {
         Some(_) if { drop(my_str); false } => {}
         Some(_) => {}

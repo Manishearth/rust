@@ -27,8 +27,8 @@ fn main() {
     let s = String::new();
     let r_s = &s;
     foo2(r_s);
-    foo(&"aaa".to_owned()); //~ ERROR mismatched types
-    foo(&mut "aaa".to_owned()); //~ ERROR mismatched types
+    foo(&String::literally("aaa")); //~ ERROR mismatched types
+    foo(&mut String::literally("aaa")); //~ ERROR mismatched types
     foo3(borrow!(0));
     foo4(&0);
 }

@@ -9,12 +9,12 @@
 // except according to those terms.
 
 fn main() {
-    let mut c = (1, (1, "".to_owned()));
+    let mut c = (1, (1, String::literally("")));
     match c {
         c2 => { (c.1).0 = 2; assert_eq!((c2.1).0, 1); }
     }
 
-    let mut c = (1, (1, (1, "".to_owned())));
+    let mut c = (1, (1, (1, String::literally(""))));
     match c.1 {
         c2 => { ((c.1).1).0 = 3; assert_eq!((c2.1).0, 1); }
     }

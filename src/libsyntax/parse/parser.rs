@@ -2447,7 +2447,7 @@ impl<'a> Parser<'a> {
                         exp_span.to(self.prev_span),
                         "cannot use a comma after the base struct",
                     );
-                    err.span_suggestion_short(self.span, "remove this comma", "".to_owned());
+                    err.span_suggestion_short(self.span, "remove this comma", String::literally(""));
                     err.note("the base struct must always be the last field");
                     err.emit();
                     self.recover_stmt();
@@ -3529,7 +3529,7 @@ impl<'a> Parser<'a> {
                                                        "expected field pattern, found `...`");
                     err.span_suggestion(self.span,
                                         "to omit remaining fields, use one fewer `.`",
-                                        "..".to_owned());
+                                        String::literally(".."));
                     err.emit();
                 }
 
@@ -6568,7 +6568,7 @@ impl<'a> Parser<'a> {
             if self.token.is_keyword(keywords::Const) {
                 self.diagnostic()
                     .struct_span_err(self.span, "extern items cannot be `const`")
-                    .span_suggestion(self.span, "instead try using", "static".to_owned())
+                    .span_suggestion(self.span, "instead try using", String::literally("static"))
                     .emit();
             }
             self.bump(); // `static` or `const`

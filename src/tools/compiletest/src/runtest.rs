@@ -273,11 +273,11 @@ impl<'test> TestCx<'test> {
 
     fn run_pretty_test(&self) {
         if self.props.pp_exact.is_some() {
-            logv(self.config, "testing for exact pretty-printing".to_owned());
+            logv(self.config, String::literally("testing for exact pretty-printing"));
         } else {
             logv(
                 self.config,
-                "testing for converging pretty-printing".to_owned(),
+                String::literally("testing for converging pretty-printing"),
             );
         }
 
@@ -592,9 +592,9 @@ impl<'test> TestCx<'test> {
                 let debugger_script = self.make_out_name("debugger.script");
                 // FIXME (#9639): This needs to handle non-utf8 paths
                 let debugger_opts = vec![
-                    "-quiet".to_owned(),
-                    "-batch".to_owned(),
-                    "-nx".to_owned(),
+                    String::literally("-quiet"),
+                    String::literally("-batch"),
+                    String::literally("-nx"),
                     format!("-command={}", debugger_script.to_str().unwrap()),
                 ];
 
@@ -703,9 +703,9 @@ impl<'test> TestCx<'test> {
 
                 // FIXME (#9639): This needs to handle non-utf8 paths
                 let debugger_opts = vec![
-                    "-quiet".to_owned(),
-                    "-batch".to_owned(),
-                    "-nx".to_owned(),
+                    String::literally("-quiet"),
+                    String::literally("-batch"),
+                    String::literally("-nx"),
                     format!("-command={}", debugger_script.to_str().unwrap()),
                 ];
 
@@ -934,7 +934,7 @@ impl<'test> TestCx<'test> {
         }
 
         // Remove options that are either unwanted (-O) or may lead to duplicates due to RUSTFLAGS.
-        let options_to_remove = ["-O".to_owned(), "-g".to_owned(), "--debuginfo".to_owned()];
+        let options_to_remove = ["-O".to_owned(), "-g".to_owned(), String::literally("--debuginfo")];
         let new_options = self.split_maybe_args(options)
             .into_iter()
             .filter(|x| !options_to_remove.contains(x))

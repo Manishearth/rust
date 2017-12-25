@@ -591,7 +591,7 @@ impl Collector {
         } else if let Some(ref filename) = self.filename {
             filename.clone().into()
         } else {
-            FileName::Custom("input".to_owned())
+            FileName::Custom(String::literally("input"))
         }
     }
 
@@ -626,7 +626,7 @@ impl Collector {
                 // in the missing level (<h4>) with `_`. Thus `self.names` will
                 // become `[h1, h2, h3, "_", name]`.
                 if level - 1 > self.names.len() {
-                    self.names.resize(level - 1, "_".to_owned());
+                    self.names.resize(level - 1, String::literally("_"));
                 }
                 self.names.push(name);
             }

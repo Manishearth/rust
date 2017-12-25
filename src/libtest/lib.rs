@@ -684,11 +684,11 @@ impl<T: Write> ConsoleTestState<T> {
         self.write_log(
             format!("{} {}\n",
                     match *result {
-                        TrOk => "ok".to_owned(),
-                        TrFailed => "failed".to_owned(),
+                        TrOk => String::literally("ok"),
+                        TrFailed => String::literally("failed"),
                         TrFailedMsg(ref msg) => format!("failed: {}", msg),
-                        TrIgnored => "ignored".to_owned(),
-                        TrAllowedFail => "failed (allowed)".to_owned(),
+                        TrIgnored => String::literally("ignored"),
+                        TrAllowedFail => String::literally("failed (allowed)"),
                         TrBench(ref bs) => fmt_bench_samples(bs),
                     },
                     test.name))

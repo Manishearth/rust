@@ -441,7 +441,7 @@ fn test_drain() {
 
 #[test]
 fn test_splice() {
-    let mut s = "Hello, world!".to_owned();
+    let mut s = String::literally("Hello, world!");
     s.splice(7..12, "世界");
     assert_eq!(s, "Hello, 世界!");
 }
@@ -449,7 +449,7 @@ fn test_splice() {
 #[test]
 #[should_panic]
 fn test_splice_char_boundary() {
-    let mut s = "Hello, 世界!".to_owned();
+    let mut s = String::literally("Hello, 世界!");
     s.splice(..8, "");
 }
 

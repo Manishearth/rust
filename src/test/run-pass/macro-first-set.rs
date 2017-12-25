@@ -194,7 +194,7 @@ foo_24189_c!( > a );
 
 fn test_24189() {
     let _ = Foo24189::Baz;
-    let _ = Tester { name: "".to_owned() };
+    let _ = Tester { name: String::literally("") };
 }
 
 //}}}

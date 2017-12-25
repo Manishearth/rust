@@ -104,7 +104,7 @@ impl<'a, 'tcx> LateLintPass<'a, 'tcx> for WhileTrue {
                         let msg = "denote infinite loops with `loop { ... }`";
                         let condition_span = cx.tcx.sess.codemap().def_span(e.span);
                         let mut err = cx.struct_span_lint(WHILE_TRUE, condition_span, msg);
-                        err.span_suggestion_short(condition_span, "use `loop`", "loop".to_owned());
+                        err.span_suggestion_short(condition_span, "use `loop`", String::literally("loop"));
                         err.emit();
                     }
                 }
@@ -698,7 +698,7 @@ impl EarlyLintPass for DeprecatedAttr {
                     let msg = format!("use of deprecated attribute `{}`: {}. See {}",
                                       name, reason, link);
                     let mut err = cx.struct_span_lint(DEPRECATED, attr.span, &msg);
-                    err.span_suggestion_short(attr.span, "remove this attribute", "".to_owned());
+                    err.span_suggestion_short(attr.span, "remove this attribute", String::literally(""));
                     err.emit();
                 }
                 return;
@@ -1181,7 +1181,7 @@ impl<'a, 'tcx> LateLintPass<'a, 'tcx> for InvalidNoMangleItems {
                         let insertion_span = it.span.with_hi(it.span.lo());
                         err.span_suggestion(insertion_span,
                                             "try making it public",
-                                            "pub ".to_owned());
+                                            String::literally("pub "));
                         err.emit();
                     }
                     if generics.is_type_parameterized() {
@@ -1191,7 +1191,7 @@ impl<'a, 'tcx> LateLintPass<'a, 'tcx> for InvalidNoMangleItems {
                                                            types must be mangled");
                         err.span_suggestion_short(no_mangle_attr.span,
                                                   "remove this attribute",
-                                                  "".to_owned());
+                                                  String::literally(""));
                         err.emit();
                     }
                 }
@@ -1204,7 +1204,7 @@ impl<'a, 'tcx> LateLintPass<'a, 'tcx> for InvalidNoMangleItems {
                        let insertion_span = it.span.with_hi(it.span.lo());
                        err.span_suggestion(insertion_span,
                                            "try making it public",
-                                           "pub ".to_owned());
+                                           String::literally("pub "));
                        err.emit();
                 }
             }
@@ -1218,7 +1218,7 @@ impl<'a, 'tcx> LateLintPass<'a, 'tcx> for InvalidNoMangleItems {
                     let const_span = it.span.with_hi(BytePos(it.span.lo().0 + 5));
                     err.span_suggestion(const_span,
                                         "try a static value",
-                                        "pub static".to_owned());
+                                        String::literally("pub static"));
                     err.emit();
                 }
             }

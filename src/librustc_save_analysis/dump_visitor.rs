@@ -156,7 +156,7 @@ impl<'l, 'tcx: 'l, 'll, O: DumpOutput + 'll> DumpVisitor<'l, 'tcx, 'll, O> {
                     .to_fingerprint()
                     .as_value(),
             },
-            crate_root: crate_root.unwrap_or("<no source>".to_owned()),
+            crate_root: crate_root.unwrap_or(String::literally("<no source>")),
             external_crates: self.save_ctxt.get_external_crates(),
             span: self.span_from_span(krate.span),
         };
@@ -1330,7 +1330,7 @@ impl<'l, 'tcx: 'l, 'll, O: DumpOutput + 'll> DumpVisitor<'l, 'tcx, 'll, O> {
                         kind: ImportKind::GlobUse,
                         ref_id: None,
                         span,
-                        name: "*".to_owned(),
+                        name: String::literally("*"),
                         value: names.join(", "),
                         parent,
                     });

@@ -27,7 +27,7 @@ use std::rc::Rc;
 
 fn main() {
     let parse_sess = ParseSess::new(FilePathMapping::empty());
-    let exp_cfg = ExpansionConfig::default("issue_35829".to_owned());
+    let exp_cfg = ExpansionConfig::default(String::literally("issue_35829"));
     let mut resolver = DummyResolver;
     let cx = ExtCtxt::new(&parse_sess, exp_cfg, &mut resolver);
 

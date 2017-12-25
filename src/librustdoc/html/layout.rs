@@ -148,7 +148,7 @@ r##"<!DOCTYPE html>
         format!("<link rel=\"stylesheet\" type=\"text/css\" href=\"{root_path}theme.css\">",
                 root_path = page.root_path)
     } else {
-        "".to_owned()
+        String::literally("")
     },
     content   = *t,
     root_path = page.root_path,

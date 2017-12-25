@@ -1560,7 +1560,7 @@ pub fn build_session_options_and_crate_config(matches: &getopts::Matches)
     // with only stable options if no unstable options are used. Since error-format
     // is unstable, it will not be present. We have to use opts_present not
     // opt_present because the latter will panic.
-    let error_format = if matches.opts_present(&["error-format".to_owned()]) {
+    let error_format = if matches.opts_present(&[String::literally("error-format")]) {
         match matches.opt_str("error-format").as_ref().map(|s| &s[..]) {
             Some("human") => ErrorOutputType::HumanReadable(color),
             Some("json")  => ErrorOutputType::Json(false),

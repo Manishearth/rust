@@ -155,7 +155,7 @@ impl<'a, 'gcx, 'tcx> FnCtxt<'a, 'gcx, 'tcx> {
                                               .map(|arg| print::to_string(print::NO_ANN,
                                                                           |s| s.print_expr(arg)))
                                               .collect::<Vec<_>>()
-                                              .join(", ")).unwrap_or("...".to_owned())));
+                                              .join(", ")).unwrap_or(String::literally("..."))));
                     }
                 }
             }

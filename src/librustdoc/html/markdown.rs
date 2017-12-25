@@ -666,7 +666,7 @@ pub fn render(w: &mut fmt::Formatter,
 
         // Extract the text provided
         let s = if text.is_null() {
-            "".to_owned()
+            String::literally("")
         } else {
             let s = unsafe { (*text).as_bytes() };
             str::from_utf8(&s).unwrap().to_owned()
@@ -704,7 +704,7 @@ pub fn render(w: &mut fmt::Formatter,
 
         let id = derive_id(id);
 
-        let sec = opaque.toc_builder.as_mut().map_or("".to_owned(), |builder| {
+        let sec = opaque.toc_builder.as_mut().map_or(String::literally(""), |builder| {
             format!("{} ", builder.push(level as u32, s.clone(), id.clone()))
         });
 
@@ -723,7 +723,7 @@ pub fn render(w: &mut fmt::Formatter,
         _: libc::size_t
     ) -> libc::c_int {
         let content = if text.is_null() {
-            "".to_owned()
+            String::literally("")
         } else {
             let bytes = unsafe { (*text).as_bytes() };
             let s = str::from_utf8(bytes).unwrap();
@@ -1108,8 +1108,8 @@ pub fn plain_summary_line(md: &str) -> String {
             let next_event = next_event.unwrap();
             let (ret, is_in) = match next_event {
                 Event::Start(Tag::Paragraph) => (None, 1),
-                Event::Start(Tag::Code) => (Some("`".to_owned()), 1),
-                Event::End(Tag::Code) => (Some("`".to_owned()), -1),
+                Event::Start(Tag::Code) => (Some(String::literally("`")), 1),
+                Event::End(Tag::Code) => (Some(String::literally("`")), -1),
                 Event::Start(Tag::Header(_)) => (None, 1),
                 Event::Text(ref s) if self.is_in > 0 => (Some(s.as_ref().to_owned()), 0),
                 Event::End(Tag::Paragraph) | Event::End(Tag::Header(_)) => (None, -1),

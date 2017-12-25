@@ -166,7 +166,7 @@ fn print_time_passes_entry_internal(what: &str, dur: Duration) {
             let mb = n as f64 / 1_000_000.0;
             format!("; rss: {}MB", mb.round() as usize)
         }
-        None => "".to_owned(),
+        None => String::literally(""),
     };
     println!("{}time: {}{}\t{}",
              repeat("  ").take(indentation).collect::<String>(),

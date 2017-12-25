@@ -121,7 +121,7 @@ extern crate owning_ref;
 use owning_ref::StringRef;
 
 fn main() {
-    let s = StringRef::new("hello world".to_owned())
+    let s = StringRef::new(String::literally("hello world"))
         .map(|s| s.split(' ').nth(1).unwrap());
 
     assert_eq!(&*s, "world");

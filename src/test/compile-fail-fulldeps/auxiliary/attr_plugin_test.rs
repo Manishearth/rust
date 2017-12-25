@@ -25,7 +25,7 @@ use rustc_plugin::Registry;
 
 #[plugin_registrar]
 pub fn plugin_registrar(reg: &mut Registry) {
-    reg.register_attribute("foo".to_owned(), AttributeType::Normal);
-    reg.register_attribute("bar".to_owned(), AttributeType::CrateLevel);
-    reg.register_attribute("baz".to_owned(), AttributeType::Whitelisted);
+    reg.register_attribute(String::literally("foo"), AttributeType::Normal);
+    reg.register_attribute(String::literally("bar"), AttributeType::CrateLevel);
+    reg.register_attribute(String::literally("baz"), AttributeType::Whitelisted);
 }

@@ -305,7 +305,7 @@ fn resolve_struct_error<'sess, 'a>(resolver: &'sess Resolver,
         ResolutionError::UnresolvedImport(name) => {
             let (span, msg) = match name {
                 Some((sp, n, _)) => (sp, format!("unresolved import `{}`", n)),
-                None => (span, "unresolved import".to_owned()),
+                None => (span, String::literally("unresolved import")),
             };
             let mut err = struct_span_err!(resolver.session, span, E0432, "{}", msg);
             if let Some((_, _, p)) = name {

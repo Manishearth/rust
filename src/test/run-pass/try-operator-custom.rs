@@ -48,7 +48,7 @@ fn f(x: i32) -> Result<i32, String> {
 
 fn g(x: i32) -> MyResult<i32, String> {
     let _y = f(x - 1)?;
-    MyResult::Terrible("Hello".to_owned())
+    MyResult::Terrible(String::literally("Hello"))
 }
 
 fn h() -> MyResult<i32, String> {
@@ -65,7 +65,7 @@ fn i() -> MyResult<i32, String> {
 
 fn main() {
     assert!(f(0) == Ok(42));
-    assert!(f(10) == Err("Hello".to_owned()));
+    assert!(f(10) == Err(String::literally("Hello")));
     let _ = h();
     let _ = i();
 }

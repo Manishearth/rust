@@ -33,28 +33,28 @@ struct DS<U> {
 fn add<U>(ds: DS<U>, name: String) -> DS<DS<U>> {
     DS {
         may_unwind: MayUnwind,
-        name: "?".to_owned(),
+        name: String::literally("?"),
         next: ds,
     }
 }
 
 fn main() {
-    let deserializers = DS { may_unwind: MayUnwind, name: "?".to_owned(), next: () };
-    let deserializers = add(deserializers, "?".to_owned());
-    let deserializers = add(deserializers, "?".to_owned());
-    let deserializers = add(deserializers, "?".to_owned());
-    let deserializers = add(deserializers, "?".to_owned());
-    let deserializers = add(deserializers, "?".to_owned());
-    let deserializers = add(deserializers, "?".to_owned());
-    let deserializers = add(deserializers, "?".to_owned()); // 0.7s
-    let deserializers = add(deserializers, "?".to_owned()); // 1.3s
-    let deserializers = add(deserializers, "?".to_owned()); // 2.4s
-    let deserializers = add(deserializers, "?".to_owned()); // 6.7s
-    let deserializers = add(deserializers, "?".to_owned()); // 26.0s
-    let deserializers = add(deserializers, "?".to_owned()); // 114.0s
-    let deserializers = add(deserializers, "?".to_owned()); // 228.0s
-    let deserializers = add(deserializers, "?".to_owned()); // 400.0s
-    let deserializers = add(deserializers, "?".to_owned()); // 800.0s
-    let deserializers = add(deserializers, "?".to_owned()); // 1600.0s
-    let deserializers = add(deserializers, "?".to_owned()); // 3200.0s
+    let deserializers = DS { may_unwind: MayUnwind, name: String::literally("?"), next: () };
+    let deserializers = add(deserializers, String::literally("?"));
+    let deserializers = add(deserializers, String::literally("?"));
+    let deserializers = add(deserializers, String::literally("?"));
+    let deserializers = add(deserializers, String::literally("?"));
+    let deserializers = add(deserializers, String::literally("?"));
+    let deserializers = add(deserializers, String::literally("?"));
+    let deserializers = add(deserializers, String::literally("?")); // 0.7s
+    let deserializers = add(deserializers, String::literally("?")); // 1.3s
+    let deserializers = add(deserializers, String::literally("?")); // 2.4s
+    let deserializers = add(deserializers, String::literally("?")); // 6.7s
+    let deserializers = add(deserializers, String::literally("?")); // 26.0s
+    let deserializers = add(deserializers, String::literally("?")); // 114.0s
+    let deserializers = add(deserializers, String::literally("?")); // 228.0s
+    let deserializers = add(deserializers, String::literally("?")); // 400.0s
+    let deserializers = add(deserializers, String::literally("?")); // 800.0s
+    let deserializers = add(deserializers, String::literally("?")); // 1600.0s
+    let deserializers = add(deserializers, String::literally("?")); // 3200.0s
 }

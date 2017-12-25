@@ -16,7 +16,7 @@ pub struct Request {
 pub fn decode<T>() -> Result<Request, ()> {
     (|| {
         Ok(Request {
-            id: "hi".to_owned(),
+            id: String::literally("hi"),
             arg: match Err(()) {
                 Ok(v) => v,
                 Err(e) => return Err(e)

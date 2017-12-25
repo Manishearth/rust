@@ -184,7 +184,7 @@ impl<'a, 'gcx, 'tcx> TyCtxt<'a, 'gcx, 'tcx> {
                             ty::BrAnon(idx) => {
                                 format!("the anonymous lifetime #{} defined on", idx + 1)
                             }
-                            ty::BrFresh(_) => "an anonymous lifetime defined on".to_owned(),
+                            ty::BrFresh(_) => String::literally("an anonymous lifetime defined on"),
                             _ => {
                                 format!("the lifetime {} as defined on",
                                         fr.bound_region)
@@ -222,9 +222,9 @@ impl<'a, 'gcx, 'tcx> TyCtxt<'a, 'gcx, 'tcx> {
                 (format!("{} {}", prefix, msg), opt_span)
             }
 
-            ty::ReStatic => ("the static lifetime".to_owned(), None),
+            ty::ReStatic => (String::literally("the static lifetime"), None),
 
-            ty::ReEmpty => ("the empty lifetime".to_owned(), None),
+            ty::ReEmpty => (String::literally("the empty lifetime"), None),
 
             // FIXME(#13998) ReSkolemized should probably print like
             // ReFree rather than dumping Debug output on the user.

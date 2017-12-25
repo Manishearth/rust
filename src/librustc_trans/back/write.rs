@@ -878,21 +878,21 @@ pub fn start_async_translation(tcx: TyCtxt,
     if let Some(ref sanitizer) = sess.opts.debugging_opts.sanitizer {
         match *sanitizer {
             Sanitizer::Address => {
-                modules_config.passes.push("asan".to_owned());
-                modules_config.passes.push("asan-module".to_owned());
+                modules_config.passes.push(String::literally("asan"));
+                modules_config.passes.push(String::literally("asan-module"));
             }
             Sanitizer::Memory => {
-                modules_config.passes.push("msan".to_owned())
+                modules_config.passes.push(String::literally("msan"))
             }
             Sanitizer::Thread => {
-                modules_config.passes.push("tsan".to_owned())
+                modules_config.passes.push(String::literally("tsan"))
             }
             _ => {}
         }
     }
 
     if sess.opts.debugging_opts.profile {
-        modules_config.passes.push("insert-gcov-profiling".to_owned())
+        modules_config.passes.push(String::literally("insert-gcov-profiling"))
     }
 
     modules_config.opt_level = Some(get_llvm_opt_level(sess.opts.optimize));

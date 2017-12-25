@@ -85,7 +85,7 @@ impl<'a, 'tcx> UnusedMutCx<'a, 'tcx> {
                                       ids[0].0,
                                       ids[0].2,
                                       "variable does not need to be mutable")
-                .span_suggestion_short(mut_span, "remove this `mut`", "".to_owned())
+                .span_suggestion_short(mut_span, "remove this `mut`", String::literally(""))
                 .emit();
         }
     }

@@ -44,7 +44,7 @@ use syntax::util::ThinVec;
 
 fn parse_expr(ps: &ParseSess, src: &str) -> P<Expr> {
     let mut p = parse::new_parser_from_source_str(ps,
-                                                  FileName::Custom("expr".to_owned()),
+                                                  FileName::Custom(String::literally("expr")),
                                                   src.to_owned());
     p.parse_expr().unwrap()
 }

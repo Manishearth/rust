@@ -22,7 +22,7 @@ fn main() {
         f()
     }
 
-    let mut farewell = "goodbye".to_owned();
+    let mut farewell = String::literally("goodbye");
     let diary = || { //~ ERROR E0525
         farewell.push_str("!!!");
         println!("Then I screamed {}.", farewell);

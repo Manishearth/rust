@@ -183,7 +183,7 @@ impl Sig for ast::Ty {
                 Ok(replace_text(nested, text))
             }
             ast::TyKind::Rptr(ref lifetime, ref mt) => {
-                let mut prefix = "&".to_owned();
+                let mut prefix = String::literally("&");
                 if let &Some(ref l) = lifetime {
                     prefix.push_str(&l.ident.to_string());
                     prefix.push(' ');
@@ -196,9 +196,9 @@ impl Sig for ast::Ty {
                 let text = format!("{}{}", prefix, nested.text);
                 Ok(replace_text(nested, text))
             }
-            ast::TyKind::Never => Ok(text_sig("!".to_owned())),
+            ast::TyKind::Never => Ok(text_sig(String::literally("!"))),
             ast::TyKind::Tup(ref ts) => {
-                let mut text = "(".to_owned();
+                let mut text = String::literally("(");
                 let mut defs = vec![];
                 let mut refs = vec![];
                 for t in ts {
@@ -332,7 +332,7 @@ impl Sig for ast::Item {
 
         match self.node {
             ast::ItemKind::Static(ref ty, m, ref expr) => {
-                let mut text = "static ".to_owned();
+                let mut text = String::literally("static ");
                 if m == ast::Mutability::Mutable {
                     text.push_str("mut ");
                 }
@@ -358,7 +358,7 @@ impl Sig for ast::Item {
                 Ok(extend_sig(ty, text, defs, vec![]))
             }
             ast::ItemKind::Const(ref ty, ref expr) => {
-                let mut text = "const ".to_owned();
+                let mut text = String::literally("const ");
                 let name = self.ident.to_string();
                 let defs = vec![
                     SigElement {
@@ -422,7 +422,7 @@ impl Sig for ast::Item {
                 Ok(sig)
             }
             ast::ItemKind::Mod(ref _mod) => {
-                let mut text = "mod ".to_owned();
+                let mut text = String::literally("mod ");
                 let name = self.ident.to_string();
                 let defs = vec![
                     SigElement {
@@ -442,7 +442,7 @@ impl Sig for ast::Item {
                 })
             }
             ast::ItemKind::Ty(ref ty, ref generics) => {
-                let text = "type ".to_owned();
+                let text = String::literally("type ");
                 let mut sig = name_and_generics(text, offset, generics, self.id, self.ident, scx)?;
 
                 sig.text.push_str(" = ");
@@ -453,19 +453,19 @@ impl Sig for ast::Item {
                 Ok(merge_sigs(sig.text.clone(), vec![sig, ty]))
             }
             ast::ItemKind::Enum(_, ref generics) => {
-                let text = "enum ".to_owned();
+                let text = String::literally("enum ");
                 let mut sig = name_and_generics(text, offset, generics, self.id, self.ident, scx)?;
                 sig.text.push_str(" {}");
                 Ok(sig)
             }
             ast::ItemKind::Struct(_, ref generics) => {
-                let text = "struct ".to_owned();
+                let text = String::literally("struct ");
                 let mut sig = name_and_generics(text, offset, generics, self.id, self.ident, scx)?;
                 sig.text.push_str(" {}");
                 Ok(sig)
             }
             ast::ItemKind::Union(_, ref generics) => {
-                let text = "union ".to_owned();
+                let text = String::literally("union ");
                 let mut sig = name_and_generics(text, offset, generics, self.id, self.ident, scx)?;
                 sig.text.push_str(" {}");
                 Ok(sig)
@@ -624,7 +624,7 @@ impl Sig for ast::Generics {
             return Ok(text_sig(String::new()));
         }
 
-        let mut text = "<".to_owned();
+        let mut text = String::literally("<");
 
         let mut defs = vec![];
         for param in &self.params {
@@ -794,7 +794,7 @@ impl Sig for ast::ForeignItem {
                 Ok(sig)
             }
             ast::ForeignItemKind::Static(ref ty, m) => {
-                let mut text = "static ".to_owned();
+                let mut text = String::literally("static ");
                 if m {
                     text.push_str("mut ");
                 }
@@ -815,7 +815,7 @@ impl Sig for ast::ForeignItem {
                 Ok(extend_sig(ty_sig, text, defs, vec![]))
             }
             ast::ForeignItemKind::Ty => {
-                let mut text = "type ".to_owned();
+                let mut text = String::literally("type ");
                 let name = self.ident.to_string();
                 let defs = vec![
                     SigElement {
@@ -866,7 +866,7 @@ fn make_assoc_type_signature(
     default: Option<&ast::Ty>,
     scx: &SaveContext,
 ) -> Result {
-    let mut text = "type ".to_owned();
+    let mut text = String::literally("type ");
     let name = ident.to_string();
     let mut defs = vec![
         SigElement {
@@ -900,7 +900,7 @@ fn make_assoc_const_signature(
     default: Option<&ast::Expr>,
     scx: &SaveContext,
 ) -> Result {
-    let mut text = "const ".to_owned();
+    let mut text = String::literally("const ");
     let name = ident.to_string();
     let mut defs = vec![
         SigElement {

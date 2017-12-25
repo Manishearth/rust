@@ -280,7 +280,7 @@ impl Builder {
         let rustfmt_present = manifest.pkg.contains_key("rustfmt-preview");
 
         if rls_present {
-            manifest.renames.insert("rls".to_owned(), Rename { to: "rls-preview".to_owned() });
+            manifest.renames.insert("rls".to_owned(), Rename { to: String::literally("rls-preview") });
         }
 
         let mut pkg = Package {

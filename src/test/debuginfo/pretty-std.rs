@@ -97,7 +97,7 @@ fn main() {
     let some = Some(8i16);
     let none: Option<i64> = None;
 
-    let some_string = Some("IAMA optional string!".to_owned());
+    let some_string = Some(String::literally("IAMA optional string!"));
 
     zzz(); // #break
 }

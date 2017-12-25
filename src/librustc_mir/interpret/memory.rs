@@ -374,18 +374,18 @@ impl<'a, 'tcx, M: Machine<'tcx>> Memory<'a, 'tcx, M> {
                 // normal alloc?
                 match self.alloc_map.get(&id.0) {
                     Some(a) => (a, match self.alloc_kind[&id.0] {
-                        MemoryKind::Stack => " (stack)".to_owned(),
+                        MemoryKind::Stack => String::literally(" (stack)"),
                         MemoryKind::Machine(m) => format!(" ({:?})", m),
-                        MemoryKind::MutableStatic => " (static mut)".to_owned(),
+                        MemoryKind::MutableStatic => String::literally(" (static mut)"),
                     }),
                     // uninitialized static alloc?
                     None => match self.uninitialized_statics.get(&id.0) {
-                        Some(a) => (a, " (static in the process of initialization)".to_owned()),
+                        Some(a) => (a, String::literally(" (static in the process of initialization)")),
                         None => {
                             let int = self.tcx.interpret_interner.borrow();
                             // static alloc?
                             match int.get_alloc(id.0) {
-                                Some(a) => (a, "(immutable)".to_owned()),
+                                Some(a) => (a, String::literally("(immutable)")),
                                 None => if let Some(func) = int.get_fn(id.0) {
                                     trace!("{} {}", msg, func);
                     continue;

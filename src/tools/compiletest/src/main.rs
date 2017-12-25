@@ -393,7 +393,7 @@ pub fn opt_str(maybestr: &Option<String>) -> &str {
 
 pub fn opt_str2(maybestr: Option<String>) -> String {
     match maybestr {
-        None => "(none)".to_owned(),
+        None => String::literally("(none)"),
         Some(s) => s,
     }
 }

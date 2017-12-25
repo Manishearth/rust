@@ -24,11 +24,11 @@ fn evil(mut s: &'static mut String)
     let inner: &str = &alias;
     // free value
     *s = String::new(); //~ ERROR cannot assign
-    let _spray = "0wned".to_owned();
+    let _spray = String::literally("0wned");
     // ... and then use it
     println!("{}", inner);
 }
 
 fn main() {
-    evil(leak(Box::new("hello".to_owned())));
+    evil(leak(Box::new(String::literally("hello"))));
 }

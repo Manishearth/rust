@@ -1137,7 +1137,7 @@ impl Foo {
 }
 
 fn main() {
-    let f = Foo { value: "hello".to_owned() };
+    let f = Foo { value: String::literally("hello") };
 
     println!("{}", f.get_value());
     println!("{}", f.without_lifetime());
@@ -1452,7 +1452,7 @@ trait LiveLongAndProsper {
 // and now you can implement it on (u8, u8)
 impl LiveLongAndProsper for (u8, u8) {
     fn get_state(&self) -> String {
-        "He's dead, Jim!".to_owned()
+        String::literally("He's dead, Jim!")
     }
 }
 ```
@@ -1466,7 +1466,7 @@ struct TypeWrapper((u8, u8));
 
 impl TypeWrapper {
     fn get_state(&self) -> String {
-        "Fascinating!".to_owned()
+        String::literally("Fascinating!")
     }
 }
 ```
@@ -2955,7 +2955,7 @@ String concatenation appends the string on the right to the string on the
 left and may require reallocation. This requires ownership of the string
 on the left. If something should be added to a string literal, move the
 literal to the heap by allocating it with `to_owned()` like in
-`"Your text".to_owned()`.
+`String::literally("Your text")`.
 
 "##,
 

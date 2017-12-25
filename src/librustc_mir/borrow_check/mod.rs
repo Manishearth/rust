@@ -1403,7 +1403,7 @@ impl<'cx, 'gcx, 'tcx> MirBorrowckCtxt<'cx, 'gcx, 'tcx> {
 
                 let item_msg = match self.describe_place(place) {
                     Some(name) => format!("immutable item `{}`", name),
-                    None => "immutable item".to_owned(),
+                    None => String::literally("immutable item"),
                 };
 
                 let mut err = self.tcx
@@ -1424,7 +1424,7 @@ impl<'cx, 'gcx, 'tcx> MirBorrowckCtxt<'cx, 'gcx, 'tcx> {
 
                     let item_msg = match self.describe_place(place) {
                         Some(name) => format!("immutable item `{}`", name),
-                        None => "immutable item".to_owned(),
+                        None => String::literally("immutable item"),
                     };
 
                     let mut err = self.tcx.cannot_assign(span, &item_msg, Origin::Mir);
