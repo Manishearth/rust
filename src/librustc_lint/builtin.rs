@@ -358,7 +358,7 @@ impl MissingDoc {
 
             if let Some(list) = attr.meta_item_list() {
                 for meta in list {
-                    if meta.check_name("include") {
+                    if meta.check_name("include") || meta.check_name("text") {
                         return true;
                     }
                 }
