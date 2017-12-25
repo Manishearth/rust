@@ -1354,6 +1354,8 @@ pub struct Resolver<'a> {
     current_type_ascription: Vec<Span>,
 
     injected_crate: Option<Module<'a>>,
+
+    pub doc_link_map: FxHashMap<u32, Def>,
 }
 
 pub struct ResolverArenas<'a> {
@@ -1554,6 +1556,8 @@ impl<'a> Resolver<'a> {
             unused_macros: FxHashSet(),
             current_type_ascription: Vec::new(),
             injected_crate: None,
+
+            doc_link_map: FxHashMap(),
         }
     }
 
@@ -1881,7 +1885,7 @@ impl<'a> Resolver<'a> {
 
         debug!("(resolving item) resolving {}", name);
 
-        self.check_proc_macro_attrs(&item.attrs);
+        self.handle_item_attrs(&item.attrs);
 
         match item.node {
             ItemKind::Enum(_, ref generics) |
@@ -1915,7 +1919,7 @@ impl<'a> Resolver<'a> {
                         walk_list!(this, visit_ty_param_bound, bounds);
 
                         for trait_item in trait_items {
-                            this.check_proc_macro_attrs(&trait_item.attrs);
+                            this.handle_item_attrs(&trait_item.attrs);
 
                             let type_parameters = HasTypeParameters(&trait_item.generics,
                                                                     TraitOrImplItemRibKind);
@@ -2164,7 +2168,7 @@ impl<'a> Resolver<'a> {
                         this.visit_generics(generics);
                         this.with_current_self_type(self_type, |this| {
                             for impl_item in impl_items {
-                                this.check_proc_macro_attrs(&impl_item.attrs);
+                                this.handle_item_attrs(&impl_item.attrs);
                                 this.resolve_visibility(&impl_item.vis);
 
                                 // We also need a new scope for the impl item type parameters.
@@ -3927,6 +3931,12 @@ impl<'a> Resolver<'a> {
         self.session.buffer_lint(lint::builtin::LEGACY_IMPORTS, id, span, msg);
     }
 
+    fn handle_item_attrs(&mut self, attrs: &[ast::Attribute]) {
+        // XXXManishearth we should only loop once
+        self.check_proc_macro_attrs(attrs);
+        self.resolve_doc_link_attrs(attrs);
+    }
+
     fn check_proc_macro_attrs(&mut self, attrs: &[ast::Attribute]) {
         if self.proc_macro_enabled { return; }
 
@@ -3950,6 +3960,45 @@ impl<'a> Resolver<'a> {
                                 attr.span, GateIssue::Language, msg)
                         .span_label(binding.span(), "procedural macro imported here")
                         .emit();
+                }
+            }
+        }
+    }
+
+    fn resolve_doc_link_attrs(&mut self, attrs: &[ast::Attribute]) {
+        // FIXME(Manishearth) bail early when not in rustdoc mode
+
+        for attr in attrs {
+            if !attr.check_name("doc") {
+                return;
+            }
+            if let Some(list) = attr.meta_item_list() {
+                if list.get(1).map(|l| l.check_name("link")).unwrap_or(false) {
+                    for link in list {
+                        if let Some(innerlist) = link.meta_item_list() {
+                            let (text, id) = if let Some((name, val)) = innerlist.get(0).and_then(|item| item.name_value_literal()) {
+                                let val = if let ast::LitKind::Int(val, _) = val.node {
+                                    val
+                                } else { continue };
+                                (name, val)
+                            } else {
+                                continue;
+                            };
+                            let path: Vec<_> = text.as_str().split("::").skip(1)
+                                .map(|seg| respan(DUMMY_SP, Ident::with_empty_ctxt(seg.into()))).collect();
+                            let namespace = TypeNS;
+                            let def = match self.resolve_path(&path, Some(namespace), false, DUMMY_SP) {
+                                PathResult::Module(module) => module.def().unwrap(),
+                                PathResult::NonModule(path_res) if path_res.unresolved_segments() == 0 =>
+                                    path_res.base_def(),
+                                _ => continue,
+                            };
+                            // FIXME(Manishearth) probably should store these as u32 directly
+                            // since otherwise it's possible to trigger UB by manually writing one of these
+                            // doc attrs
+                            self.doc_link_map.insert(id as u32, def);
+                        }
+                    }
                 }
             }
         }
