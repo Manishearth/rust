@@ -103,6 +103,7 @@ impl From<clean::TypeKind> for ItemType {
             clean::TypeKind::Variant  => ItemType::Variant,
             clean::TypeKind::Typedef  => ItemType::Typedef,
             clean::TypeKind::Foreign  => ItemType::ForeignType,
+            clean::TypeKind::Macro  => ItemType::Macro,
         }
     }
 }

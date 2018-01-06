@@ -408,7 +408,7 @@ impl<'a> Resolver<'a> {
         def
     }
 
-    fn resolve_macro_to_def_inner(&mut self, scope: Mark, path: &ast::Path,
+    pub fn resolve_macro_to_def_inner(&mut self, scope: Mark, path: &ast::Path,
                                   kind: MacroKind, force: bool)
                                   -> Result<Def, Determinacy> {
         let ast::Path { ref segments, span } = *path;
