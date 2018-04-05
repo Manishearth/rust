@@ -15,6 +15,7 @@ use deriving::generic::*;
 use deriving::generic::ty::*;
 
 use syntax::ast::{self, BinOpKind, Expr, MetaItem};
+use syntax::codemap::respan;
 use syntax::ext::base::{Annotatable, ExtCtxt};
 use syntax::ext::build::AstBuilder;
 use syntax::ptr::P;
@@ -123,7 +124,7 @@ pub fn some_ordering_collapsed(cx: &mut ExtCtxt,
 }
 
 pub fn cs_partial_cmp(cx: &mut ExtCtxt, span: Span, substr: &Substructure) -> P<Expr> {
-    let test_id = cx.ident_of("__cmp");
+    let test_id = cx.ident_of("cmp");
     let ordering = cx.path_global(span, cx.std_path(&["cmp", "Ordering", "Equal"]));
     let ordering_expr = cx.expr_path(ordering.clone());
     let equals_expr = cx.expr_some(span, ordering_expr);
@@ -138,18 +139,19 @@ pub fn cs_partial_cmp(cx: &mut ExtCtxt, span: Span, substr: &Substructure) -> P<
     // ::std::option::Option::Some(::std::cmp::Ordering::Equal) => {
     // ...
     // }
-    // __cmp => __cmp
+    // cmp @ _ => cmp
     // },
-    // __cmp => __cmp
+    // cmp @ _ => cmp
     // }
     //
+    // We use the `cmp @ _` form so it will not conflict with constants named `cmp`
     cs_fold(// foldr nests the if-elses correctly, leaving the first field
             // as the outermost one, and the last as the innermost.
             false,
             |cx, span, old, self_f, other_fs| {
         // match new {
         //     Some(::std::cmp::Ordering::Equal) => old,
-        //     __cmp => __cmp
+        //     cmp @ _ => cmp
         // }
 
         let new = {
@@ -169,8 +171,11 @@ pub fn cs_partial_cmp(cx: &mut ExtCtxt, span: Span, substr: &Substructure) -> P<
         let eq_arm = cx.arm(span,
                             vec![cx.pat_some(span, cx.pat_path(span, ordering.clone()))],
                             old);
+        // cmp @ _
+        let kind = ast::PatKind::Ident(ast::BindingMode::ByValue(ast::Mutability::Immutable),
+                                       respan(span, test_id), Some(cx.pat_wild(span)));
         let neq_arm = cx.arm(span,
-                             vec![cx.pat_ident(span, test_id)],
+                             vec![cx.pat(span, kind)],
                              cx.expr_ident(span, test_id));
 
         cx.expr_match(span, new, vec![eq_arm, neq_arm])
