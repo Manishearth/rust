@@ -466,6 +466,9 @@ declare_features! (
 
     // #[doc(alias = "...")]
     (active, doc_alias, "1.27.0", Some(50146), None),
+
+    // Access to crate names passed via `--extern` through prelude
+    (active, extern_prelude, "1.27.0", Some(44660), None),
 );
 
 declare_features! (
