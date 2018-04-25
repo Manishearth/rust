@@ -1975,9 +1975,7 @@ impl<'a> Resolver<'a> {
         if !module.no_implicit_prelude {
             if ns == TypeNS && self.extern_prelude.contains(&ident.name) {
                 if !self.session.features_untracked().extern_prelude {
-                    feature_err(&self.session.parse_sess, "extern_prelude",
-                                ident.span, GateIssue::Language,
-                                "access to extern crates through prelude is experimental").emit();
+                    return None;
                 }
 
                 let crate_id = self.crate_loader.process_path_extern(ident.name, ident.span);
