@@ -3233,6 +3233,10 @@ impl<'a> Resolver<'a> {
         let mut module = None;
         let mut allow_super = true;
 
+        let mut fully_local = true;
+        // are we doing the first resolution? I.e. ignoring :: and crate
+        // and stuff, have we resolved anything yet?
+        let mut first_resolution = true;
         for (i, &ident) in path.iter().enumerate() {
             debug!("resolve_path ident {} {:?}", i, ident);
             let is_last = i == path.len() - 1;
@@ -3242,8 +3246,10 @@ impl<'a> Resolver<'a> {
             if i == 0 && ns == TypeNS && name == keywords::SelfValue.name() {
                 let mut ctxt = ident.span.ctxt().modern();
                 module = Some(self.resolve_self(&mut ctxt, self.current_module));
+                first_resolution = false;
                 continue
             } else if allow_super && ns == TypeNS && name == keywords::Super.name() {
+                first_resolution = false;
                 let mut ctxt = ident.span.ctxt().modern();
                 let self_module = match i {
                     0 => self.resolve_self(&mut ctxt, self.current_module),
@@ -3270,6 +3276,7 @@ impl<'a> Resolver<'a> {
                     continue
                 } else if i == 0 && name == keywords::DollarCrate.name() {
                     // `$crate::a::b`
+                    fully_local = false;
                     module = Some(self.resolve_crate_root(ident.span.ctxt(), true));
                     continue
                 } else if i == 1 && !token::is_path_segment_keyword(ident) {
@@ -3285,6 +3292,8 @@ impl<'a> Resolver<'a> {
                             self.get_module(DefId { krate: crate_id, index: CRATE_DEF_INDEX });
                         self.populate_module_if_necessary(crate_root);
                         module = Some(crate_root);
+                        fully_local = false;
+                        first_resolution = false;
                         continue
                     }
                 }
@@ -3337,6 +3346,27 @@ impl<'a> Resolver<'a> {
                     let def = binding.def();
                     let maybe_assoc = opt_ns != Some(MacroNS) && PathSource::Type.is_expected(def);
                     if let Some(next_module) = binding.module() {
+                        if ns == TypeNS && fully_local && module.is_some() && !first_resolution {
+                            if let Some(id) = node_id {
+                                if self.extern_prelude.contains(&ident.name) {
+                                    let crate_id =
+                                        self.crate_loader
+                                            .process_path_extern(ident.name, ident.span);
+                                    let binding_id = binding.def().def_id();
+                                    if binding_id.krate == crate_id &&
+                                       binding_id.index == CRATE_DEF_INDEX {
+                                        self.session.buffer_lint(
+                                            lint::builtin::USE_CRATE_IN_MODULE,
+                                            id, ident.span,
+                                            "The crate can be used directly \
+                                             here.");
+                                    }
+                                }
+                            }
+
+                        }
+                        fully_local = fully_local && next_module.is_local();
+                        first_resolution = false;
                         module = Some(next_module);
                     } else if def == Def::Err {
                         return PathResult::NonModule(err_path_resolution());

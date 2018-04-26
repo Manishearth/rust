@@ -41,6 +41,7 @@ extern crate syntax_pos;
 
 use rustc::lint;
 use rustc::lint::builtin::{BARE_TRAIT_OBJECT, ABSOLUTE_PATH_STARTING_WITH_MODULE};
+use rustc::lint::builtin::USE_CRATE_IN_MODULE;
 use rustc::session;
 use rustc::util;
 
@@ -182,7 +183,8 @@ pub fn register_builtins(store: &mut lint::LintStore, sess: Option<&Session>) {
                     "rust_2018_idioms",
                     BARE_TRAIT_OBJECT,
                     UNREACHABLE_PUB,
-                    UNNECESSARY_EXTERN_CRATE);
+                    UNNECESSARY_EXTERN_CRATE,
+                    USE_CRATE_IN_MODULE);
 
     // Guidelines for creating a future incompatibility lint:
     //

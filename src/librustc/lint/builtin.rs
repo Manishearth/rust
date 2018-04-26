@@ -273,6 +273,13 @@ declare_lint! {
     "detects name collision with an existing but unstable method"
 }
 
+
+declare_lint! {
+    pub USE_CRATE_IN_MODULE,
+    Allow,
+    "attempting to use a crate through another module"
+}
+
 /// Does nothing as a lint pass, but registers some `Lint`s
 /// which are used by other parts of the compiler.
 #[derive(Copy, Clone)]
@@ -323,6 +330,7 @@ impl LintPass for HardwiredLints {
             BARE_TRAIT_OBJECT,
             ABSOLUTE_PATH_STARTING_WITH_MODULE,
             UNSTABLE_NAME_COLLISION,
+            USE_CRATE_IN_MODULE
         )
     }
 }
