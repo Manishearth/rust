@@ -11,7 +11,9 @@
 // Modules that clash with crates don't hit feature errors when
 // the feature is disabled
 
+extern crate ep_lib;
+
 fn main() {
     let s = ep_lib::S;
-    s.internal(); // OK
+    s.external(); // OK
 }
