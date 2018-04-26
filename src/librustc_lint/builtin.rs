@@ -1509,3 +1509,39 @@ impl<'a, 'tcx> LateLintPass<'a, 'tcx> for UnusedBrokenConst {
         }
     }
 }
+
+declare_lint! {
+    pub UNNECESSARY_EXTERN_CRATE,
+    Allow,
+    "suggest removing `extern crate` for the 2018 edition"
+}
+
+pub struct ExternCrate;
+
+impl LintPass for ExternCrate {
+    fn get_lints(&self) -> LintArray {
+        lint_array!(UNNECESSARY_EXTERN_CRATE)
+    }
+}
+
+impl<'a, 'tcx> LateLintPass<'a, 'tcx> for ExternCrate {
+    fn check_item(&mut self, cx: &LateContext, it: &hir::Item) {
+        if let hir::ItemExternCrate(ref orig) =  it.node {
+            if it.attrs.iter().any(|a| a.check_name("macro_use")) {
+                return
+            }
+            let mut err = cx.struct_span_lint(UNNECESSARY_EXTERN_CRATE,
+                it.span, "`extern crate` is unnecessary in the new edition");
+            if it.vis == hir::Visibility::Public {
+                if let Some(orig) = orig {
+                    err.span_suggestion(it.span, "use `pub use`",
+                        format!("pub use {} as {}", orig, it.name));
+                } else {
+                    err.span_suggestion(it.span, "use `pub use`",
+                        format!("pub use {}", it.name));
+                }
+                err.emit();
+            }
+        }
+    }
+}

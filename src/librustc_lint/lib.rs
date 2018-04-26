@@ -137,6 +137,7 @@ pub fn register_builtins(store: &mut lint::LintStore, sess: Option<&Session>) {
                  UnreachablePub,
                  TypeAliasBounds,
                  UnusedBrokenConst,
+                 ExternCrate,
                  );
 
     add_builtin_with_new!(sess,
@@ -180,7 +181,8 @@ pub fn register_builtins(store: &mut lint::LintStore, sess: Option<&Session>) {
     add_lint_group!(sess,
                     "rust_2018_idioms",
                     BARE_TRAIT_OBJECT,
-                    UNREACHABLE_PUB);
+                    UNREACHABLE_PUB,
+                    UNNECESSARY_EXTERN_CRATE);
 
     // Guidelines for creating a future incompatibility lint:
     //
